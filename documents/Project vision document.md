@@ -108,7 +108,7 @@ Chosen methodology of software development – [AGILE](https://www.synopsys.com/
 
 We will use GitHub to distribute the software, Teams and Notion to introduce Agile mothodology 
 
-![picture of agile](https://github.com/realtehcman/Uhelp/blob/main/documents/agile_pic.jpg)
+![picture of agile](https://github.com/realtehcman/Uhelp/blob/main/documents/agile_pic.jpg?raw=true)
 
 3 types of users: 
 
@@ -131,7 +131,7 @@ We will use GitHub to distribute the software, Teams and Notion to introduce Agi
 
 **6. Design**
 
-![design_pic](https://github.com/realtehcman/Uhelp/blob/main/documents/design_pic.png)
+![design_pic](https://github.com/realtehcman/Uhelp/blob/main/documents/design_pic.png?raw=true)
 
 
 ### Schedule for the 1st SEMESTR   
