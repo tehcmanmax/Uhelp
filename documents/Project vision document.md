@@ -127,12 +127,40 @@ We will use GitHub to distribute the software, Teams and Notion to introduce Agi
 
 *Volha Andrava* – testing, documentation, backend(JAVA); 
 
-*Preferable technologies*: main backend framework is JAVA, Spring Boot, for other frameworks(as Database or integrations for the bot) there is no strong preferences. Cloud platform for the deployment – Heroku 
+*Preferable technologies*: main backend framework is JAVA, Spring Boot, for other frameworks(as Database or integrations for the bot) there is no strong preferences. Cloud platform for the deployment – Heroku
 
-Schedule for the 1st SEMESTR   
+**6. Design**
+[!design_pic]()
+
+## Schedule for the 1st SEMESTR   
+
+|Date       | Description|  
+| :------   |  ------ |  
+| 31.03.22  | Finishing project vision document  |  
+| 30.04.22  | Project requirements delivery |  
+| 15.05.22  |Module of informational portal  |  
+| 15.06.22  |Module of accommodation searching(at least 50% must be done)  |  
+
+| 15.06.22  |Working prototype that suits the requirements |  
 
 
-| Date |   | Description |  
-| ------  |   | ------ |  
-| 31.03.22 | Finishing project vision document  |  
-| 30.04.22 | Project requirements delivery |  
+## Schedule for the 1st SEMESTR   
+
+|Date       | Description|  
+| :------   |  ------ |  
+| 22.11.22  | Module of integration with Google services  |  
+| 22.11.22  | Deploying app on the server/testing  |  
+| 23.01.23  | Delivery of documentation to the comitee  |
+|12.2022-01.2023  | Finished application|
+
+If your team has significant limitations (e.g. limits to architecture, devices supporting design, availability, performance, etc.) then these limitations should also be described in this section. 
+
+ 
+
+Limits: limitations on UI design because of the Telegram environment 
+
+Architecture: we will use open-source relational database management system emphasizing extensibility and SQL compliance as PostgreSQL 
+
+Availability: on every device that supports Telegram(Android,IOS, Desktop, web) 
+
+Performance: we mostly manipulate text, thus, our app must be fast 
