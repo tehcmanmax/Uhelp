@@ -103,3 +103,7 @@ Module of changing the language
 Module of integration 
 
 - Integration with Google services: Google maps, translator 
+
+Chosen methodology of software development – [AGILE](https://www.synopsys.com/blogs/software-security/top-4-software-development-methodologies/)
+
+We will use GitHub to distribute the software, Teams and Notion to introduce Agile mothodology 
