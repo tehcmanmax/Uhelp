@@ -2,6 +2,7 @@
 **Project name:** Uhelp  
 **Authors:** Maksym Dmyterko, Danila Prymak, Volha Andrava  
 **Date:** 19.03.22  
+
 **1. Executive summary (max. 150 words)**  
 All over the world we have  heard about what’s happening in Ukraine currently. In our engineering project we present the Telegram bot with the main goal to highlight the ways to aid Ukrainian government, find or provide the accommodation for those who are in the need, and the references to trustworthy resources for further update on thew current news.
 
