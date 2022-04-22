@@ -170,5 +170,5 @@ Performance: we mostly manipulate text, thus, our app must be fast
 
 - https://www.markdownguide.org/cheat-sheet/
 - https://www.markdownguide.org/extended-syntax/#tables
-- https://agea.github.io/tutorial.md/\
+- https://agea.github.io/tutorial.md/
 - https://markdownlivepreview.com/
