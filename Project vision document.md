@@ -4,6 +4,7 @@
 **Date:** 19.03.22  
 
 **1. Executive summary (max. 150 words)**  
+
 All over the world we have  heard about what’s happening in Ukraine currently. In our engineering project we present the Telegram bot with the main goal to highlight the ways to aid Ukrainian government, find or provide the accommodation for those who are in the need, and the references to trustworthy resources for further update on thew current news.
 
 The problem detected is lack of software that would help Ukrainians that are migrating find any sort of help they can get and connect them with people that are willing to help all over the world using Telegram bot(for example find places to stay, connect them to people who are willing to host them, find places with humanitarian help provided etc.).    
@@ -14,6 +15,7 @@ Risks: Some of the functionalities will become outdated because of fast change o
 Benefits: providing Ukrainian refugee with help of any kind and providing people from Poland with opportunity to help them, more than one language support, huge accommodation searching system 
 
 **2. Purpose and target audience (min. 150 words)**  
+
 The aim of the project is to create a telegram bot that will connect refugees from Ukraine who need help with people from all over the world who can offer help through our telegram bot. Moreover, it will provide up-to-date relevant information about the war and its details. 
 
  
@@ -44,7 +46,7 @@ The one big problem our app can face in the future is being not up to date becau
 
 **3. Market (at least 3 competing products)**
 
-@SpVIRI_nochivlya_bot(Своїм по вірі НОЧІВЛЯ): 
+@SpVIRI_nochivlya_bot(Своїм по вірі НОЧІВЛЯ):
 
 + info about amount of accommodations around the countries 
 
