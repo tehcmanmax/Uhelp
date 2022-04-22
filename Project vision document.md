@@ -50,7 +50,7 @@ The one big problem our app can face in the future is being not up to date becau
 
 + info about amount of accommodations around the countries 
 
-- only Ukrainian languages supported 
+- - only Ukrainian languages supported 
 
 - only accommodation database supported 
 
