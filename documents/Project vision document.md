@@ -131,5 +131,8 @@ We will use GitHub to distribute the software, Teams and Notion to introduce Agi
 
 ## Schedule
 | SEMESTR I |
+|---|
 |31.03.22 | Finishing project vision document  |
+
+|---|
 |30.04.22  | Project requirements delivery |
