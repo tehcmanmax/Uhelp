@@ -27,7 +27,7 @@ Secondly, benefit of using our app is that all information about the war will be
 
  
 
-Important to say that at first glance, choosing Telegram which is founded by Russians for our purpose shouldn’t be a first-choice option, but Telegram right now plays a very important role in providing information about war as digital mass media due to its lack of censorship of information. People from both Russia and Ukraine (and all over the world if use TG) can get not censored information about war. President of Ukraine Volodymyr Zelenskyy uses telegram as one the main source of communication with the Ukrainians (channel in TG): from rallying global support to disseminating air raid warnings and maps of local bomb shelters. All in all, Telegram seems to be a nice platform for implementation of our app. 
+Important to say that at first glance, choosing Telegram which is founded by Russians for our purpose shouldn’t be a first-choice option, but Telegram right now plays a very important role in providing information about war as digital mass media due to its lack of censorship of information. People from both Russia and Ukraine (and all over the world if use TG) can get not censored information about war. President of Ukraine Volodymyr Zelenskyy uses telegram as one the main source of communication with the Ukrainians ([channel in TG](https://t.me/V_Zelenskiy_official)): from rallying global support to disseminating air raid warnings and maps of local bomb shelters. All in all, Telegram seems to be a nice platform for implementation of our app. 
 
 (Opinion is based on these sources: Why Ukrainians turned to Telegram app as Russia invaded, 
 
