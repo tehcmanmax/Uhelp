@@ -41,3 +41,35 @@ The people our bot is aimed at are Ukrainians and residents of other countries w
 *Disclaimer*: 
 
 The one big problem our app can face in the future is being not up to date because of war ends. The solution is to use our accommodation searching system to as a platform for travelers to provide accommodation for each other (couchsurfing - like way) in the form of telegram bot 
+
+**3. Market (at least 3 competing products)**
+
+@SpVIRI_nochivlya_bot(Своїм по вірі НОЧІВЛЯ): 
+
++ info about amount of accommodations around the countries 
+
+- only Ukrainian languages supported 
+
+- only accommodation database supported 
+
+- no connection between host and host seeker supported( host seeker needs to contact host 		himself/herself 
+
+ 
+
+@Hotovyi_do_vsioho_bot  (Готовий до всього): 
+
++ big informational database(from plan of action during the war till contacts of all people        
+
+connected with evacuation) 
+
++ big action functionallity to help Ukraine( humanitarian help, donation to the army, 		volunteering etc.) 
+
+- no English support(only Ukrainian) 
+
+@dytyna_ne_sama_bot (ДИТИНА НЕ САМА): 
+
++ a bit of English support(tab “For foreigners” 
+
+- lack of action and informational functionality 
+
+ 
