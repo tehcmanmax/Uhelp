@@ -129,8 +129,10 @@ We will use GitHub to distribute the software, Teams and Notion to introduce Agi
 
 *Preferable technologies*: main backend framework is JAVA, Spring Boot, for other frameworks(as Database or integrations for the bot) there is no strong preferences. Cloud platform for the deployment – Heroku 
 
-## Schedule for the 1st SEMESTR
-| Date |   | Description |
-| ---  |   | --- |
-| 31.03.22 | Finishing project vision document  |
-| 30.04.22 | Project requirements delivery |
+Schedule for the 1st SEMESTR   
+
+
+| Date |   | Description |  
+| ------  |   | ------ |  
+| 31.03.22 | Finishing project vision document  |  
+| 30.04.22 | Project requirements delivery |  
