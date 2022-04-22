@@ -109,3 +109,28 @@ Chosen methodology of software development – [AGILE](https://www.synopsys.com/
 We will use GitHub to distribute the software, Teams and Notion to introduce Agile mothodology 
 
 ![picture of agile](agile_pic.jpg)
+
+3 types of users: 
+
+- Administrator – solving system problems and constraints of the bot 
+
+- User searching for information 
+
+- Refugee or traveler searching for accommodation 
+
+- Supporter or traveler ready to provide accommodation 
+
+**5. Scope and Limitations**  
+*Maksym Dmyterko* – backend(JAVA), testing; 
+
+*Danila Prymak* – testing, backend(JAVA); 
+
+*Volha Andrava* – testing, documentation, backend(JAVA); 
+
+*Preferable technologies*: main backend framework is JAVA, Spring Boot, for other frameworks(as Database or integrations for the bot) there is no strong preferences. Cloud platform for the deployment – Heroku 
+
+## Schedule
+| SEMESTR I |
+|---|
+|31.03.22 | Finishing project vision document  |
+|30.04.22  | Project requirements delivery |
