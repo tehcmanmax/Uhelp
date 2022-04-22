@@ -60,18 +60,46 @@ The one big problem our app can face in the future is being not up to date becau
 
 @Hotovyi_do_vsioho_bot  (Готовий до всього): 
 
-+ big informational database(from plan of action during the war till contacts of all people        
+\+ big informational database(from plan of action during the war till contacts of all people        
 
 connected with evacuation) 
 
-+ big action functionallity to help Ukraine( humanitarian help, donation to the army, 		volunteering etc.) 
+\+ big action functionallity to help Ukraine( humanitarian help, donation to the army, 		volunteering etc.) 
 
-- no English support(only Ukrainian) 
+\- no English support(only Ukrainian) 
 
 @dytyna_ne_sama_bot (ДИТИНА НЕ САМА): 
 
-+ a bit of English support(tab “For foreigners” 
+\+ a bit of English support(tab “For foreigners” 
 
-- lack of action and informational functionality 
+\- lack of action and informational functionality 
 
  
+**4. Product description (at least 3 modules / epics) **
+
+Module of accommodation searching 
+- Hosts 
+
+- Host seekers 
+
+Module of informational portal 
+
+- General information about the current state of the war 
+
+- Links to donation platforms 
+
+- List of telegram channels with news on Ukraine 
+
+Module of contact to the admin 
+
+Module of changing the language 
+
+- English 
+
+- Ukrainian 
+
+- Polish 
+
+Module of integration 
+
+- Integration with Google services: Google maps, translator 
