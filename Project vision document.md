@@ -12,3 +12,35 @@ Target group is people in Ukraine who are forced to migrate from Ukraine because
 Risks: Some of the functionalities will become outdated because of fast change of war situation in Ukraine.
 
 Benefits: providing Ukrainian refugee with help of any kind and providing people from Poland with opportunity to help them, more than one language support, huge accommodation searching system 
+
+**2. Purpose and target audience (min. 150 words)**  
+
+The aim of the project is to create a telegram bot that will connect refugees from Ukraine who need help with people from all over the world who can offer help through our telegram bot. Moreover, it will provide up-to-date relevant information about the war and its details. 
+
+ 
+
+The main reason for the target group to use our app is that the hosts/host seekers connection will be better than competing products have (as we saw the most refugees can get while searching accommodation for now is just contact details of the host, they need to contact him/her themselves), meanwhile our app will provide database of available accommodations to the refuges with integrated google services for help (like google maps route to the place etc.).  
+
+ 
+
+Secondly, benefit of using our app is that all information about the war will be as accurate and up-to-date (the number of approved and checked by research mass media will be chosen as a source of information) as possible due to the administrator who moderates the content and checks if sources are still trustworthy. 
+
+ 
+
+Important to say that at first glance, choosing Telegram which is founded by Russians for our purpose shouldn’t be a first-choice option, but Telegram right now plays a very important role in providing information about war as digital mass media due to its lack of censorship of information. People from both Russia and Ukraine (and all over the world if use TG) can get not censored information about war. President of Ukraine Volodymyr Zelenskyy uses telegram as one the main source of communication with the Ukrainians (channel in TG): from rallying global support to disseminating air raid warnings and maps of local bomb shelters. All in all, Telegram seems to be a nice platform for implementation of our app. 
+
+(Opinion is based on these sources: Why Ukrainians turned to Telegram app as Russia invaded, 
+
+ How Telegram Became the Digital Battlefield in the Russia-Ukraine War, Telegram is the app of choice in the war in Ukraine despite experts' privacy concerns 
+
+ 
+
+ The added values which our project will bring to the target groups are providing a new service and saving time. We want to create this software to collect all the necessary information and functionality in one place and provide fast and easy access to this information and functionality. 
+
+The people our bot is aimed at are Ukrainians and residents of other countries who are interested in news or want to offer help to refugees. 
+
+ 
+
+Disclaimer: 
+
+The one big problem our app can face in the future is being not up to date because of war ends. The solution is to use our accommodation searching system to as a platform for travelers to provide accommodation for each other (couchsurfing - like way) in the form of telegram bot 
