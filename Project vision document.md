@@ -48,13 +48,13 @@ The one big problem our app can face in the future is being not up to date becau
 
 @SpVIRI_nochivlya_bot(Своїм по вірі НОЧІВЛЯ):
 
-+ info about amount of accommodations around the countries 
+\+ info about amount of accommodations around the countries 
 
-- - only Ukrainian languages supported 
+\- only Ukrainian languages supported 
 
-- only accommodation database supported 
+\- only accommodation database supported 
 
-- no connection between host and host seeker supported( host seeker needs to contact host 		himself/herself 
+\- no connection between host and host seeker supported( host seeker needs to contact host 		himself/herself 
 
  
 
