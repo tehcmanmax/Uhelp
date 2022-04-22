@@ -165,3 +165,10 @@ Architecture: we will use open-source relational database management system emph
 Availability: on every device that supports Telegram(Android,IOS, Desktop, web) 
 
 Performance: we mostly manipulate text, thus, our app must be fast 
+
+---
+## Resources used to create this markdown file
+
+- https://www.markdownguide.org/cheat-sheet/
+- https://www.markdownguide.org/extended-syntax/#tables
+- https://agea.github.io/tutorial.md/
