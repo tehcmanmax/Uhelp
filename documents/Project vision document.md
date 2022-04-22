@@ -141,7 +141,6 @@ We will use GitHub to distribute the software, Teams and Notion to introduce Agi
 | 30.04.22  | Project requirements delivery |  
 | 15.05.22  |Module of informational portal  |  
 | 15.06.22  |Module of accommodation searching(at least 50% must be done)  |  
-
 | 15.06.22  |Working prototype that suits the requirements |  
 
 
@@ -152,7 +151,7 @@ We will use GitHub to distribute the software, Teams and Notion to introduce Agi
 | 22.11.22  | Module of integration with Google services  |  
 | 22.11.22  | Deploying app on the server/testing  |  
 | 23.01.23  | Delivery of documentation to the comitee  |
-|12.2022-01.2023  | Finished application|
+| 12.2022-01.2023  | Finished application|
 
 If your team has significant limitations (e.g. limits to architecture, devices supporting design, availability, performance, etc.) then these limitations should also be described in this section. 
 
