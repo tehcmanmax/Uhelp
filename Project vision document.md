@@ -75,7 +75,7 @@ connected with evacuation)
 \- lack of action and informational functionality 
 
  
-**4. Product description (at least 3 modules / epics) **
+**4. Product description (at least 3 modules / epics)**
 
 Module of accommodation searching 
 - Hosts 
