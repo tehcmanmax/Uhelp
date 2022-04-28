@@ -1,6 +1,6 @@
 # **Project requirements document**
 
-**Project title: Uhelp
+**Project title: Uhelp**
 
 **Authors: Maksym Dmyterko, Danila Prymak, Volha Andrava**
 
