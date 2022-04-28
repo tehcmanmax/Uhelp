@@ -100,7 +100,7 @@ Analogous to 6. This section is **required** also in the first semester.
 - How are source codes managed? -- *GitHub* 
 - How is the project process overseen? -- *Maksym Dmytyerko controls everything* 
 - What is the diagram of task life cycle in the project (since task inception until completion)?
-![design_pic](https://github.com/realtehcman/Uhelp/blob/main/documents/design_pic.png?raw=true)
+![picture of agile](https://github.com/realtehcman/Uhelp/blob/main/documents/agile_pic.jpg?raw=true)
 
 **9. Project risks**
 
