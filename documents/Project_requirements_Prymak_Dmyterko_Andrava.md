@@ -1,14 +1,14 @@
 # **Project requirements document**
 
-**Project title: ...**
+**Project title: Uhelp**
 
-**Authors: ...**
+**Authors: ...Volha Andrava, Maksym Dmyterko, Danila Prymak**
 
-**Date: …**
+**Date: 28.04.22**
 
 **0. Document versions**
 
-If changes are made to the document, their dates and range should be provided.
+First complete version 30.04.22
 
 **1. Project components (project products)**
 
