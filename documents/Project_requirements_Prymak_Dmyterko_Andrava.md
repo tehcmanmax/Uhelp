@@ -1,14 +1,14 @@
 # **Project requirements document**
 
-**Project title: ...**
+**Project title: Uhelp
 
-**Authors: ...**
+**Authors: Maksym Dmyterko, Danila Prymak, Volha Andrava**
 
-**Date: …**
+**Date: April 28, 2022**
 
 **0. Document versions**
 
-If changes are made to the document, their dates and range should be provided.
+First document version April 28, 2022
 
 **1. Project components (project products)**
 
@@ -16,7 +16,11 @@ If changes are made to the document, their dates and range should be provided.
 
 - Android 25+ mobile apps
 
+
+
 - Django-framework-based Python app for servers
+
+
 - Database server instance based on MSSQL engine
 
 **Examples of** nonprogramming components are:
@@ -41,11 +45,20 @@ In this paragraph the full range of functionalities and the client&#39;s expecta
 
 **3. Functional requirements list**
 
-In this paragraph the functional requirements for the whole project should be extensively listed. The user stories or short use cases should be used. Not only selected but all functionalities should be listed.
+User can
+- Find hosts
+- Become a host
+- Get general information about the current state of the war
+- Find links to donation platforms
+- Look up list of telegram channels with news on Ukraine
+- Change Telegram bot language to Russian, English, or Polish
+- To integrate with Google services: Google maps, translator
 
-**4. Nonfunctional requirements list**
+**4. Nonfunctional requirements list**  
 
-In this paragraph the nonfunctional requirements for the whole project should be listed. The list may be based on documented specifications from the client/a documented survey in a target group and on limitations.
+- Intuitevly understand the bot design
+- Safely store the shared data
+- The user experience must be smooth
 
 **5. Project acceptance criteria for first semester**
 
@@ -76,14 +89,18 @@ Analogous to 6. This section is **required** also in the first semester.
 
 **8. Teamwork organization**
 
-In this paragraph the following questions should be comprehensively addressed:
+*Maksym Dmyterko* – backend(JAVA), testing; 
 
-- What is the scope of responsibilities for each team member, with special consideration given to programming tasks?
-- What roles do the team members assume in the project and its development?
-- Who oversees communicating with the client and how it is carried out?
-- What work method does the team follow? How has it been chosen? Have other methods been considered? Why have they been rejected?
-- What project support tools are in use? How are source codes managed? How is the project process overseen? Are CI/CD tools used? Are the tools in use integrated? How?
+*Danila Prymak* – testing, backend(JAVA); 
+
+*Volha Andrava* – testing, documentation, backend(JAVA); - What roles do the team members assume in the project and its development?
+- Who oversees communicating with the client and how it is carried out? -- Danila Prymak
+- What work method does the team follow? -- *Agile* How has it been chosen? -- *It's the most popular* Have other methods been considered? -- *yes* Why have they been rejected? -- *We want to start with the most popular method, that's widely used in the real world in order to be prepared for the future job*
+- What project support tools are in use? -- *JAVA, Spring Boot, SQL*
+- How are source codes managed? -- *GitHub* 
+- How is the project process overseen? -- *Maksym Dmytyerko controls everything* 
 - What is the diagram of task life cycle in the project (since task inception until completion)?
+![design_pic](https://github.com/realtehcman/Uhelp/blob/main/documents/design_pic.png?raw=true)
 
 **9. Project risks**
 
