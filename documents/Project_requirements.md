@@ -37,11 +37,26 @@ Project elements should be presented in stages (semesters) according to the plan
 
 In this paragraph the full range of functionalities and the client&#39;s expectations should be critically examined. It should be determined (with justification) what functional and non-functional conditions are expected to be met by the client but will not be implemented during the project. Examples of questions that may be helpful for the analysis are **:**
 
-- Why does the mobile app work only with Android 25+?
-- Why was it decided to develop a web app, although the mobile app would appear to be more suitable?
-- Why cannot some data operations be performed through the application? (E.g., users can be added only from the database level.)
-- Why was it not decided to integrate with external systems (e.g., authorization systems)?
-- Why have some functionalities not been (or are not going to be) implemented, although they do not require significant workload?
+- **Integration with Google services**
+
+It was decided to integrate our software with google services to increase comfort from using the app. Due to this integration users will have one complete application and don&#39;t need to go outside of the app to use google services (for example refugee needs to see the location of the hosting apartment which is possible by google maps integrated service which will show the location and route if needed)
+
+- **Implementing Telegram application extension in the form of chat bot, though Telegram seems to be a not first choice option.**
+
+Based on these resources(see below the article), we can see that Telegram right now plays a very important role in providing information about war as digital mass media due to its lack of censorship of information.
+
+President of Ukraine Volodymyr Zelenskyy uses telegram as one the main source of communication with the Ukrainians ([channel in TG](https://t.me/V_Zelenskiy_official)): from rallying global support to disseminating air raid warnings and maps of local bomb shelters.
+
+As far as Telegram bot functionality is enough to implement all planned modules it&#39;s a good choice.
+
+(Sources: [Why Ukrainians turned to Telegram app as Russia invaded](https://indianexpress.com/article/explained/russia-ukraine-war-telegram-app-7847165/),
+
+[How Telegram Became the Digital Battlefield in the Russia-Ukraine War,](https://time.com/6158437/telegram-russia-ukraine-information-war/)[Telegram is the app of choice in the war in Ukraine despite experts&#39; privacy concerns](https://www.npr.org/2022/03/14/1086483703/telegram-ukraine-war-russia?t=1650114416921)
+
+- **What would happen with the app which is refugee help oriented if the war ended?**
+
+If it hopefully happened the target group will be changed and the main module of accommodation searching will work as a hospitality exchange service for people interested in travel (be used by travelers who is seeking for place to stay and travelers who are ready to host them (all for free))
+
 
 **3. Functional requirements list**
 
@@ -68,9 +83,15 @@ In the case of functional requirements, non-functional requirements and deployme
 
 The product acceptability criteria should be presented in three categories:
 
-- **required** – the required criteria must be met so that the product can be accepted by the client. E.g., prototype delivery, implementing specified functionalities, successfully completed load tests, understanding customer processes.
-- **expected –** the criteriaexpected by the client, which allow for further system development and its potential implementation. E.g., integration with the client&#39;s internal authorization system, implementation of appropriate functionalities.
-- **planned –** the criterianot included in the two groups, but nonetheless expected by the client to be met on the assumption that the project is developed on schedule and the team is capable to meet them. (E.g., system functionalities are not crucial for the project at this stage of its development.) Some of these criteria (e.g., the client expects integration with a niche, undocumented program) cannot be met unless it is within the teams&#39; capabilities
+- **required**
+
+- Deployed prototype of the bot with planned functionality
+- Informational portal module
+- Basic accommodation searching module implementation
+
+- **expected**
+
+- Database of hosts/accommodations
 
 **6. Measurable deployment indicators**
 
