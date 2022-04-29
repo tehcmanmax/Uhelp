@@ -1,10 +1,10 @@
 # **Project requirements document**
 
-**Project title: Uhelp**
+**Project title:** *Uhelp*
 
-**Authors: Maksym Dmyterko, Danila Prymak, Volha Andrava**
+**Authors:** *Maksym Dmyterko, Danila Prymak, Volha Andrava*
 
-**Date: April 28, 2022**
+**Date:** *April 28, 2022*
 
 **0. Document versions**
 
