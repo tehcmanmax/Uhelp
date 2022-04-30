@@ -112,7 +112,6 @@ Required
 * Testing the application 
 * Integration with Google services
 Expected
-* 
 
 **8. Teamwork organization**
 
