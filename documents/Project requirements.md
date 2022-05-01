@@ -77,62 +77,51 @@ User can
 
 **5. Project acceptance criteria for first semester**
 
-In this paragraph the process of accepting project products after semester one should be explained. The criteria for product acceptability also should be specified.
-
-In the case of functional requirements, non-functional requirements and deployment indicators, reference should be made to those specified in sections 3, 4 and 6 (indicating, however, in words their significance for increasing readability).
-
-The product acceptability criteria should be presented in three categories:
-
-- **required**
+**Required**
 
 - Deployed prototype of the bot with planned functionality
 - Informational portal module
 - Basic accommodation searching module implementation
 
-- **expected**
+**Expected**
 
 - Database of hosts/accommodations
 
 **6. Measurable deployment indicators**
 
-In this paragraph it should be specified, by the semester, how the product is going to be deployed. It is important that the indicators are objectively measurable and quantified to determine the degree of their implementation. The fulfillment of these indicators is assessed in the criterion &quot;Has the project been deployed?&quot;. **Examples** of deployment indicators:
-
-- The system is made available in mojprojekt.com Internet domain and used by at least 70 users.
-
-- The system is made available in the mojprojekt.com Internet domain and is fed with the acquired and developed input data.
-- The system is subjected to load tests to ensure that if the system is used by no more than 100 users at the same time, the maximum response time of the server will not exceed 2 seconds.
-- At the end of the second semester, the client will receive a beta test system and use it to carry out 25 real / simulated trades.
-- In the usability tests carried out at the customer&#39;s site with 5 users, the system will achieve an overall rating of 80%.
+Chat bot will be available in Telegram 24/7 and have at least 5 users.
 
 **7. Project acceptance criteria for semester two**
 
 Our project acceptance criteria for semester two:
-Required
+
+**Required**
 * Deploying the application on the server
-* Testing the application 
+* Testing the application
 * Integration with Google services
-Expected
+
+**Expected**
 
 **8. Teamwork organization**
 
-*Maksym Dmyterko* – backend(JAVA), testing; 
+*Maksym Dmyterko* – backend(JAVA), testing;
 
-*Danila Prymak* – testing, backend(JAVA); 
+*Danila Prymak* – testing, backend(JAVA);
 
 *Volha Andrava* – testing, documentation, backend(JAVA); - What roles do the team members assume in the project and its development?
 - Who oversees communicating with the client and how it is carried out? -- Danila Prymak
 - What work method does the team follow? -- *Agile* How has it been chosen? -- *It's the most popular* Have other methods been considered? -- *yes* Why have they been rejected? -- *We want to start with the most popular method, that's widely used in the real world in order to be prepared for the future job*
 - What project support tools are in use? -- *JAVA, Spring Boot, SQL*
-- How are source codes managed? -- *GitHub* 
-- How is the project process overseen? -- *Maksym Dmytyerko controls everything* 
+- How are source codes managed? -- *GitHub*
+- How is the project process overseen? -- *Maksym Dmytyerko controls everything*
 - What is the diagram of task life cycle in the project (since task inception until completion)?
-![picture of agile](https://github.com/realtehcman/Uhelp/blob/main/documents/agile_pic.jpg?raw=true)
+![picture of agile](https://github.com/realtehcman/Uhelp/blob/main/documents/pictures/agile_pic.jpg?raw=true)
 
 **9. Project risks**
 
 One of the risks is that some of the functionalities may become outdated because of fast change of the situation in Ukraine.
 
-The biggest risk for our bot is that it could become useless in the future because of the end of the war. This will have a big impact on our project because it's main idea is providing help to refugees. At the moment it is impossible to calculate the probability of the end of the war. If this solution will happen we are planning to use our accommodation searching system as a platform for travellers to provide accommodation for each other (couchsurfing - like way) in the form of telegram bot.
+The biggest risk for our bot is that it could become useless in the future because of the end of the war. This will have a big impact on our project because it's main idea is providing help to refugees. At the moment it is impossible to calculate the probability of the end of the war. If this solution will happen we are planning to use our accommodation searching system as a platform for travelers to provide accommodation for each other (couchsurfing - like way) in the form of telegram bot.
 
 Another risk is that clients may not be interested in our app.
 
