@@ -149,9 +149,10 @@ We will use GitHub to distribute the software, Teams and Notion to introduce Agi
 
 |Date       | Description|  
 | :------   |  ------ |  
-| 22.11.22  | Module of integration with Google services  |  
+| 10.11.22  | Module of integration with Google services  |
+| 22.11.22 | Module of changing languages/ finishing module of accommodation searching |  
 | 22.11.22  | Deploying app on the server/testing  |  
-| 23.01.23  | Delivery of documentation to the comitee  |
+| 23.01.23  | Delivery of documentation to the committee  |
 | 12.2022-01.2023  | Finished application|
 
 
