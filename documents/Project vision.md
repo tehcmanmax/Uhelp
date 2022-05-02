@@ -102,7 +102,7 @@ Module of changing the language
 
 Module of integration
 
-- Integration with Google services: Google maps, translator
+- Integration with Google services: Google maps,
 
 Chosen methodology of software development – [AGILE](https://www.synopsys.com/blogs/software-security/top-4-software-development-methodologies/)
 
