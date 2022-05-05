@@ -102,7 +102,7 @@ Our project acceptance criteria for semester two:
 - What work method does the team follow? -- *Agile* How has it been chosen? -- *It's the most popular* Have other methods been considered? -- *yes* Why have they been rejected? -- *We want to start with the most popular method, that's widely used in the real world in order to be prepared for the future job*
 - What project support tools are in use? -- *JAVA, Spring Boot, SQL*
 - How are source codes managed? -- *GitHub*
-- How is the project process overseen? -- *Maksym Dmytyerko controls everything*
+- How is the project process overseen? -- *We meet every week for about 40 minutes to discuss done tasks and deciding upcoming tasks. After the meeting, Danila Prymak assigns tasks in Teams and opens issues in GitHub*
 - What is the diagram of task life cycle in the project (since task inception until completion)?
 ![picture of agile](https://github.com/realtehcman/Uhelp/blob/main/documents/pictures/agile_pic.jpg?raw=true)
 
