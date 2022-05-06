@@ -46,6 +46,7 @@ If it hopefully happened the target group will be changed and the main module of
 **3. Functional requirements list**
 
 User can
+
 - Find hosts
 - Become a host
 - Get general information about the current state of the war
