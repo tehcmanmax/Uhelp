@@ -2,7 +2,7 @@
 
 **Project title:** *Uhelp*
 
-**Authors:** *Maksym Dmyterko, Danila Prymak, Volha Andrava*
+**Authors:** *Max D., Danila P., Volha A.*
 
 **Date:** *April 28, 2022*
 
@@ -94,16 +94,16 @@ Our project acceptance criteria for semester two:
 
 **8. Teamwork organization**
 
-*Maksym Dmyterko* – backend(JAVA), testing;
+*Max D.* – backend(JAVA), testing;
 
-*Danila Prymak* – testing, backend(JAVA);
+*Danila P.* – testing, backend(JAVA);
 
-*Volha Andrava* – testing, documentation, backend(JAVA); - What roles do the team members assume in the project and its development?
-- Who oversees communicating with the client and how it is carried out? -- Danila Prymak
+*Volha A.* – testing, documentation, backend(JAVA); - What roles do the team members assume in the project and its development?
+- Who oversees communicating with the client and how it is carried out? -- Danila P.
 - What work method does the team follow? -- *Agile* How has it been chosen? -- *It's the most popular* Have other methods been considered? -- *yes* Why have they been rejected? -- *We want to start with the most popular method, that's widely used in the real world in order to be prepared for the future job*
 - What project support tools are in use? -- *JAVA, Spring Boot, SQL*
 - How are source codes managed? -- *GitHub*
-- How is the project process overseen? -- *We meet every week for about 40 minutes to discuss done tasks and deciding upcoming tasks. After the meeting, Danila Prymak assigns tasks in Teams and opens issues in GitHub*
+- How is the project process overseen? -- *We meet every week for about 40 minutes to discuss done tasks and deciding upcoming tasks. After the meeting, Danila P. assigns tasks in Teams and opens issues in GitHub*
 - What is the diagram of task life cycle in the project (since task inception until completion)?
 ![picture of agile](https://github.com/realtehcman/Uhelp/blob/main/documents/pictures/agile_pic.jpg?raw=true)
 
