@@ -1,6 +1,6 @@
 # Project Vision Document
 **Project name:** Uhelp  
-**Authors:** Maksym Dmyterko, Danila Prymak, Volha Andrava  
+**Authors:** Max D., Danila P., Volha A.  
 **Date:** 19.03.22  
 
 **1. Executive summary (max. 150 words)**  
