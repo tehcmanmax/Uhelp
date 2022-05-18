@@ -14,7 +14,7 @@ import java.util.Collections;
 public class BuildButtonsService {
     private final ArrayList<KeyboardRow> arrayOfKeyboardRows;
     private final ReplyKeyboardMarkup mainMarkup;
-    ReplyKeyboardRemove replyKeyboardRemove ; //removes the phone number keyboard
+    ReplyKeyboardRemove replyKeyboardRemove; //removes the phone number keyboard
 
     public ReplyKeyboardMarkup getMainMarkup() {
         return mainMarkup;
@@ -34,11 +34,14 @@ public class BuildButtonsService {
     public void beforeRegistrationButtons() {
         arrayOfKeyboardRows.clear();
 
-        var row2 = new KeyboardRow();
-        var button3 = new KeyboardButton("Temporary save my info into the cache");
-        row2.add(button3);
+        var row3 = new KeyboardRow();
 
-        Collections.addAll(arrayOfKeyboardRows, createCommonButtonsRow(), row2);
+        //TODO implement the behavior after pressing on the buttons
+//        var button3 = new KeyboardButton("Temporary save my info into the cache");
+        var button3 = new KeyboardButton("Accommodation search/hosting");
+        row3.add(button3);
+
+        Collections.addAll(arrayOfKeyboardRows, create1stRow(), create2ndRow(), row3);
     }
 
 
@@ -56,21 +59,39 @@ public class BuildButtonsService {
 
     public void afterRegistrationButtons() {
         arrayOfKeyboardRows.clear();
-        var row2 = new KeyboardRow();
+        var row3 = new KeyboardRow();
         var button3 = new KeyboardButton("View my data");
         var button4 = new KeyboardButton("Remove my data");
-        row2.add(button3);
-        row2.add(button4);
+        row3.add(button3);
+        row3.add(button4);
 
-        Collections.addAll(arrayOfKeyboardRows, createCommonButtonsRow(), row2);
+        Collections.addAll(arrayOfKeyboardRows, create1stRow(), create2ndRow(), row3);
     }
 
 
-    //this buttons used for before and after registration
-    private KeyboardRow createCommonButtonsRow() {
+/*    private KeyboardRow createCommonButtonsRow() {
         var row1 = new KeyboardRow();
-        row1.add("I want a joke");
-        row1.add("You're dumb");
+        var row2 = new KeyboardRow();
+//        row1.add("I want a joke");
+//        row1.add("You're dumb");
+        row1.add("What's going on in Ukraine");
+        row1.add("List of TG news channels on Ukraine (ENG)");
         return row1;
+    }    */
+
+    //this buttons used for before and after registration
+    //TODO implement the behavior after pressing on the buttons
+    private KeyboardRow create1stRow() {
+        var row1 = new KeyboardRow();
+        row1.add("What's going on in Ukraine");
+        row1.add("List of TG news channels on Ukraine (ENG)");
+        return row1;
+    }
+
+    private KeyboardRow create2ndRow() {
+        var row2 = new KeyboardRow();
+        row2.add("Donation (links)");
+        row2.add("Change language");
+        return row2;
     }
 }
