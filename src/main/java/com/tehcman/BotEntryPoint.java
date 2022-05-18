@@ -1,7 +1,6 @@
 package com.tehcman;
 
 import com.tehcman.processors.Processor;
-import com.tehcman.services.BuildMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,22 +41,15 @@ public class BotEntryPoint extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-        if (update == null) {
-            try {
-                throw new NullPointerException("CallBack executed? \nnull message");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else{
+        if (update.getMessage() != null) {
             System.out.println("\n ----------------------------");
             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             Date date = new Date();
             System.out.println(dateFormat.format(date));
             log.info("\nNew message from User: {}, User first name: {}, User last name: {}, User ID: {}," +
                             " ChatId: {},  With text: {}",
-                    update.getMessage().getFrom().getUserName(),
                     update.getMessage().getFrom().getFirstName(),
+                    update.getMessage().getFrom().getUserName(),
                     update.getMessage().getFrom().getLastName(),
 
                     update.getMessage().getChat().getId(),
@@ -65,6 +57,8 @@ public class BotEntryPoint extends TelegramLongPollingBot {
 
                     update.getMessage().getText());
 
+            processor.direct(update);
+        } else {
             processor.direct(update);
         }
     }

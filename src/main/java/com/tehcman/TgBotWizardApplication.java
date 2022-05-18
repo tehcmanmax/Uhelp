@@ -9,7 +9,5 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TgBotWizardApplication {
     public static void main(String[] args) {
         SpringApplication.run(TgBotWizardApplication.class, args);
-
     }
-
 }

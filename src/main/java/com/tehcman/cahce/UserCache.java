@@ -3,7 +3,10 @@ package com.tehcman.cahce;
 import com.tehcman.entities.User;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class UserCache implements Cache<User> {

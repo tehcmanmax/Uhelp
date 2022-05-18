@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Component
@@ -39,7 +41,7 @@ public class CallBackQueryHandler implements Handler<CallbackQuery> {
 
     private String randomJoke() {
         jokes = new ArrayList<>(Arrays.asList(
-                " - What’s the best thing about Switzerland?\n\n" +
+                "- What’s the best thing about Switzerland?\n\n" +
                         " - I don’t know, but the flag is a big plus.",
                 "Hear about the new restaurant called Karma?\n" +
                         "\n" +
