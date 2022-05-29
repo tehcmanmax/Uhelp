@@ -1,24 +1,27 @@
 package com.tehcman.informational.portal;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 public class ListOfNewsChannels implements IListOfNewsChannels {
 
-    private final List<String> listOfChannels;
+    private final ArrayList<String> listOfChannels;
 
     public ListOfNewsChannels() {
-        this.listOfChannels = new LinkedList<>();
+        this.listOfChannels = new ArrayList<>();
 
-        //bulk addition
-        //TODO Danila, implement this sht
-        Collections.addAll(this.listOfChannels, "@channel1", "@channel2");
+        listOfChannels.add("List of trustable News resources:");
+        listOfChannels.add("https://t.me/nytimes");
+        listOfChannels.add("https://t.me/washingtonpost");
+        listOfChannels.add("https://t.me/financialtimes");
+        listOfChannels.add("https://t.me/KyivIndependent_official");
+    }
+
+    public String getChannels() {
+        return String.join("\n\n", listOfChannels);
     }
 
     @Override
-    public List<String> getListOfChannels() {
+    public ArrayList<String> getListOfChannels() {
         return listOfChannels;
     }
-
 }
