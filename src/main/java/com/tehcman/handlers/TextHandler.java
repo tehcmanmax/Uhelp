@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
+import java.util.Map;
+
 @Component
 public class TextHandler implements Handler<Message> {
     private final MessageSender messageSender;
@@ -57,18 +59,19 @@ public class TextHandler implements Handler<Message> {
             userCache.remove(message.getChatId());
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup()));
         } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
-//            var sendMsg = new SendMessage(message.getChatId().toString(), listOfNewsChannels.getChannels()/*"List of trustable News resources:\n\n"+ "https://t.me/nytimes\n\n " +
-//                    "https://t.me/washingtonpost\n\n" + "https://t.me/financialtimes\n\n" + "https://t.me/KyivIndependent_official\n"*/ );
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getListDescription(), buildButtonsService.getMainMarkup()));
-            String formattedString = String.valueOf(iListOfNewsChannels.getListOfChannels());
-            formattedString = formattedString.substring(1, String.valueOf(iListOfNewsChannels.getListOfChannels()).length() - 1);
-            formattedString = formattedString.replaceAll("\\s", "").replaceAll(",", "\n");
+            //TODO: POSSIBLE REFACTORING
+            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), buildButtonsService.getMainMarkup()));
+            String formattedString = "";
+            Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                formattedString += "[" + (entry.getKey()) + "]" + "(" + entry.getValue() + ")\n";
+            }
             var newMsg = SendMessage.builder()
                     .text(formattedString)
                     .chatId(message.getChatId().toString())
                     .replyMarkup(buildButtonsService.getMainMarkup())
                     .disableWebPagePreview(Boolean.TRUE)
-                    .parseMode("HTML")
+                    .parseMode("MarkdownV2")
                     .build();
             messageSender.messageSend(newMsg);
         } else {
