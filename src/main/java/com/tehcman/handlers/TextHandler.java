@@ -3,6 +3,7 @@ package com.tehcman.handlers;
 import com.tehcman.cahce.Cache;
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.User;
+import com.tehcman.informational.portal.IListOfNewsChannels;
 import com.tehcman.informational.portal.ListOfNewsChannels;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
@@ -20,7 +21,7 @@ public class TextHandler implements Handler<Message> {
     private final BuildSendMessageService buildSendMessageService;
     private final BuildInlineButtonsService buildInlineButtonsService; //testing the inline buttons
     private final BuildButtonsService buildButtonsService;
-    private ListOfNewsChannels listOfNewsChannels;
+    private IListOfNewsChannels iListOfNewsChannels;
 
     private final Cache<User> userCache;
 
@@ -31,7 +32,7 @@ public class TextHandler implements Handler<Message> {
         this.buildInlineButtonsService = buildInlineButtonsService;
         this.buildButtonsService = buildButtonsService;
         this.userCache = userCache;
-        this.listOfNewsChannels = new ListOfNewsChannels();
+        this.iListOfNewsChannels = new ListOfNewsChannels();
     }
 
     @Override
@@ -55,10 +56,21 @@ public class TextHandler implements Handler<Message> {
             buildButtonsService.beforeRegistrationButtons();
             userCache.remove(message.getChatId());
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup()));
-        } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")){
-            var sendMsg = new SendMessage(message.getChatId().toString(), listOfNewsChannels.getChannels()/*"List of trustable News resources:\n\n"+ "https://t.me/nytimes\n\n " +
-                    "https://t.me/washingtonpost\n\n" + "https://t.me/financialtimes\n\n" + "https://t.me/KyivIndependent_official\n"*/ );
-            messageSender.messageSend(sendMsg);
+        } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
+//            var sendMsg = new SendMessage(message.getChatId().toString(), listOfNewsChannels.getChannels()/*"List of trustable News resources:\n\n"+ "https://t.me/nytimes\n\n " +
+//                    "https://t.me/washingtonpost\n\n" + "https://t.me/financialtimes\n\n" + "https://t.me/KyivIndependent_official\n"*/ );
+            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getListDescription(), buildButtonsService.getMainMarkup()));
+            String formattedString = String.valueOf(iListOfNewsChannels.getListOfChannels());
+            formattedString = formattedString.substring(1, String.valueOf(iListOfNewsChannels.getListOfChannels()).length() - 1);
+            formattedString = formattedString.replaceAll("\\s", "").replaceAll(",", "\n");
+            var newMsg = SendMessage.builder()
+                    .text(formattedString)
+                    .chatId(message.getChatId().toString())
+                    .replyMarkup(buildButtonsService.getMainMarkup())
+                    .disableWebPagePreview(Boolean.TRUE)
+                    .parseMode("HTML")
+                    .build();
+            messageSender.messageSend(newMsg);
         } else {
             var sendMsg = new SendMessage(message.getChatId().toString(), "I did not understand you. Try to press/text something else");
             messageSender.messageSend(sendMsg);
