@@ -10,6 +10,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import java.util.ArrayList;
 import java.util.Collections;
 
+//TODO: REFACTORING. apply the strategy pattern to the buttons
+
 @Service
 public class BuildButtonsService {
     private final ArrayList<KeyboardRow> arrayOfKeyboardRows;

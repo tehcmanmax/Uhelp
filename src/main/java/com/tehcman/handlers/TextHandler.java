@@ -59,7 +59,7 @@ public class TextHandler implements Handler<Message> {
             userCache.remove(message.getChatId());
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup()));
         } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
-            //TODO: POSSIBLE REFACTORING
+            //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), buildButtonsService.getMainMarkup()));
             String formattedString = "";
             Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
@@ -80,3 +80,8 @@ public class TextHandler implements Handler<Message> {
         }
     }
 }
+
+/*Resources
+* inserting link into a text https://over.wiki/ask/how-to-make-a-hyperlink-in-a-word-for-a-telegram-bot-in-python/
+* iterating through map(dictionary) https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
+ */

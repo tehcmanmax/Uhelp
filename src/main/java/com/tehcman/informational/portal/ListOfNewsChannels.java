@@ -9,7 +9,7 @@ public class ListOfNewsChannels implements IListOfNewsChannels {
 
     private String mapDescription;
 
-    //TODO: POSSIBLE REFACTORING
+    //TODO: POSSIBLE REFACTORING. place the description after the link not in the separate place
     public ListOfNewsChannels() {
         this.mapOfChannelsAndLinks = new HashMap<>();
         this.mapDescription = "List of trustable News resources:\n\n" +
