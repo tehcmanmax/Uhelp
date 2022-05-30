@@ -3,8 +3,8 @@ package com.tehcman.handlers;
 import com.tehcman.cahce.Cache;
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.User;
-import com.tehcman.informational.portal.IListOfNewsChannels;
-import com.tehcman.informational.portal.ListOfNewsChannels;
+import com.tehcman.informational_portal.IListOfNewsChannels;
+import com.tehcman.informational_portal.ListOfNewsChannels;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.BuildInlineButtonsService;
@@ -26,6 +26,8 @@ public class TextHandler implements Handler<Message> {
     private IListOfNewsChannels iListOfNewsChannels;
 
     private final Cache<User> userCache;
+
+    public String response;
 
     @Autowired
     public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, @Lazy BuildButtonsService buildButtonsService, UserCache userCache) {

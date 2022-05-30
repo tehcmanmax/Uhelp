@@ -1,4 +1,4 @@
-package com.tehcman.informational.portal;
+package com.tehcman.informational_portal;
 
 public class GeneralInformation implements IGeneralInformation {
     private final String generalInformation;

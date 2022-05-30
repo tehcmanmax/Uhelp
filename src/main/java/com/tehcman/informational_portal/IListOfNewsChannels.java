@@ -1,4 +1,4 @@
-package com.tehcman.informational.portal;
+package com.tehcman.informational_portal;
 
 import java.util.Map;
 

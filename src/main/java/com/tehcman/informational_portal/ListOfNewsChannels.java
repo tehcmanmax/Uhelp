@@ -1,4 +1,6 @@
-package com.tehcman.informational.portal;
+package com.tehcman.informational_portal;
+
+import com.tehcman.services.Emoji;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,7 @@ public class ListOfNewsChannels implements IListOfNewsChannels {
     //TODO: POSSIBLE REFACTORING. place the description after the link not in the separate place
     public ListOfNewsChannels() {
         this.mapOfChannelsAndLinks = new HashMap<>();
-        this.mapDescription = "List of trustable News resources:\n\n" +
+        this.mapDescription = "List of trustable News resources " + Emoji.SMILING_FACE_WITH_SMILING_EYES + "\n\n" +
                 "Washington Post channel, sharing live news coverage of Russia’s war in Ukraine\n\n" +
                 "The Financial Times is a British daily newspaper printed in broadsheet and published digitally that\n\n" +
                 "The Kyiv Independent is a top-notch English-language journalism in Ukraine.\n\n" +

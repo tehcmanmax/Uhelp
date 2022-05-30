@@ -11,4 +11,9 @@ class TgBotUhelpApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    void test1(){
+
+    }
+
 }
