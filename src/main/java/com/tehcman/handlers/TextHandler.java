@@ -27,7 +27,11 @@ public class TextHandler implements Handler<Message> {
 
     private final Cache<User> userCache;
 
-    public String response;
+    public String getBotResponseForTesting() {
+        return botResponseForTesting;
+    }
+
+    private String botResponseForTesting;
 
     @Autowired
     public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, @Lazy BuildButtonsService buildButtonsService, UserCache userCache) {
@@ -43,10 +47,12 @@ public class TextHandler implements Handler<Message> {
     public void handle(Message message) {
         if (message.getText().equals("/start")) {
             buildButtonsService.beforeRegistrationButtons();
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Yay! You've just launched this bot!", buildButtonsService.getMainMarkup()));
+            this.botResponseForTesting = "Yay! You've just launched this bot!";
+            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), botResponseForTesting, buildButtonsService.getMainMarkup()));
         } else if (message.getText().equals("I want a joke")) {
+            this.botResponseForTesting = "Are you ready for my collection of the most hilarious jokes??\nIf so, press the button below!";
             var sendMessage = SendMessage.builder()
-                    .text("Are you ready for my collection of the most hilarious jokes??\nIf so, press the button below!")
+                    .text(botResponseForTesting)
                     .chatId(message.getChatId().toString())
                     .build();
             sendMessage.setReplyMarkup(buildInlineButtonsService.build());
@@ -62,6 +68,8 @@ public class TextHandler implements Handler<Message> {
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup()));
         } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
             //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
+            this.botResponseForTesting = iListOfNewsChannels.getMapDescription();
+
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), buildButtonsService.getMainMarkup()));
             String formattedString = "";
             Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
