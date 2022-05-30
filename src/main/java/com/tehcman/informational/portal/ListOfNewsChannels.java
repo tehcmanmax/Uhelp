@@ -14,8 +14,8 @@ public class ListOfNewsChannels implements IListOfNewsChannels {
         this.mapOfChannelsAndLinks = new HashMap<>();
         this.mapDescription = "List of trustable News resources:\n\n" +
                 "Washington Post channel, sharing live news coverage of Russia’s war in Ukraine\n\n" +
-                "The Financial Times is a British daily newspaper printed in broadsheet and published digitally that\n\n" +
-                "The Kyiv Independent is a top-notch English-language journalism in Ukraine.\n\n" +
+                "The Financial Times is a British daily newspaper printed in broadsheet and published digitally\n\n" +
+                "The Kyiv Independent is a top-notch English-language journalism in Ukraine\n\n" +
                 "The New York Times is essential news, photos and videos from the Russia-Ukraine war. Get the latest at";
 
         mapOfChannelsAndLinks.put("The New York Times", "https://t.me/nytimes");
