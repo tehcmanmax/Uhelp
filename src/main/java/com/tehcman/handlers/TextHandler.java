@@ -3,6 +3,7 @@ package com.tehcman.handlers;
 import com.tehcman.cahce.Cache;
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.User;
+import com.tehcman.informational_portal.GeneralInformation;
 import com.tehcman.informational_portal.IListOfNewsChannels;
 import com.tehcman.informational_portal.ListOfNewsChannels;
 import com.tehcman.sendmessage.MessageSender;
@@ -24,6 +25,7 @@ public class TextHandler implements Handler<Message> {
     private final BuildInlineButtonsService buildInlineButtonsService; //testing the inline buttons
     private final BuildButtonsService buildButtonsService;
     private IListOfNewsChannels iListOfNewsChannels;
+    private final GeneralInformation generalInformation;
 
     private final Cache<User> userCache;
 
@@ -41,6 +43,7 @@ public class TextHandler implements Handler<Message> {
         this.buildButtonsService = buildButtonsService;
         this.userCache = userCache;
         this.iListOfNewsChannels = new ListOfNewsChannels();
+        this.generalInformation = new GeneralInformation();
     }
 
     @Override
@@ -84,7 +87,10 @@ public class TextHandler implements Handler<Message> {
                     .parseMode("MarkdownV2")
                     .build();
             messageSender.messageSend(newMsg);
-        } else {
+        } else if (message.getText().equals("What's going on in Ukraine")) {
+            messageSender.messageSend(new SendMessage(message.getChatId().toString(), generalInformation.getGeneralInformation()));
+        }
+        else {
             var sendMsg = new SendMessage(message.getChatId().toString(), "I did not understand you. Try to press/text something else");
             messageSender.messageSend(sendMsg);
         }
@@ -92,6 +98,6 @@ public class TextHandler implements Handler<Message> {
 }
 
 /*Resources
-* inserting link into a text https://over.wiki/ask/how-to-make-a-hyperlink-in-a-word-for-a-telegram-bot-in-python/
-* iterating through map(dictionary) https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
+ * inserting link into a text https://over.wiki/ask/how-to-make-a-hyperlink-in-a-word-for-a-telegram-bot-in-python/
+ * iterating through map(dictionary) https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
  */
