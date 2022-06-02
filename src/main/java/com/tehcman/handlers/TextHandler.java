@@ -89,8 +89,7 @@ public class TextHandler implements Handler<Message> {
             messageSender.messageSend(newMsg);
         } else if (message.getText().equals("What's going on in Ukraine")) {
             messageSender.messageSend(new SendMessage(message.getChatId().toString(), generalInformation.getGeneralInformation()));
-        }
-        else {
+        } else {
             var sendMsg = new SendMessage(message.getChatId().toString(), "I did not understand you. Try to press/text something else");
             messageSender.messageSend(sendMsg);
         }
