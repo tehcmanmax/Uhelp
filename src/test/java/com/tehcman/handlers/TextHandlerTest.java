@@ -1,51 +1,45 @@
 package com.tehcman.handlers;
 
 
-/* Problem: @Autowire does not see the components
-*  TODO:
-*  1. watch the video
-*  2. fix autowire
-* */
-//https://www.youtube.com/watch?v=__M8QtrpsB4 (possible fix)
+/* Problem: cannot create unit tests
+*  Solution:
+*  impossible to create unit test since the textHandler is highly coupled;
+*   create integrate tests with Mockito to resolve this
+ */
 
-import com.tehcman.BotEntryPoint;
-import com.tehcman.informational_portal.ListOfNewsChannels;
-import com.tehcman.processors.DefaultProcessor;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-@Component
 public class TextHandlerTest {
 
-    private TextHandler textHandler;
-    private Update update;
-    private BotEntryPoint botEntryPoint;
-    private DefaultProcessor defaultProcessor;
-
-    @Autowired
-    public TextHandlerTest(TextHandler textHandler, BotEntryPoint botEntryPoint, DefaultProcessor defaultProcessor) {
-        this.textHandler = textHandler;
-        this.botEntryPoint = botEntryPoint;
-        this.defaultProcessor = defaultProcessor;
-    }
-
-    public void setUpdate() {
-        Message msg = new Message();
-        msg.setText("List of TG news channels on Ukraine (ENG)");
-        this.update = new Update();
-        update.setMessage(msg);
-    }
+//    private TextHandler textHandler = new TextHandler();
 
     @Test
+    public void test() {
+//        textHandler.handle("");
+        Message msg = new Message();
+        msg.setText("/start");
+        msg.setMessageId(324234);
+        Chat chat = new Chat();
+        chat.setId(324234L);
+        msg.setChat(chat);
+
+//        textHandler.handle(msg);
+//        String actualResult = textHandler.getBotResponseForTesting();
+//        assertEquals("Yay! You've just launched this bot!", actualResult);
+
+    }
+
+/*    @Test
     public void testHandleListOfChannelsButton() {
-        setUpdate();
-        defaultProcessor.handleText(update);
+//        setUpdate();
+//        botEntryPoint.onUpdateReceived(this.update);
+
+//        defaultProcessor.handleText(update);
+
 
         assertEquals(textHandler.getBotResponseForTesting(), new ListOfNewsChannels().getMapDescription());
-    }
+    }*/
 }
