@@ -4,7 +4,10 @@ import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Position;
 import com.tehcman.entities.User;
 import com.tehcman.sendmessage.MessageSender;
-import com.tehcman.services.build_buttons.BuildButtonsService;
+//import com.tehcman.services.build_keyboards.BuildButtonsService;
+import com.tehcman.services.build_keyboards.client.BuildKeyboardClientService;
+import com.tehcman.services.build_keyboards.client.KeyboardAfterRegistrationClient;
+import com.tehcman.services.build_keyboards.client.KeyboardPhoneNumberClient;
 import com.tehcman.services.build_markup.IMarkup;
 import com.tehcman.services.build_markup.MainMarkup;
 import com.tehcman.services.build_mess.IBuildSendMessageService;
@@ -19,22 +22,24 @@ public class SaveToCacheHandler implements Handler<Message> {
     private final IBuildSendMessageService ibuildSendMessageService;
     private final Cache<User> userCache;
     private final MessageSender messageSender;
-    private final BuildButtonsService buildButtonsService;
     private final IMarkup iMarkup;
+    private BuildKeyboardClientService buildKeyboardClientService;
 
     @Autowired
-    public SaveToCacheHandler(Cache<User> userCache, MessageSender messageSender, BuildButtonsService buildButtonsService, IBuildSendMessageService ibuildSendMessageService, MainMarkup mainMarkup) {
+    public SaveToCacheHandler(Cache<User> userCache, MessageSender messageSender,  IBuildSendMessageService ibuildSendMessageService, MainMarkup mainMarkup) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
         this.messageSender = messageSender;
-        this.buildButtonsService = buildButtonsService;
         this.iMarkup = mainMarkup;
     }
 
     private User generateDefaultUserInformationFromMessage(Message message) {
         User newUser = new User(message.getChatId(), message.getFrom().getUserName(),
                 message.getFrom().getFirstName(), Position.PHONE_NUMBER);
-        buildButtonsService.addingPhoneNumberButton(); //adding phone number button
+
+
+        this.buildKeyboardClientService = new KeyboardPhoneNumberClient();
+        buildKeyboardClientService.outputKeyboard(); //adding phone number button
         messageSender.messageSend(ibuildSendMessageService.getSendMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", iMarkup.getMarkup()));
         return newUser;
     }
@@ -57,14 +62,17 @@ public class SaveToCacheHandler implements Handler<Message> {
                             chatId(message.getChatId().toString()).build();
                     messageSender.messageSend(newMessage);
 
-                    buildButtonsService.addingPhoneNumberButton();
+                    this.buildKeyboardClientService = new KeyboardPhoneNumberClient();
+                    buildKeyboardClientService.outputKeyboard();
                 }
                 break;
             case AGE:
                 if (message.getText().matches("\\d{1,2}")) {
                     user.setAge(message.getText());
                     user.setPosition(Position.NONE);
-                    buildButtonsService.afterRegistrationButtons();
+
+                    this.buildKeyboardClientService = new KeyboardAfterRegistrationClient();
+                    buildKeyboardClientService.outputKeyboard();
                     messageSender.messageSend(ibuildSendMessageService.getSendMessage(message.getChatId().toString(), "ok", iMarkup.getMarkup()));
 
                 } else {

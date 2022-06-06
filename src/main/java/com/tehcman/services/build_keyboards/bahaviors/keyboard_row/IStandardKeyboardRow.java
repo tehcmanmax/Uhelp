@@ -1,4 +1,4 @@
-package com.tehcman.services.build_buttons.bahaviors.list_of_keyboards.keyboardRow;
+package com.tehcman.services.build_keyboards.bahaviors.keyboard_row;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 

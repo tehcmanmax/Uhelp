@@ -7,8 +7,10 @@ import com.tehcman.informational_portal.GeneralInformation;
 import com.tehcman.informational_portal.IListOfNewsChannels;
 import com.tehcman.informational_portal.ListOfNewsChannels;
 import com.tehcman.sendmessage.MessageSender;
-import com.tehcman.services.build_buttons.BuildButtonsService;
-import com.tehcman.services.build_buttons.BuildInlineButtonsService;
+//import com.tehcman.services.build_keyboards.BuildButtonsService;
+import com.tehcman.services.build_keyboards.BuildInlineButtonsService;
+import com.tehcman.services.build_keyboards.client.BuildKeyboardClientService;
+import com.tehcman.services.build_keyboards.client.KeyboardBeforeRegistrationClient;
 import com.tehcman.services.build_markup.IMarkup;
 import com.tehcman.services.build_markup.MainMarkup;
 import com.tehcman.services.build_mess.BuildSendMessageService;
@@ -25,8 +27,9 @@ public class TextHandler implements Handler<Message> {
     private final MessageSender messageSender;
     private final BuildSendMessageService buildSendMessageService;
     private final BuildInlineButtonsService buildInlineButtonsService; //testing the inline buttons
-    private final BuildButtonsService buildButtonsService;
+//    private final BuildButtonsService buildButtonsService;
     private IListOfNewsChannels iListOfNewsChannels;
+    private BuildKeyboardClientService buildKeyboardClientService;
     private final GeneralInformation generalInformation;
     private final IMarkup iMarkup;
 
@@ -39,12 +42,11 @@ public class TextHandler implements Handler<Message> {
     private String botResponse; //used to use for Testing
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, @Lazy BuildButtonsService buildButtonsService,
+    public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService,
                        MainMarkup mainMarkup, UserCache userCache) {
         this.messageSender = messageSender;
         this.buildSendMessageService = buildSendMessageService;
         this.buildInlineButtonsService = buildInlineButtonsService;
-        this.buildButtonsService = buildButtonsService;
         this.iMarkup = mainMarkup;
         this.userCache = userCache;
         this.iListOfNewsChannels = new ListOfNewsChannels();
@@ -54,7 +56,8 @@ public class TextHandler implements Handler<Message> {
     @Override
     public void handle(Message message) {
         if (message.getText().equals("/start")) {
-            buildButtonsService.beforeRegistrationButtons();
+
+            new KeyboardBeforeRegistrationClient().outputKeyboard();
             this.botResponse = "Yay! You've just launched this bot!";
             messageSender.messageSend(buildSendMessageService.getSendMessage(message.getChatId().toString(), botResponse, iMarkup.getMarkup()));
         } else if (message.getText().equals("I want a joke")) {
@@ -71,7 +74,7 @@ public class TextHandler implements Handler<Message> {
             User userFromCache = userCache.findBy(message.getChatId());
             messageSender.messageSend(buildSendMessageService.getSendMessage(message.getChatId().toString(), userFromCache.toString(), iMarkup.getMarkup()));
         } else if (message.getText().equals("Remove my data")) {
-            buildButtonsService.beforeRegistrationButtons();
+            new KeyboardBeforeRegistrationClient().outputKeyboard();
             userCache.remove(message.getChatId());
             messageSender.messageSend(buildSendMessageService.getSendMessage(message.getChatId().toString(), "All data about you has been removed", iMarkup.getMarkup()));
         } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
