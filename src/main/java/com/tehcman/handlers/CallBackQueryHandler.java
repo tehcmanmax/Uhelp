@@ -1,7 +1,7 @@
 package com.tehcman.handlers;
 
 import com.tehcman.sendmessage.MessageSender;
-import com.tehcman.services.BuildInlineButtonsService;
+import com.tehcman.services.build_buttons.BuildInlineButtonsService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;

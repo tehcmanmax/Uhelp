@@ -1,5 +1,7 @@
-package com.tehcman.services;
+package com.tehcman.services.build_buttons;
 
+import com.tehcman.services.build_markup.IMarkup;
+import com.tehcman.services.build_markup.MainMarkup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -15,22 +17,17 @@ import java.util.Collections;
 @Service
 public class BuildButtonsService {
     private final ArrayList<KeyboardRow> arrayOfKeyboardRows;
-    private final ReplyKeyboardMarkup mainMarkup;
-    ReplyKeyboardRemove replyKeyboardRemove; //removes the phone number keyboard
-
-    public ReplyKeyboardMarkup getMainMarkup() {
-        return mainMarkup;
-    }
+    private final MainMarkup mainMarkup;
+    private final ReplyKeyboardRemove replyKeyboardRemove; //removes the phone number keyboard
 
     @Autowired
-    public BuildButtonsService() {
+    public BuildButtonsService(MainMarkup mainMarkup) {
         this.arrayOfKeyboardRows = new ArrayList<>();
-        this.mainMarkup = new ReplyKeyboardMarkup();
         this.replyKeyboardRemove = new ReplyKeyboardRemove(Boolean.TRUE);
-
+        this.mainMarkup = mainMarkup;
+        this.mainMarkup.getMarkup().setKeyboard(this.arrayOfKeyboardRows);
         //prettifies the buttons
-        this.mainMarkup.setKeyboard(arrayOfKeyboardRows);
-        this.mainMarkup.setResizeKeyboard(true);
+
     }
 
     public void beforeRegistrationButtons() {

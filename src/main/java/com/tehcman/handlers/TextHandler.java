@@ -7,9 +7,11 @@ import com.tehcman.informational_portal.GeneralInformation;
 import com.tehcman.informational_portal.IListOfNewsChannels;
 import com.tehcman.informational_portal.ListOfNewsChannels;
 import com.tehcman.sendmessage.MessageSender;
-import com.tehcman.services.BuildButtonsService;
-import com.tehcman.services.BuildInlineButtonsService;
-import com.tehcman.services.BuildSendMessageService;
+import com.tehcman.services.build_buttons.BuildButtonsService;
+import com.tehcman.services.build_buttons.BuildInlineButtonsService;
+import com.tehcman.services.build_markup.IMarkup;
+import com.tehcman.services.build_markup.MainMarkup;
+import com.tehcman.services.build_mess.BuildSendMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -26,21 +28,24 @@ public class TextHandler implements Handler<Message> {
     private final BuildButtonsService buildButtonsService;
     private IListOfNewsChannels iListOfNewsChannels;
     private final GeneralInformation generalInformation;
+    private final IMarkup iMarkup;
 
     private final Cache<User> userCache;
 
-    public String getBotResponseForTesting() {
-        return botResponseForTesting;
+    public String getBotResponse() {
+        return botResponse;
     }
 
-    private String botResponseForTesting;
+    private String botResponse; //used to use for Testing
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, @Lazy BuildButtonsService buildButtonsService, UserCache userCache) {
+    public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, @Lazy BuildButtonsService buildButtonsService,
+                       MainMarkup mainMarkup, UserCache userCache) {
         this.messageSender = messageSender;
         this.buildSendMessageService = buildSendMessageService;
         this.buildInlineButtonsService = buildInlineButtonsService;
         this.buildButtonsService = buildButtonsService;
+        this.iMarkup = mainMarkup;
         this.userCache = userCache;
         this.iListOfNewsChannels = new ListOfNewsChannels();
         this.generalInformation = new GeneralInformation();
@@ -50,30 +55,30 @@ public class TextHandler implements Handler<Message> {
     public void handle(Message message) {
         if (message.getText().equals("/start")) {
             buildButtonsService.beforeRegistrationButtons();
-            this.botResponseForTesting = "Yay! You've just launched this bot!";
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), botResponseForTesting, buildButtonsService.getMainMarkup()));
+            this.botResponse = "Yay! You've just launched this bot!";
+            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), botResponse, iMarkup.getMarkup()));
         } else if (message.getText().equals("I want a joke")) {
-            this.botResponseForTesting = "Are you ready for my collection of the most hilarious jokes??\nIf so, press the button below!";
+            this.botResponse = "Are you ready for my collection of the most hilarious jokes??\nIf so, press the button below!";
             var sendMessage = SendMessage.builder()
-                    .text(botResponseForTesting)
+                    .text(botResponse)
                     .chatId(message.getChatId().toString())
                     .build();
             sendMessage.setReplyMarkup(buildInlineButtonsService.build());
             messageSender.messageSend(sendMessage);
         } else if (message.getText().equals("You're dumb")) {
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "no, you're dumb!", buildButtonsService.getMainMarkup()));
+            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "no, you're dumb!", iMarkup.getMarkup()));
         } else if (message.getText().equals("View my data")) {
             User userFromCache = userCache.findBy(message.getChatId());
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), buildButtonsService.getMainMarkup()));
+            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), iMarkup.getMarkup()));
         } else if (message.getText().equals("Remove my data")) {
             buildButtonsService.beforeRegistrationButtons();
             userCache.remove(message.getChatId());
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup()));
+            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", iMarkup.getMarkup()));
         } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
             //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
-            this.botResponseForTesting = iListOfNewsChannels.getMapDescription();
+            this.botResponse = iListOfNewsChannels.getMapDescription();
 
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), buildButtonsService.getMainMarkup()));
+            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), iMarkup.getMarkup()));
             String formattedString = "";
             Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
             for (Map.Entry<String, String> entry : map.entrySet()) {
@@ -82,7 +87,7 @@ public class TextHandler implements Handler<Message> {
             var newMsg = SendMessage.builder()
                     .text(formattedString)
                     .chatId(message.getChatId().toString())
-                    .replyMarkup(buildButtonsService.getMainMarkup())
+                    .replyMarkup(iMarkup.getMarkup())
                     .disableWebPagePreview(Boolean.TRUE)
                     .parseMode("MarkdownV2")
                     .build();

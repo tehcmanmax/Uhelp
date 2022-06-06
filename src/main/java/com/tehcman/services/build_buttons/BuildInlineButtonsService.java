@@ -1,4 +1,4 @@
-package com.tehcman.services;
+package com.tehcman.services.build_buttons;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;

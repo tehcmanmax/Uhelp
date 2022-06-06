@@ -4,8 +4,10 @@ import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Position;
 import com.tehcman.entities.User;
 import com.tehcman.sendmessage.MessageSender;
-import com.tehcman.services.BuildButtonsService;
-import com.tehcman.services.IBuildSendMessageService;
+import com.tehcman.services.build_buttons.BuildButtonsService;
+import com.tehcman.services.build_markup.IMarkup;
+import com.tehcman.services.build_markup.MainMarkup;
+import com.tehcman.services.build_mess.IBuildSendMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,20 +20,22 @@ public class SaveToCacheHandler implements Handler<Message> {
     private final Cache<User> userCache;
     private final MessageSender messageSender;
     private final BuildButtonsService buildButtonsService;
+    private final IMarkup iMarkup;
 
     @Autowired
-    public SaveToCacheHandler(Cache<User> userCache, MessageSender messageSender, BuildButtonsService buildButtonsService, IBuildSendMessageService ibuildSendMessageService) {
+    public SaveToCacheHandler(Cache<User> userCache, MessageSender messageSender, BuildButtonsService buildButtonsService, IBuildSendMessageService ibuildSendMessageService, MainMarkup mainMarkup) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
         this.messageSender = messageSender;
         this.buildButtonsService = buildButtonsService;
+        this.iMarkup = mainMarkup;
     }
 
     private User generateDefaultUserInformationFromMessage(Message message) {
         User newUser = new User(message.getChatId(), message.getFrom().getUserName(),
                 message.getFrom().getFirstName(), Position.PHONE_NUMBER);
         buildButtonsService.addingPhoneNumberButton(); //adding phone number button
-        messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", buildButtonsService.getMainMarkup()));
+        messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", iMarkup.getMarkup()));
         return newUser;
     }
 
@@ -61,7 +65,7 @@ public class SaveToCacheHandler implements Handler<Message> {
                     user.setAge(message.getText());
                     user.setPosition(Position.NONE);
                     buildButtonsService.afterRegistrationButtons();
-                    messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "ok", buildButtonsService.getMainMarkup()));
+                    messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "ok", iMarkup.getMarkup()));
 
                 } else {
                     SendMessage newMessage = new SendMessage();

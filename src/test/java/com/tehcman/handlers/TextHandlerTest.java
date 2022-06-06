@@ -46,6 +46,6 @@ public class TextHandlerTest {
         setUpdate();
         defaultProcessor.handleText(update);
 
-        assertEquals(textHandler.getBotResponseForTesting(), new ListOfNewsChannels().getMapDescription());
+        assertEquals(textHandler.getBotResponse(), new ListOfNewsChannels().getMapDescription());
     }
 }
