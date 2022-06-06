@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 @Service
 public class BuildSendMessageService implements IBuildSendMessageService {
 
-    public SendMessage createHTMLMessage(String chatID, String text, ReplyKeyboard mainMarkup) {
+    public SendMessage getSendMessage(String chatID, String text, ReplyKeyboard mainMarkup) {
         SendMessage sendThisMessage = new SendMessage();
         sendThisMessage.setChatId(chatID);
         sendThisMessage.setReplyMarkup(mainMarkup);

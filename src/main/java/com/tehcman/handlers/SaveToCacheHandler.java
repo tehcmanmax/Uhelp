@@ -35,7 +35,7 @@ public class SaveToCacheHandler implements Handler<Message> {
         User newUser = new User(message.getChatId(), message.getFrom().getUserName(),
                 message.getFrom().getFirstName(), Position.PHONE_NUMBER);
         buildButtonsService.addingPhoneNumberButton(); //adding phone number button
-        messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", iMarkup.getMarkup()));
+        messageSender.messageSend(ibuildSendMessageService.getSendMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", iMarkup.getMarkup()));
         return newUser;
     }
 
@@ -44,12 +44,12 @@ public class SaveToCacheHandler implements Handler<Message> {
             case PHONE_NUMBER: //phase 1
                 if (message.hasContact()) {
                     user.setPhoneNumber(message.getContact().getPhoneNumber());
-                    messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", new ReplyKeyboardRemove(Boolean.TRUE)));
+                    messageSender.messageSend(ibuildSendMessageService.getSendMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", new ReplyKeyboardRemove(Boolean.TRUE)));
                     user.setPosition(Position.AGE);
                 } else if (message.getText().equals("I don't want to disclose the phone number")) {
                     ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove(); //removes the phone number keyboard
                     replyKeyboardRemove.setRemoveKeyboard(true);
-                    messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", replyKeyboardRemove));
+                    messageSender.messageSend(ibuildSendMessageService.getSendMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", replyKeyboardRemove));
                     user.setPosition(Position.AGE);
                 } else {
                     var newMessage = SendMessage.builder().
@@ -65,7 +65,7 @@ public class SaveToCacheHandler implements Handler<Message> {
                     user.setAge(message.getText());
                     user.setPosition(Position.NONE);
                     buildButtonsService.afterRegistrationButtons();
-                    messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "ok", iMarkup.getMarkup()));
+                    messageSender.messageSend(ibuildSendMessageService.getSendMessage(message.getChatId().toString(), "ok", iMarkup.getMarkup()));
 
                 } else {
                     SendMessage newMessage = new SendMessage();

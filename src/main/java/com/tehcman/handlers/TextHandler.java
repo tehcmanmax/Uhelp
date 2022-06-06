@@ -56,7 +56,7 @@ public class TextHandler implements Handler<Message> {
         if (message.getText().equals("/start")) {
             buildButtonsService.beforeRegistrationButtons();
             this.botResponse = "Yay! You've just launched this bot!";
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), botResponse, iMarkup.getMarkup()));
+            messageSender.messageSend(buildSendMessageService.getSendMessage(message.getChatId().toString(), botResponse, iMarkup.getMarkup()));
         } else if (message.getText().equals("I want a joke")) {
             this.botResponse = "Are you ready for my collection of the most hilarious jokes??\nIf so, press the button below!";
             var sendMessage = SendMessage.builder()
@@ -66,19 +66,19 @@ public class TextHandler implements Handler<Message> {
             sendMessage.setReplyMarkup(buildInlineButtonsService.build());
             messageSender.messageSend(sendMessage);
         } else if (message.getText().equals("You're dumb")) {
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "no, you're dumb!", iMarkup.getMarkup()));
+            messageSender.messageSend(buildSendMessageService.getSendMessage(message.getChatId().toString(), "no, you're dumb!", iMarkup.getMarkup()));
         } else if (message.getText().equals("View my data")) {
             User userFromCache = userCache.findBy(message.getChatId());
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), iMarkup.getMarkup()));
+            messageSender.messageSend(buildSendMessageService.getSendMessage(message.getChatId().toString(), userFromCache.toString(), iMarkup.getMarkup()));
         } else if (message.getText().equals("Remove my data")) {
             buildButtonsService.beforeRegistrationButtons();
             userCache.remove(message.getChatId());
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", iMarkup.getMarkup()));
+            messageSender.messageSend(buildSendMessageService.getSendMessage(message.getChatId().toString(), "All data about you has been removed", iMarkup.getMarkup()));
         } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
             //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
             this.botResponse = iListOfNewsChannels.getMapDescription();
 
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), iMarkup.getMarkup()));
+            messageSender.messageSend(buildSendMessageService.getSendMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), iMarkup.getMarkup()));
             String formattedString = "";
             Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
             for (Map.Entry<String, String> entry : map.entrySet()) {
