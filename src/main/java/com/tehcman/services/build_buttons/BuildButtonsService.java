@@ -18,12 +18,10 @@ import java.util.Collections;
 public class BuildButtonsService {
     private final ArrayList<KeyboardRow> arrayOfKeyboardRows;
     private final MainMarkup mainMarkup;
-    private final ReplyKeyboardRemove replyKeyboardRemove; //removes the phone number keyboard
 
     @Autowired
     public BuildButtonsService(MainMarkup mainMarkup) {
         this.arrayOfKeyboardRows = new ArrayList<>();
-        this.replyKeyboardRemove = new ReplyKeyboardRemove(Boolean.TRUE);
         this.mainMarkup = mainMarkup;
         this.mainMarkup.getMarkup().setKeyboard(this.arrayOfKeyboardRows);
         //prettifies the buttons
