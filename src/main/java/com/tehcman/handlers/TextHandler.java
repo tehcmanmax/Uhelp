@@ -2,6 +2,7 @@ package com.tehcman.handlers;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.cahce.UserCache;
+import com.tehcman.entities.Position;
 import com.tehcman.entities.User;
 import com.tehcman.informational_portal.GeneralInformation;
 import com.tehcman.informational_portal.IListOfNewsChannels;
@@ -10,6 +11,8 @@ import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.BuildInlineButtonsService;
 import com.tehcman.services.BuildSendMessageService;
+import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
+import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -23,11 +26,15 @@ public class TextHandler implements Handler<Message> {
     private final MessageSender messageSender;
     private final BuildSendMessageService buildSendMessageService;
     private final BuildInlineButtonsService buildInlineButtonsService; //testing the inline buttons
-    private final BuildButtonsService buildButtonsService;
-    private IListOfNewsChannels iListOfNewsChannels;
+    private BuildButtonsService buildButtonsService;
+    private final IListOfNewsChannels iListOfNewsChannels;
     private final GeneralInformation generalInformation;
+    private Cache<User> userCache;
 
-    private final Cache<User> userCache;
+    @Autowired
+    public void setUserCache(Cache<User> userCache) {
+        this.userCache = userCache;
+    }
 
     public String getBotResponseForTesting() {
         return botResponseForTesting;
@@ -36,11 +43,10 @@ public class TextHandler implements Handler<Message> {
     private String botResponseForTesting;
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, @Lazy BuildButtonsService buildButtonsService, UserCache userCache) {
+    public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, UserCache userCache) {
         this.messageSender = messageSender;
         this.buildSendMessageService = buildSendMessageService;
         this.buildInlineButtonsService = buildInlineButtonsService;
-        this.buildButtonsService = buildButtonsService;
         this.userCache = userCache;
         this.iListOfNewsChannels = new ListOfNewsChannels();
         this.generalInformation = new GeneralInformation();
@@ -49,7 +55,9 @@ public class TextHandler implements Handler<Message> {
     @Override
     public void handle(Message message) {
         if (message.getText().equals("/start")) {
-            buildButtonsService.beforeRegistrationButtons();
+//            buildButtonsService.beforeRegistrationButtons();
+            this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
+
             this.botResponseForTesting = "Yay! You've just launched this bot!";
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), botResponseForTesting, buildButtonsService.getMainMarkup()));
         } else if (message.getText().equals("I want a joke")) {
@@ -64,14 +72,21 @@ public class TextHandler implements Handler<Message> {
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "no, you're dumb!", buildButtonsService.getMainMarkup()));
         } else if (message.getText().equals("View my data")) {
             User userFromCache = userCache.findBy(message.getChatId());
+            this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), buildButtonsService.getMainMarkup()));
         } else if (message.getText().equals("Remove my data")) {
-            buildButtonsService.beforeRegistrationButtons();
+//            buildButtonsService.beforeRegistrationButtons();
+            this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             userCache.remove(message.getChatId());
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup()));
         } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
             //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
+
             this.botResponseForTesting = iListOfNewsChannels.getMapDescription();
+            User userFromCache = userCache.findBy(message.getChatId());
+            if ((userFromCache != null) && !userFromCache.getPosition().equals(Position.NONE)) {
+                this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
+            }
 
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), buildButtonsService.getMainMarkup()));
             String formattedString = "";
