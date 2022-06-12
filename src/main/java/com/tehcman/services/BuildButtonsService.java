@@ -5,8 +5,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.List;
 
-//TODO: REFACTORING. apply the strategy pattern to the buttons
-
 public class BuildButtonsService {
     private final ReplyKeyboardMarkup mainMarkup;
     ReplyKeyboardMarkup replyKeyboardMarkup; //removes the phone number keyboard
