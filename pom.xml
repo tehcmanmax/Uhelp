@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.maksym.dmyterko</groupId>
-    <artifactId>TgBotWizard</artifactId>
+    <artifactId>Uhelp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>TgBotWizard</name>
-    <description>TgBotWizard</description>
+    <name>Uhelp</name>
+    <description>Uhelp</description>
     <properties>
         <java.version>11</java.version>
     </properties>
