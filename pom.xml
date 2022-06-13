@@ -8,7 +8,7 @@
         <version>2.5.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.maksym.dmyterko</groupId>
+    <groupId>Uhelp</groupId>
     <artifactId>Uhelp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Uhelp</name>
