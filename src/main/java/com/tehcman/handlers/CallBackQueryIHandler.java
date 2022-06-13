@@ -13,13 +13,13 @@ import java.util.List;
 
 
 @Component
-public class CallBackQueryHandler implements Handler<CallbackQuery> {
+public class CallBackQueryIHandler implements IHandler<CallbackQuery> {
     private final MessageSender messageSender;
     private final BuildInlineButtonsService buildInlineButtonsService; //testing the inline buttons
     private List<String> jokes;
     private int prevNumber = -1;
 
-    public CallBackQueryHandler(@Lazy MessageSender messageSender, BuildInlineButtonsService buildInlineButtonsService) {
+    public CallBackQueryIHandler(@Lazy MessageSender messageSender, BuildInlineButtonsService buildInlineButtonsService) {
         this.messageSender = messageSender;
         this.buildInlineButtonsService = buildInlineButtonsService;
     }

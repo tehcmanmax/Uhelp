@@ -22,7 +22,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.Map;
 
 @Component
-public class TextHandler implements Handler<Message> {
+public class TextIHandler implements IHandler<Message> {
     private final MessageSender messageSender;
     private final BuildSendMessageService buildSendMessageService;
     private final BuildInlineButtonsService buildInlineButtonsService; //testing the inline buttons
@@ -43,7 +43,7 @@ public class TextHandler implements Handler<Message> {
     private String botResponseForTesting;
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, UserCache userCache) {
+    public TextIHandler(@Lazy MessageSender messageSender, BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, UserCache userCache) {
         this.messageSender = messageSender;
         this.buildSendMessageService = buildSendMessageService;
         this.buildInlineButtonsService = buildInlineButtonsService;

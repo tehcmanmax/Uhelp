@@ -1,5 +1,5 @@
 package com.tehcman.handlers;
 
-public interface Handler<T> {
+public interface IHandler<T> {
      void handle(T t);
 }

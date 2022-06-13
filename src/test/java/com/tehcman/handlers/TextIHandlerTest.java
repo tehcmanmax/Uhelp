@@ -20,15 +20,15 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Component
-public class TextHandlerTest {
+public class TextIHandlerTest {
 
-    private TextHandler textHandler;
+    private TextIHandler textHandler;
     private Update update;
     private BotEntryPoint botEntryPoint;
     private DefaultProcessor defaultProcessor;
 
     @Autowired
-    public TextHandlerTest(TextHandler textHandler, BotEntryPoint botEntryPoint, DefaultProcessor defaultProcessor) {
+    public TextIHandlerTest(TextIHandler textHandler, BotEntryPoint botEntryPoint, DefaultProcessor defaultProcessor) {
         this.textHandler = textHandler;
         this.botEntryPoint = botEntryPoint;
         this.defaultProcessor = defaultProcessor;

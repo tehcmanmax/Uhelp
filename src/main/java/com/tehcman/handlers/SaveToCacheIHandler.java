@@ -15,14 +15,14 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 
 @Component
-public class SaveToCacheHandler implements Handler<Message> {
+public class SaveToCacheIHandler implements IHandler<Message> {
     private final IBuildSendMessageService ibuildSendMessageService;
     private final Cache<User> userCache;
     private final MessageSender messageSender;
     private BuildButtonsService buildButtonsService;
 
     @Autowired
-    public SaveToCacheHandler(Cache<User> userCache, MessageSender messageSender, IBuildSendMessageService ibuildSendMessageService) {
+    public SaveToCacheIHandler(Cache<User> userCache, MessageSender messageSender, IBuildSendMessageService ibuildSendMessageService) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
         this.messageSender = messageSender;
