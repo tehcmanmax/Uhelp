@@ -8,7 +8,7 @@ public class DefaultKeyboardRows {
     public KeyboardRow create1stRow() {
         var row1 = new KeyboardRow();
         row1.add("What's going on in Ukraine");
-        row1.add("List of TG news channels on Ukraine (ENG)");
+        row1.add("List of news channels about Ukraine (ENG)");
         return row1;
     }
 

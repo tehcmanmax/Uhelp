@@ -27,7 +27,7 @@ public class BeforeRegistrationKeyboard extends ReplyKeyboardMarkup {
         var button3 = new KeyboardButton("Accommodation search/hosting");
         row3.add(button3);
 
-        Collections.addAll(arrayOfKeyboardRows, keyboardRows.create1stRow(), keyboardRows.create2ndRow(), row3);
+        Collections.addAll(arrayOfKeyboardRows, keyboardRows.create1stRow(),/* keyboardRows.create2ndRow(),*/ row3);
         return arrayOfKeyboardRows;
     }
 

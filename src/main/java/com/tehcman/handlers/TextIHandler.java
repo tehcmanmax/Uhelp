@@ -79,7 +79,7 @@ public class TextIHandler implements IHandler<Message> {
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             userCache.remove(message.getChatId());
             messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup()));
-        } else if (message.getText().equals("List of TG news channels on Ukraine (ENG)")) {
+        } else if (message.getText().equals("List of news channels about Ukraine (ENG)")) {
             //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
 
             this.botResponseForTesting = iListOfNewsChannels.getMapDescription();

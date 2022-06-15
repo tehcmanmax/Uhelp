@@ -26,7 +26,7 @@ public class AfterRegistrationKeyboard extends ReplyKeyboardMarkup {
         row3.add(button3);
         row3.add(button4);
 
-        Collections.addAll(arrayOfKeyboardRows, keyboardRows.create1stRow(), keyboardRows.create2ndRow(), row3);
+        Collections.addAll(arrayOfKeyboardRows, keyboardRows.create1stRow(), /*keyboardRows.create2ndRow(),*/ row3);
         return arrayOfKeyboardRows;
     }
 }
