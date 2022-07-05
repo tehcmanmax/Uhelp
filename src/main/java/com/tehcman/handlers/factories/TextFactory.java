@@ -8,7 +8,6 @@ import com.tehcman.informational_portal.GeneralInformation;
 import com.tehcman.informational_portal.IListOfNewsChannels;
 import com.tehcman.informational_portal.ListOfNewsChannels;
 import com.tehcman.services.BuildButtonsService;
-import com.tehcman.services.BuildInlineButtonsService;
 import com.tehcman.services.BuildSendMessageService;
 import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
@@ -23,17 +22,15 @@ import java.util.Map;
 public class TextFactory implements SendMessageFactory{
     private final BuildSendMessageService buildSendMessageService;
     private BuildButtonsService buildButtonsService;
-    private final BuildInlineButtonsService buildInlineButtonsService; //testing the inline buttons
     private final IListOfNewsChannels iListOfNewsChannels;
     private final GeneralInformation generalInformation;
     private Cache<User> userCache;
 
 
     @Autowired
-    TextFactory(BuildSendMessageService buildSendMessageService, BuildInlineButtonsService buildInlineButtonsService, UserCache userCache){
+    TextFactory(BuildSendMessageService buildSendMessageService, UserCache userCache){
         this.buildSendMessageService = buildSendMessageService;
 
-        this.buildInlineButtonsService = buildInlineButtonsService;
         this.userCache = userCache;
         this.iListOfNewsChannels = new ListOfNewsChannels();
         this.generalInformation = new GeneralInformation();
@@ -83,12 +80,10 @@ public class TextFactory implements SendMessageFactory{
                     .build();
             messageSender.messageSend(newMsg);
         } else if (message.getText().equals("What's going on in Ukraine")) {
-            messageSender.messageSend(new SendMessage(message.getChatId().toString(), generalInformation.getGeneralInformation()));
+            return new SendMessage(message.getChatId().toString(), generalInformation.getGeneralInformation());
         } else {
-            var sendMsg = new SendMessage(message.getChatId().toString(), "I did not understand you. Try to press/text something else");
-            messageSender.messageSend(sendMsg);
+            return new SendMessage(message.getChatId().toString(), "I did not understand you. Try to press/text something else");
         }
-
         return null;
     }
 }
