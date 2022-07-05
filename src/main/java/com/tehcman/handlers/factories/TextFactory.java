@@ -19,7 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.Map;
 
 @Component
-public class TextFactory implements SendMessageFactory{
+public class TextFactory implements SendMessageFactory {
     private final BuildSendMessageService buildSendMessageService;
     private BuildButtonsService buildButtonsService;
     private final IListOfNewsChannels iListOfNewsChannels;
@@ -28,7 +28,7 @@ public class TextFactory implements SendMessageFactory{
 
 
     @Autowired
-    TextFactory(BuildSendMessageService buildSendMessageService, UserCache userCache){
+    TextFactory(BuildSendMessageService buildSendMessageService, UserCache userCache) {
         this.buildSendMessageService = buildSendMessageService;
 
         this.userCache = userCache;
@@ -65,25 +65,23 @@ public class TextFactory implements SendMessageFactory{
                 this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
             }
 
-            messageSender.messageSend(buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), buildButtonsService.getMainMarkup()));
             String formattedString = "";
             Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 formattedString += "[" + (entry.getKey()) + "]" + "(" + entry.getValue() + ")\n";
             }
             var newMsg = SendMessage.builder()
-                    .text(formattedString)
+                    .text(iListOfNewsChannels.getMapDescription() + formattedString)
                     .chatId(message.getChatId().toString())
                     .replyMarkup(buildButtonsService.getMainMarkup())
                     .disableWebPagePreview(Boolean.TRUE)
                     .parseMode("MarkdownV2")
                     .build();
-            messageSender.messageSend(newMsg);
+            return newMsg;
         } else if (message.getText().equals("What's going on in Ukraine")) {
             return new SendMessage(message.getChatId().toString(), generalInformation.getGeneralInformation());
         } else {
             return new SendMessage(message.getChatId().toString(), "I did not understand you. Try to press/text something else");
         }
-        return null;
     }
 }

@@ -13,8 +13,6 @@ public class TextHandler implements IHandler<Message> {
     private final MessageSender messageSender;
     private final TextFactory textFactory;
 
-
-
     @Autowired
     public TextHandler(@Lazy MessageSender messageSender, TextFactory textFactory) {
         this.messageSender = messageSender;
