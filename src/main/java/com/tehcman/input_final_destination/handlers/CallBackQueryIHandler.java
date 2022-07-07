@@ -1,5 +1,8 @@
 package com.tehcman.input_final_destination.handlers;
 
+//TODO: next feature implementation: USE THIS CLASS TO FETCH NEWS FROM TELEGRAM NEWS CHANNELS; USE API TO FETCH THEM
+
+
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildInlineButtonsService;
 import org.springframework.context.annotation.Lazy;

@@ -19,7 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.Map;
 
 @Component
-public class Text1SendMessageFactory implements SendMessageFactory {
+public class Text1SendMessageFactory implements ISendMessageFactory {
     private final BuildSendMessageService buildSendMessageService;
     private BuildButtonsService buildButtonsService;
     private final IListOfNewsChannels iListOfNewsChannels;

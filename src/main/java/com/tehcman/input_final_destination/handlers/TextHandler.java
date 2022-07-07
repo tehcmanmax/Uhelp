@@ -1,7 +1,9 @@
 package com.tehcman.input_final_destination.handlers;
 
+import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.Text1SendMessageFactory;
-import com.tehcman.input_final_destination.SendMessage_factories.SendMessageAbstractFactory;
+import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageAbstractFactory;
+import com.tehcman.input_final_destination.SendMessage_factories.Text2SendMessageAbstractFactory;
 import com.tehcman.sendmessage.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -12,12 +14,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 public class TextHandler implements IHandler<Message> {
     private final MessageSender messageSender;
-    private final Text1SendMessageFactory text1SendMessageFactory;
-    private final SendMessageAbstractFactory create2SendMessagesFactory;
+    private final ISendMessageFactory text1SendMessageFactory;
+    private final ISendMessageAbstractFactory create2SendMessagesFactory;
 
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, Text1SendMessageFactory text1SendMessageFactory, SendMessageAbstractFactory create2SendMessagesFactory) {
+    public TextHandler(@Lazy MessageSender messageSender, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory) {
         this.messageSender = messageSender;
         this.text1SendMessageFactory = text1SendMessageFactory;
         this.create2SendMessagesFactory = create2SendMessagesFactory;
@@ -39,8 +41,3 @@ public class TextHandler implements IHandler<Message> {
         }
     }
 }
-
-/*Resources
- * inserting link into a text https://over.wiki/ask/how-to-make-a-hyperlink-in-a-word-for-a-telegram-bot-in-python/
- * iterating through map(dictionary) https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
- */

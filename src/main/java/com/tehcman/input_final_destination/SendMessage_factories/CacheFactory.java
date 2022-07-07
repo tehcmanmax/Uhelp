@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 
 @Component
-public class CacheFactory implements SendMessageFactory {
+public class CacheFactory implements ISendMessageFactory {
     private final IBuildSendMessageService ibuildSendMessageService;
     private final Cache<User> userCache;
     private BuildButtonsService buildButtonsService;

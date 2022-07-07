@@ -19,7 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.Map;
 
 @Component
-public class Text2SendMessageAbstractFactory implements SendMessageAbstractFactory {
+public class Text2SendMessageAbstractFactory implements ISendMessageAbstractFactory {
     private final Cache<User> userCache;
     private final IBuildSendMessageService buildSendMessageService;
     private final IListOfNewsChannels iListOfNewsChannels;
@@ -69,3 +69,8 @@ public class Text2SendMessageAbstractFactory implements SendMessageAbstractFacto
         return new BuildButtonsService(new BeforeRegistrationKeyboard());
     }
 }
+
+/*Resources
+ * inserting link into a text https://over.wiki/ask/how-to-make-a-hyperlink-in-a-word-for-a-telegram-bot-in-python/
+ * iterating through map(dictionary) https://stackoverflow.com/questions/46898/how-do-i-efficiently-iterate-over-each-entry-in-a-java-map
+ */
