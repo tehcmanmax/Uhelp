@@ -1,8 +1,8 @@
 package com.tehcman.processors;
 
-import com.tehcman.handlers.CallBackQueryIHandler;
-import com.tehcman.handlers.SaveToCacheIHandler;
-import com.tehcman.handlers.TextHandler;
+import com.tehcman.input_final_destination.handlers.CallBackQueryIHandler;
+import com.tehcman.input_final_destination.handlers.SaveToCacheIHandler;
+import com.tehcman.input_final_destination.handlers.TextHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;

@@ -1,8 +1,8 @@
-package com.tehcman.handlers.factories;
+package com.tehcman.input_final_destination.factories;
+//FACTORY METHOD PATTERN
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.cahce.UserCache;
-import com.tehcman.entities.Position;
 import com.tehcman.entities.User;
 import com.tehcman.informational_portal.GeneralInformation;
 import com.tehcman.informational_portal.IListOfNewsChannels;
@@ -19,12 +19,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.Map;
 
 @Component
-public class TextFactory implements SendMessageFactory {
+public class TextFactory implements ICreateSendMessageFactory {
     private final BuildSendMessageService buildSendMessageService;
     private BuildButtonsService buildButtonsService;
     private final IListOfNewsChannels iListOfNewsChannels;
     private final GeneralInformation generalInformation;
-    private Cache<User> userCache;
+    private final Cache<User> userCache;
 
 
     @Autowired
@@ -35,11 +35,11 @@ public class TextFactory implements SendMessageFactory {
         this.iListOfNewsChannels = new ListOfNewsChannels();
         this.generalInformation = new GeneralInformation();
     }
-
+/*
     @Autowired
     public void setUserCache(Cache<User> userCache) {
         this.userCache = userCache;
-    }
+    }*/
 
 
     @Override
@@ -59,19 +59,13 @@ public class TextFactory implements SendMessageFactory {
             userCache.remove(message.getChatId());
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup());
         } else if (message.getText().equals("List of news channels about Ukraine (ENG)")) {
-
-            User userFromCache = userCache.findBy(message.getChatId());
-            if ((userFromCache != null) && !userFromCache.getPosition().equals(Position.NONE)) {
-                this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
-            }
-
             String formattedString = "";
             Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 formattedString += "[" + (entry.getKey()) + "]" + "(" + entry.getValue() + ")\n";
             }
             var newMsg = SendMessage.builder()
-                    .text(iListOfNewsChannels.getMapDescription() + formattedString)
+                    .text(formattedString)
                     .chatId(message.getChatId().toString())
                     .replyMarkup(buildButtonsService.getMainMarkup())
                     .disableWebPagePreview(Boolean.TRUE)
