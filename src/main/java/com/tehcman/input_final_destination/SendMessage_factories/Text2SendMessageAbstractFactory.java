@@ -6,6 +6,7 @@ import com.tehcman.entities.Position;
 import com.tehcman.entities.User;
 import com.tehcman.informational_portal.IListOfNewsChannels;
 import com.tehcman.informational_portal.ListOfNewsChannels;
+import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 import java.util.Map;
 
@@ -36,7 +36,7 @@ public class Text2SendMessageAbstractFactory implements SendMessageAbstractFacto
         if (message.getText().equals("List of news channels about Ukraine (ENG)")) {
             //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
 
-            var newMsg = this.buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), returnReplyMarkup(message));
+            var newMsg = this.buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), returnReplyMarkup(message).getMainMarkup());
             return newMsg;
         } else throw new ArgumentAccessException("reached unhandled case");
     }
@@ -53,7 +53,7 @@ public class Text2SendMessageAbstractFactory implements SendMessageAbstractFacto
             var newMsg = SendMessage.builder()
                     .text(formattedString)
                     .chatId(message.getChatId().toString())
-                    .replyMarkup(returnReplyMarkup(message))
+                    .replyMarkup(returnReplyMarkup(message).getMainMarkup())
                     .disableWebPagePreview(Boolean.TRUE)
                     .parseMode("MarkdownV2")
                     .build();
@@ -61,11 +61,11 @@ public class Text2SendMessageAbstractFactory implements SendMessageAbstractFacto
         } else throw new ArgumentAccessException("reached unhandled case");
     }
 
-    private ReplyKeyboardMarkup returnReplyMarkup(Message message) {
+    private BuildButtonsService returnReplyMarkup(Message message) {
         User userFromCache = userCache.findBy(message.getChatId());
         if ((userFromCache != null) && userFromCache.getPosition().equals(Position.NONE)) {
-            return new AfterRegistrationKeyboard();
+            return new BuildButtonsService(new AfterRegistrationKeyboard());
         }
-        return new BeforeRegistrationKeyboard();
+        return new BuildButtonsService(new BeforeRegistrationKeyboard());
     }
 }
