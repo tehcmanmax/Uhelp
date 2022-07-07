@@ -6,7 +6,6 @@ import com.tehcman.entities.Position;
 import com.tehcman.entities.User;
 import com.tehcman.informational_portal.IListOfNewsChannels;
 import com.tehcman.informational_portal.ListOfNewsChannels;
-import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
@@ -22,7 +21,6 @@ import java.util.Map;
 @Component
 public class Create2SendMessagesFactory implements ICreate2SendMessagesFactory {
     private final Cache<User> userCache;
-    private BuildButtonsService buildButtonsService;
     private final IBuildSendMessageService buildSendMessageService;
     private final IListOfNewsChannels iListOfNewsChannels;
 
@@ -37,9 +35,8 @@ public class Create2SendMessagesFactory implements ICreate2SendMessagesFactory {
     public SendMessage create1stSendMessage(Message message) {
         if (message.getText().equals("List of news channels about Ukraine (ENG)")) {
             //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
-            this.buildButtonsService = returnBuildButtonsService(message);
 
-            var newMsg = this.buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), buildButtonsService.getMainMarkup());
+            var newMsg = this.buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), returnReplyMarkup(message));
             return newMsg;
         } else throw new ArgumentAccessException("reached unhandled case");
     }
@@ -47,7 +44,6 @@ public class Create2SendMessagesFactory implements ICreate2SendMessagesFactory {
     @Override
     public SendMessage create2ndSendMessage(Message message) {
         if (message.getText().equals("List of news channels about Ukraine (ENG)")) {
-            this.buildButtonsService = returnBuildButtonsService(message);
 
             String formattedString = "";
             Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
@@ -57,7 +53,7 @@ public class Create2SendMessagesFactory implements ICreate2SendMessagesFactory {
             var newMsg = SendMessage.builder()
                     .text(formattedString)
                     .chatId(message.getChatId().toString())
-                    .replyMarkup(buildButtonsService.getMainMarkup())
+                    .replyMarkup(returnReplyMarkup(message))
                     .disableWebPagePreview(Boolean.TRUE)
                     .parseMode("MarkdownV2")
                     .build();
@@ -65,11 +61,11 @@ public class Create2SendMessagesFactory implements ICreate2SendMessagesFactory {
         } else throw new ArgumentAccessException("reached unhandled case");
     }
 
-    private BuildButtonsService returnBuildButtonsService(Message message) {
+    private ReplyKeyboardMarkup returnReplyMarkup(Message message) {
         User userFromCache = userCache.findBy(message.getChatId());
         if ((userFromCache != null) && userFromCache.getPosition().equals(Position.NONE)) {
-            return new BuildButtonsService(new AfterRegistrationKeyboard());
+            return new AfterRegistrationKeyboard();
         }
-        return new BuildButtonsService(new BeforeRegistrationKeyboard());
+        return new BeforeRegistrationKeyboard();
     }
 }
