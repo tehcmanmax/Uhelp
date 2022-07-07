@@ -4,7 +4,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 public interface ICreate2SendMessagesFactory {
-    SendMessage createSendMessage(Message message);
+    SendMessage create1stSendMessage(Message message);
     SendMessage create2ndSendMessage(Message message);
 
 }
