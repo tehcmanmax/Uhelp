@@ -1,4 +1,4 @@
-package com.tehcman.input_final_destination.factories;
+package com.tehcman.input_final_destination.SendMessage_factories;
 //FACTORY METHOD PATTERN
 
 import com.tehcman.cahce.Cache;
@@ -19,7 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.Map;
 
 @Component
-public class Create1SendMessageFactory implements ICreateSendMessageFactory {
+public class Text1SendMessageFactory implements SendMessageFactory {
     private final BuildSendMessageService buildSendMessageService;
     private BuildButtonsService buildButtonsService;
     private final IListOfNewsChannels iListOfNewsChannels;
@@ -28,7 +28,7 @@ public class Create1SendMessageFactory implements ICreateSendMessageFactory {
 
 
     @Autowired
-    Create1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache) {
+    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache) {
         this.buildSendMessageService = buildSendMessageService;
 
         this.userCache = userCache;

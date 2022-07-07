@@ -1,4 +1,4 @@
-package com.tehcman.input_final_destination.factories;
+package com.tehcman.input_final_destination.SendMessage_factories;
 //Abstract Factory Method Pattern
 
 import com.tehcman.cahce.Cache;
@@ -19,13 +19,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import java.util.Map;
 
 @Component
-public class Create2SendMessagesFactory implements ICreate2SendMessagesFactory {
+public class Text2SendMessageAbstractFactory implements SendMessageAbstractFactory {
     private final Cache<User> userCache;
     private final IBuildSendMessageService buildSendMessageService;
     private final IListOfNewsChannels iListOfNewsChannels;
 
     @Autowired
-    public Create2SendMessagesFactory(IBuildSendMessageService buildSendMessageService, Cache<User> userCache) {
+    public Text2SendMessageAbstractFactory(IBuildSendMessageService buildSendMessageService, Cache<User> userCache) {
         this.buildSendMessageService = buildSendMessageService;
         this.userCache = userCache;
         this.iListOfNewsChannels = new ListOfNewsChannels();

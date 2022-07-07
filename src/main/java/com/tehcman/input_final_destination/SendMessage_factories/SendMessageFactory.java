@@ -1,8 +1,8 @@
-package com.tehcman.input_final_destination.factories;
+package com.tehcman.input_final_destination.SendMessage_factories;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
-public interface ICreateSendMessageFactory {
+public interface SendMessageFactory {
     SendMessage createSendMessage(Message message);
 }
