@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
 import java.util.Map;
 
@@ -34,15 +35,10 @@ public class Create2SendMessagesFactory implements ICreate2SendMessagesFactory {
 
     @Override
     public SendMessage create1stSendMessage(Message message) {
-        this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
-
         if (message.getText().equals("List of news channels about Ukraine (ENG)")) {
             //TODO: POSSIBLE REFACTORING. apply decorator pattern to build message sender
+            this.buildButtonsService = returnBuildButtonsService(message);
 
-            User userFromCache = userCache.findBy(message.getChatId());
-            if ((userFromCache != null) && !userFromCache.getPosition().equals(Position.NONE)) {
-                this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
-            }
             var newMsg = this.buildSendMessageService.createHTMLMessage(message.getChatId().toString(), iListOfNewsChannels.getMapDescription(), buildButtonsService.getMainMarkup());
             return newMsg;
         } else throw new ArgumentAccessException("reached unhandled case");
@@ -50,22 +46,30 @@ public class Create2SendMessagesFactory implements ICreate2SendMessagesFactory {
 
     @Override
     public SendMessage create2ndSendMessage(Message message) {
-        this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
         if (message.getText().equals("List of news channels about Ukraine (ENG)")) {
+            this.buildButtonsService = returnBuildButtonsService(message);
 
             String formattedString = "";
-        Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            formattedString += "[" + (entry.getKey()) + "]" + "(" + entry.getValue() + ")\n";
-        }
-        var newMsg = SendMessage.builder()
-                .text(formattedString)
-                .chatId(message.getChatId().toString())
-                .replyMarkup(buildButtonsService.getMainMarkup())
-                .disableWebPagePreview(Boolean.TRUE)
-                .parseMode("MarkdownV2")
-                .build();
-        return newMsg;
+            Map<String, String> map = iListOfNewsChannels.getMapOfChannelsAndLinks();
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                formattedString += "[" + (entry.getKey()) + "]" + "(" + entry.getValue() + ")\n";
+            }
+            var newMsg = SendMessage.builder()
+                    .text(formattedString)
+                    .chatId(message.getChatId().toString())
+                    .replyMarkup(buildButtonsService.getMainMarkup())
+                    .disableWebPagePreview(Boolean.TRUE)
+                    .parseMode("MarkdownV2")
+                    .build();
+            return newMsg;
         } else throw new ArgumentAccessException("reached unhandled case");
+    }
+
+    private BuildButtonsService returnBuildButtonsService(Message message) {
+        User userFromCache = userCache.findBy(message.getChatId());
+        if ((userFromCache != null) && userFromCache.getPosition().equals(Position.NONE)) {
+            return new BuildButtonsService(new AfterRegistrationKeyboard());
+        }
+        return new BuildButtonsService(new BeforeRegistrationKeyboard());
     }
 }

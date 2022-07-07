@@ -19,7 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import java.util.Map;
 
 @Component
-public class ICreate1SendMessageFactory implements ICreateSendMessageFactory {
+public class Create1SendMessageFactory implements ICreateSendMessageFactory {
     private final BuildSendMessageService buildSendMessageService;
     private BuildButtonsService buildButtonsService;
     private final IListOfNewsChannels iListOfNewsChannels;
@@ -28,7 +28,7 @@ public class ICreate1SendMessageFactory implements ICreateSendMessageFactory {
 
 
     @Autowired
-    ICreate1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache) {
+    Create1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache) {
         this.buildSendMessageService = buildSendMessageService;
 
         this.userCache = userCache;

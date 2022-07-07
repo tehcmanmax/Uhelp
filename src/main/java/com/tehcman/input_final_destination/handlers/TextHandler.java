@@ -1,6 +1,6 @@
 package com.tehcman.input_final_destination.handlers;
 
-import com.tehcman.input_final_destination.factories.ICreate1SendMessageFactory;
+import com.tehcman.input_final_destination.factories.Create1SendMessageFactory;
 import com.tehcman.input_final_destination.factories.ICreate2SendMessagesFactory;
 import com.tehcman.sendmessage.MessageSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 public class TextHandler implements IHandler<Message> {
     private final MessageSender messageSender;
-    private final ICreate1SendMessageFactory create1SendMessageFactory;
+    private final Create1SendMessageFactory create1SendMessageFactory;
     private final ICreate2SendMessagesFactory create2SendMessagesFactory;
 
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, ICreate1SendMessageFactory create1SendMessageFactory, ICreate2SendMessagesFactory create2SendMessagesFactory) {
+    public TextHandler(@Lazy MessageSender messageSender, Create1SendMessageFactory create1SendMessageFactory, ICreate2SendMessagesFactory create2SendMessagesFactory) {
         this.messageSender = messageSender;
         this.create1SendMessageFactory = create1SendMessageFactory;
         this.create2SendMessagesFactory = create2SendMessagesFactory;
