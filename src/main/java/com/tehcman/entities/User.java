@@ -14,10 +14,12 @@ public class User {
     private String age;
 
 
+
     //sprint 2:
-    private char sex;
+    private Status status;
+    private Character sex;
     private String city;
-    private int amountOfPeople;
+    private Integer amountOfPeople;
     private String date;
     private String additional;
 
@@ -53,8 +55,11 @@ public class User {
         this.name = name;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-    public void setSex(char sex) {
+    public void setSex(Character sex) {
         this.sex = sex;
     }
 
@@ -62,7 +67,7 @@ public class User {
         this.city = city;
     }
 
-    public void setAmountOfPeople(int amountOfPeople) {
+    public void setAmountOfPeople(Integer amountOfPeople) {
         this.amountOfPeople = amountOfPeople;
     }
 
@@ -76,11 +81,19 @@ public class User {
 
     @Override
     public String toString() {
-        return "Your data:" +
-                "\nid = " + id +
-                "\ntgUsername = '" + tgUsername + '\'' +
-                "\nname = '" + name + '\'' +
-                "\nphoneNumber = '" + phoneNumber + '\'' +
-                "\nage = '" + age + '\'';
+        return "User{" +
+                "id=" + id +
+                ", tgUsername='" + tgUsername + '\'' +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", age='" + age + '\'' +
+                ", status=" + status +
+                ", sex=" + sex +
+                ", city='" + city + '\'' +
+                ", amountOfPeople=" + amountOfPeople +
+                ", date='" + date + '\'' +
+                ", additional='" + additional + '\'' +
+                '}';
     }
 }

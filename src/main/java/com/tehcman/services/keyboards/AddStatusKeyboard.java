@@ -9,19 +9,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AddPhoneNumberKeyboard extends ReplyKeyboardMarkup {
-    private final AddSkipButtonKeyboardRow addSkipButtonKeyboardRow;
-
-    public AddPhoneNumberKeyboard() {
-        addSkipButtonKeyboardRow = new AddSkipButtonKeyboardRow();
-    }
-
+public class AddStatusKeyboard extends ReplyKeyboardMarkup {
     public @NonNull List<KeyboardRow> getKeyboard() {
         List<KeyboardRow> arrayOfKeyboardRows = new ArrayList<>();
 
-        var phoneNumberButton = KeyboardButton.builder().text("Phone number").requestContact(Boolean.TRUE).build();
+        var searching = KeyboardButton.builder().text("Searching Accommodation").build();
+        var providing = KeyboardButton.builder().text("Providing Accommodation").build();
         var row1 = new KeyboardRow();
-        Collections.addAll(row1, phoneNumberButton, this.addSkipButtonKeyboardRow.create2ndSkipButtonRow().get(0));
+        Collections.addAll(row1, searching, providing);
 
         arrayOfKeyboardRows.add(row1);
         return arrayOfKeyboardRows;
