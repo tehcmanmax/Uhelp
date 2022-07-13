@@ -5,11 +5,21 @@ public class User {
     //fill the following fields from the user's message
     private final Long id;
     private final String tgUsername;
-    private final String name;
+
+
+    private String name;
     private Position position;
 
     private String phoneNumber;
     private String age;
+
+
+    //sprint 2:
+    private char sex;
+    private String city;
+    private int amountOfPeople;
+    private String date;
+    private String additional;
 
 
     public User(Long id, String tgUsername, String name, Position position) {
@@ -39,6 +49,30 @@ public class User {
         this.age = age;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public void setSex(char sex) {
+        this.sex = sex;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setAmountOfPeople(int amountOfPeople) {
+        this.amountOfPeople = amountOfPeople;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setAdditional(String additional) {
+        this.additional = additional;
+    }
 
     @Override
     public String toString() {
