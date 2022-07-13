@@ -30,12 +30,12 @@ public abstract class Processor {
         } else {
             User userFromCache = userCache.findBy(update.getMessage().getChatId());
             if ((userFromCache != null) && !userFromCache.getPosition().equals(Position.NONE)) {
-                switch (userFromCache.getPosition()) {
+/*                switch (userFromCache.getPosition()) {
                     case PHONE_NUMBER:
-                    case AGE:
+                    case AGE:*/
                         handleSaveToCache(update.getMessage());
                         return; //so it won't go to if lines
-                }
+//                }
             }
         }
         if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Accommodation search/hosting"))) {
