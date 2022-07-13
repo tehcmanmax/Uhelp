@@ -81,19 +81,19 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", tgUsername='" + tgUsername + '\'' +
-                ", name='" + name + '\'' +
-                ", position=" + position +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", age='" + age + '\'' +
-                ", status=" + status +
-                ", sex=" + sex +
-                ", city='" + city + '\'' +
-                ", amountOfPeople=" + amountOfPeople +
-                ", date='" + date + '\'' +
-                ", additional='" + additional + '\'' +
+        return "User{\n" +
+                "id=" + id + '\n' +
+                "tgUsername=" + tgUsername + '\n' +
+                "name=" + name + '\n' +
+                "position=" + position + '\n' +
+                "phoneNumber=" + phoneNumber + '\n' +
+                "age=" + age + '\n' +
+                "status=" + status + '\n' +
+                "sex=" + sex + '\n' +
+                "city=" + city + '\n' +
+                "amountOfPeople=" + amountOfPeople + '\n' +
+                "date=" + date + '\n' +
+                "additional=" + additional + '\n' +
                 '}';
     }
 }

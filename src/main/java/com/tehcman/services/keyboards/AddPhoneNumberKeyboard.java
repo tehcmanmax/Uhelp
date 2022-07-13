@@ -21,7 +21,7 @@ public class AddPhoneNumberKeyboard extends ReplyKeyboardMarkup {
 
         var phoneNumberButton = KeyboardButton.builder().text("Phone number").requestContact(Boolean.TRUE).build();
         var row1 = new KeyboardRow();
-        Collections.addAll(row1, phoneNumberButton, this.addSkipButtonKeyboardRow.create2ndSkipButtonRow().get(0));
+        Collections.addAll(row1, phoneNumberButton, this.addSkipButtonKeyboardRow.getKeyboard().get(0).get(0));
 
         arrayOfKeyboardRows.add(row1);
         return arrayOfKeyboardRows;

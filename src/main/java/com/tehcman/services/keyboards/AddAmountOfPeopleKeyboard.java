@@ -24,7 +24,7 @@ public class AddAmountOfPeopleKeyboard extends ReplyKeyboardMarkup {
         var row1 = new KeyboardRow();
         Collections.addAll(row1, me, many);
 
-        Collections.addAll(arrayOfKeyboardRows, row1, this.addSkipButtonKeyboardRow.create2ndSkipButtonRow());
+        Collections.addAll(arrayOfKeyboardRows, row1, this.addSkipButtonKeyboardRow.getKeyboard().get(0));
         return arrayOfKeyboardRows;
     }
 

@@ -25,7 +25,7 @@ public class AddSexKeyboard extends ReplyKeyboardMarkup {
         Collections.addAll(row1, male, female);
 
         arrayOfKeyboardRows.add(row1);
-        arrayOfKeyboardRows.add(this.addSkipButtonKeyboardRow.create2ndSkipButtonRow());
+        arrayOfKeyboardRows.add(this.addSkipButtonKeyboardRow.getKeyboard().get(0));
         return arrayOfKeyboardRows;
     }
 }

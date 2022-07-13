@@ -51,6 +51,8 @@ public class CacheFactory implements ISendMessageFactory {
 
     private SendMessage registerRestUserData(User user, Message message) {
         switch (user.getPosition()) {
+
+            //TODO fix else string 22
             case STATUS:
                 if (message.getText().equals("Searching Accommodation")) {
                     user.setStatus(Status.REFUGEE);
@@ -88,7 +90,7 @@ public class CacheFactory implements ISendMessageFactory {
 
                     this.buildButtonsService = new BuildButtonsService(new AddPhoneNumberKeyboard());
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", buildButtonsService.getMainMarkup());
-                } else if (message.getText().equals("Woman")) {
+                } else if (message.getText().equals("Female")) {
                     user.setSex('F');
                     user.setPosition(Position.PHONE_NUMBER);
 
@@ -97,6 +99,8 @@ public class CacheFactory implements ISendMessageFactory {
                 } else if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setSex(null);
                     user.setPosition(Position.PHONE_NUMBER);
+
+                    this.buildButtonsService = new BuildButtonsService(new AddPhoneNumberKeyboard());
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", buildButtonsService.getMainMarkup());
                 } else {
                     var newMessage = SendMessage.builder().text("You haven't pressed a button!").chatId(message.getChatId().toString()).build();
@@ -108,13 +112,13 @@ public class CacheFactory implements ISendMessageFactory {
                 if (message.hasContact()) {
                     user.setPhoneNumber(message.getContact().getPhoneNumber());
                     user.setPosition(Position.AGE);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", new ReplyKeyboardRemove(Boolean.TRUE));
+                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
                     //FIXME: POSSIBLE REFACTORING following line?
                 } else if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
-                    ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove(); //removes the phone number keyboard
-                    replyKeyboardRemove.setRemoveKeyboard(true);
                     user.setPosition(Position.AGE);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", replyKeyboardRemove);
+                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
                 } else {
                     var newMessage = SendMessage.builder().text("You haven't shared the phone number!").chatId(message.getChatId().toString()).build();
                     this.buildButtonsService = new BuildButtonsService(new AddPhoneNumberKeyboard());
@@ -126,15 +130,13 @@ public class CacheFactory implements ISendMessageFactory {
                     user.setAge(null);
                     user.setPosition(Position.CITY);
 
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a city where you are planning to stay", buildButtonsService.getMainMarkup());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a city where you are planning to stay", new ReplyKeyboardRemove(true));
 
                 } else if (message.getText().matches("\\d{1,2}")) {
                     user.setAge(message.getText());
                     user.setPosition(Position.CITY);
 
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a city where you are planning to stay", buildButtonsService.getMainMarkup());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a city where you are planning to stay", new ReplyKeyboardRemove(true));
 
                 } else {
                     SendMessage newMessage = new SendMessage();
@@ -145,16 +147,24 @@ public class CacheFactory implements ISendMessageFactory {
                     return newMessage;
                 }
             case CITY:
-                if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
+                //user must enter city name!
+/*                if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setCity(null);
 
+                }*/
+                //TODO: FIX REGEX
+                if (message.getText().matches("\\w{0,2}|\\d")) {
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must type <i>full</i> city name", new ReplyKeyboardRemove(true));
                 } else {
                     user.setCity(message.getText());
 
                 }
                 user.setPosition(Position.DATE);
                 this.buildButtonsService = new BuildButtonsService(new AddYesNo());
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you know your arrival date?", buildButtonsService.getMainMarkup());
+
+                //TODO fix else string
+                this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you know your arrival date?", this.buildButtonsService.getMainMarkup());
             case DATE:
                 if (message.getText().equalsIgnoreCase("no")) {
                     user.setDate(null);
@@ -167,7 +177,7 @@ public class CacheFactory implements ISendMessageFactory {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a date at this chat\n" +
                             "(YYYY-MM-DD)\n" +
                             "or time frame\n" +
-                            "(October/Summer etc.)", buildButtonsService.getMainMarkup());
+                            "(October/Summer etc.)", this.buildButtonsService.getMainMarkup());
 
                 } else if (!(message.getText().equalsIgnoreCase("no")) || !(message.getText().equalsIgnoreCase("yes"))) {
                     user.setDate(message.getText());
@@ -183,23 +193,27 @@ public class CacheFactory implements ISendMessageFactory {
                     user.setPosition(Position.ADDITIONAL);
 
                     this.buildButtonsService = new BuildButtonsService(new AddYesNo());
+                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
+
+                    //TODO fix else string
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you have additional comments\n" +
-                            "(You have little children, pets etc.)?", buildButtonsService.getMainMarkup());
-                }
-                else if(message.getText().equalsIgnoreCase("A group of people")){
+                            "(You have little children, pets etc.)?", this.buildButtonsService.getMainMarkup());
+                } else if (message.getText().equalsIgnoreCase("A group of people")) {
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
+
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a number (including you) at this chat",
-                            buildButtonsService.getMainMarkup());
-                }
-                else if (message.getText().matches("\\d{1,2}")){
+                            this.buildButtonsService.getMainMarkup());
+                } else if (message.getText().matches("\\d{1,2}")) {
                     user.setAmountOfPeople(Integer.valueOf(message.getText()));
                     user.setPosition(Position.ADDITIONAL);
 
                     this.buildButtonsService = new BuildButtonsService(new AddYesNo());
+                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
+
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you have additional comments\n" +
-                            "(You have little children, pets etc.)?", buildButtonsService.getMainMarkup());
-                }
-                else {
+                            "(You have little children, pets etc.)?", this.buildButtonsService.getMainMarkup());
+                } else {
                     SendMessage newMessage = new SendMessage();
                     newMessage.setText("Please, enter a <u>number</u> (0-99)");
                     newMessage.setParseMode("HTML");
@@ -207,6 +221,7 @@ public class CacheFactory implements ISendMessageFactory {
 
                     return newMessage;
                 }
+
             case ADDITIONAL:
                 if (message.getText().equalsIgnoreCase("no")) {
                     user.setAdditional(null);
@@ -219,8 +234,7 @@ public class CacheFactory implements ISendMessageFactory {
                             "Now you can view users who\n" +
                             "ready to provide housing", buildButtonsService.getMainMarkup());
                 } else if (message.getText().equalsIgnoreCase("yes")) {
-                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your comment at this chat", buildButtonsService.getMainMarkup());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your comment at this chat", new ReplyKeyboardRemove(true));
 
                 } else if (!(message.getText().equalsIgnoreCase("no")) || !(message.getText().equalsIgnoreCase("yes"))) {
                     user.setAdditional(message.getText());
@@ -229,9 +243,8 @@ public class CacheFactory implements ISendMessageFactory {
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
-                            "Your data has been saved. It is available only to other users if this service\n" +
-                            "Now you can view users who\n" +
-                            "ready to provide housing", buildButtonsService.getMainMarkup());
+                            "Your data has been saved. It is available only to other users if this service\n\n" +
+                            "Now you can view users who is ready to provide housing to you", buildButtonsService.getMainMarkup());
                 }
 
         }
