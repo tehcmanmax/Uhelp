@@ -35,7 +35,6 @@ public class DefaultProcessor extends Processor{
 
     @Override
     public void handleText(Update update) {
-
         textHandler.handle(update.getMessage());
     }
 
