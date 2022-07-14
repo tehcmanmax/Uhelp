@@ -11,6 +11,10 @@ public class User {
     private Phase phase;
 
     private String phoneNumber;
+    private String email;
+    private String social;
+
+
     private String age;
 
 
@@ -18,7 +22,6 @@ public class User {
     private Status status;
     private Character sex;
     private String city;
-
 
     private String country;
     private Integer amountOfPeople;
@@ -85,6 +88,15 @@ public class User {
         this.additional = additional;
     }
 
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSocial(String social) {
+        this.social = social;
+    }
+
     @Override
     public String toString() {
         return "User{\n" +
@@ -93,6 +105,8 @@ public class User {
                 "name=" + name + '\n' +
                 "phase=" + phase + '\n' +
                 "phoneNumber=" + phoneNumber + '\n' +
+                "email=" + email + '\n' +
+                "social=" + social + '\n' +
                 "age=" + age + '\n' +
                 "status=" + status + '\n' +
                 "sex=" + sex + '\n' +
@@ -103,4 +117,5 @@ public class User {
                 "additional=" + additional + '\n' +
                 '}';
     }
+
 }

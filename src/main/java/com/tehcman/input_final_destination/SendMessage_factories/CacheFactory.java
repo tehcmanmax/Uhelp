@@ -18,10 +18,12 @@ public class CacheFactory implements ISendMessageFactory {
     private final IBuildSendMessageService ibuildSendMessageService;
     private final Cache<User> userCache;
     private BuildButtonsService buildButtonsService;
+    private final AddContactsKeyboard addContactsKeyboard;
 
     public CacheFactory(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
+        addContactsKeyboard = new AddContactsKeyboard();
     }
 
 
@@ -87,39 +89,45 @@ public class CacheFactory implements ISendMessageFactory {
                     user.setSex('M');
                     user.setPhase(Phase.PHONE_NUMBER);
 
-                    this.buildButtonsService = new BuildButtonsService(new AddPhoneNumberKeyboard());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", buildButtonsService.getMainMarkup());
+                    this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
                 } else if (message.getText().equals("Female")) {
                     user.setSex('F');
                     user.setPhase(Phase.PHONE_NUMBER);
 
-                    this.buildButtonsService = new BuildButtonsService(new AddPhoneNumberKeyboard());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", buildButtonsService.getMainMarkup());
+                    this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
                 } else if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setSex(null);
                     user.setPhase(Phase.PHONE_NUMBER);
 
-                    this.buildButtonsService = new BuildButtonsService(new AddPhoneNumberKeyboard());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"Phone number\" button", buildButtonsService.getMainMarkup());
+                    this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
                 } else {
                     var newMessage = SendMessage.builder().text("You haven't pressed a button!").chatId(message.getChatId().toString()).build();
-                    this.buildButtonsService = new BuildButtonsService(new AddPhoneNumberKeyboard());
+                    this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
                     return newMessage;
                 }
 
+                //TODO: create logic to save contacts and delete buttons
+            case CONTACTS:
+                if ((message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))||(addContactsKeyboard.getKeyboard().size() == 1)){
+                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
+                }
+                else if (message.getText().equals("Email")){
+
+                }
             case PHONE_NUMBER:
                 if (message.hasContact()) {
                     user.setPhoneNumber(message.getContact().getPhoneNumber());
                     user.setPhase(Phase.AGE);
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
                 } else if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setPhase(Phase.AGE);
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
                 } else {
                     var newMessage = SendMessage.builder().text("You haven't shared the phone number!").chatId(message.getChatId().toString()).build();
-                    this.buildButtonsService = new BuildButtonsService(new AddPhoneNumberKeyboard());
+                    this.buildButtonsService = new BuildButtonsService(new AddContactsKeyboard());
                     return newMessage;
                 }
 
@@ -224,7 +232,7 @@ public class CacheFactory implements ISendMessageFactory {
                     this.buildButtonsService = new BuildButtonsService(new AddYesNo());
                     this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
 
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you have additional comments\n" +
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you want to leave additional contacts\n" +
                             "(You have little children, pets etc.)?", this.buildButtonsService.getMainMarkup());
                 } else {
                     SendMessage newMessage = new SendMessage();
