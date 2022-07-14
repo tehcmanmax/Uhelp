@@ -14,11 +14,13 @@ public class User {
     private String age;
 
 
-
     //sprint 2:
     private Status status;
     private Character sex;
     private String city;
+
+
+    private String country;
     private Integer amountOfPeople;
     private String date;
     private String additional;
@@ -67,6 +69,10 @@ public class User {
         this.city = city;
     }
 
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public void setAmountOfPeople(Integer amountOfPeople) {
         this.amountOfPeople = amountOfPeople;
     }
@@ -91,6 +97,7 @@ public class User {
                 "status=" + status + '\n' +
                 "sex=" + sex + '\n' +
                 "city=" + city + '\n' +
+                "country=" + country + '\n' +
                 "amountOfPeople=" + amountOfPeople + '\n' +
                 "date=" + date + '\n' +
                 "additional=" + additional + '\n' +

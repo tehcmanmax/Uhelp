@@ -128,13 +128,13 @@ public class CacheFactory implements ISendMessageFactory {
                     user.setAge(null);
                     user.setPhase(Phase.CITY);
 
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a city where you are planning to stay", new ReplyKeyboardRemove(true));
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>city</b> where you are planning to stay", new ReplyKeyboardRemove(true));
 
                 } else if (message.getText().matches("\\d{1,2}")) {
                     user.setAge(message.getText());
                     user.setPhase(Phase.CITY);
 
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a city where you are planning to stay", new ReplyKeyboardRemove(true));
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>city</b> where you are planning to stay", new ReplyKeyboardRemove(true));
 
                 } else {
                     SendMessage newMessage = new SendMessage();
@@ -150,11 +150,24 @@ public class CacheFactory implements ISendMessageFactory {
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must type <i>full</i> city name", new ReplyKeyboardRemove(true));
                 }
+                user.setPhase(Phase.COUNTRY);
+                this.buildButtonsService = new BuildButtonsService(new AddYesNo());
+
+                this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>country</b> where you are planning to stay", new ReplyKeyboardRemove(true));
+
+            case COUNTRY:
+                if (message.getText().matches("[^\\d\\W]{2,}")) {
+                    user.setCountry(message.getText());
+                } else {
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must type <i>full</i> country name", new ReplyKeyboardRemove(true));
+                }
                 user.setPhase(Phase.DATE);
                 this.buildButtonsService = new BuildButtonsService(new AddYesNo());
 
                 this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
                 return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you know your arrival date?", this.buildButtonsService.getMainMarkup());
+
             case DATE:
                 if (message.getText().equalsIgnoreCase("no")) {
                     user.setDate(null);

@@ -22,8 +22,6 @@ public class BeforeRegistrationKeyboard extends ReplyKeyboardMarkup {
 
         var row3 = new KeyboardRow();
 
-        //TODO implement the behavior after pressing on the buttons
-//        var button3 = new KeyboardButton("Temporary save my info into the cache");
         var button3 = new KeyboardButton("Accommodation search/hosting");
         row3.add(button3);
 
