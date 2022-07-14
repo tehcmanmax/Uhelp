@@ -52,7 +52,6 @@ public class CacheFactory implements ISendMessageFactory {
     private SendMessage registerRestUserData(User user, Message message) {
         switch (user.getPosition()) {
 
-            //TODO fix else string 22
             case STATUS:
                 if (message.getText().equals("Searching Accommodation")) {
                     user.setStatus(Status.REFUGEE);
@@ -108,7 +107,7 @@ public class CacheFactory implements ISendMessageFactory {
                     return newMessage;
                 }
 
-            case PHONE_NUMBER: //phase 1
+            case PHONE_NUMBER:
                 if (message.hasContact()) {
                     user.setPhoneNumber(message.getContact().getPhoneNumber());
                     user.setPosition(Position.AGE);
@@ -147,22 +146,14 @@ public class CacheFactory implements ISendMessageFactory {
                     return newMessage;
                 }
             case CITY:
-                //user must enter city name!
-/*                if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
-                    user.setCity(null);
-
-                }*/
-                //TODO: FIX REGEX
-                if (message.getText().matches("\\w{0,2}|\\d")) {
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must type <i>full</i> city name", new ReplyKeyboardRemove(true));
-                } else {
+                if (message.getText().matches("[^\\d\\W]{3,}")) {
                     user.setCity(message.getText());
-
+                } else {
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must type <i>full</i> city name", new ReplyKeyboardRemove(true));
                 }
                 user.setPosition(Position.DATE);
                 this.buildButtonsService = new BuildButtonsService(new AddYesNo());
 
-                //TODO fix else string
                 this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
                 return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you know your arrival date?", this.buildButtonsService.getMainMarkup());
             case DATE:
