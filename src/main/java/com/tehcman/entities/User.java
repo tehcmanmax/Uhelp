@@ -8,7 +8,7 @@ public class User {
 
 
     private String name;
-    private Position position;
+    private Phase phase;
 
     private String phoneNumber;
     private String age;
@@ -24,11 +24,11 @@ public class User {
     private String additional;
 
 
-    public User(Long id, String tgUsername, String name, Position position) {
+    public User(Long id, String tgUsername, String name, Phase phase) {
         this.id = id;
         this.tgUsername = tgUsername;
         this.name = name;
-        this.position = position;
+        this.phase = phase;
     }
 
     public Long getId() {
@@ -39,12 +39,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public Position getPosition() {
-        return position;
+    public Phase getPhase() {
+        return phase;
     }
 
-    public void setPosition(Position position) {
-        this.position = position;
+    public void setPhase(Phase phase) {
+        this.phase = phase;
     }
 
     public void setAge(String age) {
@@ -85,7 +85,7 @@ public class User {
                 "id=" + id + '\n' +
                 "tgUsername=" + tgUsername + '\n' +
                 "name=" + name + '\n' +
-                "position=" + position + '\n' +
+                "phase=" + phase + '\n' +
                 "phoneNumber=" + phoneNumber + '\n' +
                 "age=" + age + '\n' +
                 "status=" + status + '\n' +

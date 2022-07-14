@@ -1,7 +1,7 @@
 package com.tehcman.processors;
 
 import com.tehcman.cahce.Cache;
-import com.tehcman.entities.Position;
+import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -29,7 +29,7 @@ public abstract class Processor {
             handleCallBackQuery(update.getCallbackQuery());
         } else {
             User userFromCache = userCache.findBy(update.getMessage().getChatId());
-            if ((userFromCache != null) && !userFromCache.getPosition().equals(Position.NONE)) {
+            if ((userFromCache != null) && !userFromCache.getPhase().equals(Phase.NONE)) {
 /*                switch (userFromCache.getPosition()) {
                     case PHONE_NUMBER:
                     case AGE:*/

@@ -2,7 +2,7 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 //Abstract Factory Method Pattern
 
 import com.tehcman.cahce.Cache;
-import com.tehcman.entities.Position;
+import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
 import com.tehcman.informational_portal.IListOfNewsChannels;
 import com.tehcman.informational_portal.ListOfNewsChannels;
@@ -63,7 +63,7 @@ public class Text2SendMessageAbstractFactory implements ISendMessageAbstractFact
 
     private BuildButtonsService returnReplyMarkup(Message message) {
         User userFromCache = userCache.findBy(message.getChatId());
-        if ((userFromCache != null) && userFromCache.getPosition().equals(Position.NONE)) {
+        if ((userFromCache != null) && userFromCache.getPhase().equals(Phase.NONE)) {
             return new BuildButtonsService(new AfterRegistrationKeyboard());
         }
         return new BuildButtonsService(new BeforeRegistrationKeyboard());
