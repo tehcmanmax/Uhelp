@@ -114,7 +114,8 @@ public class CacheFactory implements ISendMessageFactory {
                 if (message.hasContact()) {
                     user.setPhase(Phase.CONTACTS);
                     user.setPhoneNumber(message.getContact().getPhoneNumber());
-//                    this.addContactsKeyboard.getKeyboard().remove("Phone number");
+                    this.addContactsKeyboard.removeRow("Phone number");
+
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
                 }
 
@@ -135,14 +136,18 @@ public class CacheFactory implements ISendMessageFactory {
             case EMAIL:
                 user.setEmail(message.getText());
                 user.setPhase(Phase.CONTACTS);
-                this.addContactsKeyboard.getKeyboard().remove("Email");
+                this.addContactsKeyboard.removeRow("Email");
                 return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Email is saved!", this.buildButtonsService.getMainMarkup());
 
             case SOCIAL:
                 user.setSocial(message.getText());
-                this.addContactsKeyboard.getKeyboard().remove("Social media");
                 user.setPhase(Phase.CONTACTS);
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Social media is saved!", this.buildButtonsService.getMainMarkup());
+
+                this.addContactsKeyboard.removeRow("Social media");
+//                this.addContactsKeyboard.getKeyboard()..removeIf(s -> s.contains("Social media"));
+//                this.buildButtonsService = new BuildButtonsService(this.addContactsKeyboard);
+
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Social media is saved!", buildButtonsService.getMainMarkup());
 
             case AGE:
                 if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
