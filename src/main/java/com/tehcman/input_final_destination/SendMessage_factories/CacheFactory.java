@@ -109,43 +109,41 @@ public class CacheFactory implements ISendMessageFactory {
                 }
 
                 //TODO: create logic to save contacts and delete buttons
+                //problem, it does not store this phase
             case CONTACTS:
+                if (message.hasContact()) {
+                    user.setPhase(Phase.CONTACTS);
+                    user.setPhoneNumber(message.getContact().getPhoneNumber());
+//                    this.addContactsKeyboard.getKeyboard().remove("Phone number");
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
+                }
+
                 if ((message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) || (addContactsKeyboard.getKeyboard().size() == 1)) {
                     user.setPhase(Phase.AGE);
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
                 } else if (message.getText().equals("Email")) {
-                    user.setEmail(message.getText());
-                    this.addContactsKeyboard.getKeyboard().remove("Email");
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Saved!", this.buildButtonsService.getMainMarkup());
+                    user.setPhase(Phase.EMAIL);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your email", new ReplyKeyboardRemove(true));
+
                 } else if (message.getText().equals("Social media")) {
-                    user.setSocial(message.getText());
-                    this.addContactsKeyboard.getKeyboard().remove("Social media");
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Saved!", this.buildButtonsService.getMainMarkup());
-                } else if (message.hasContact()) {
-                    user.setPhoneNumber(message.getContact().getPhoneNumber());
-                    user.setPhase(Phase.AGE);
-                    this.addContactsKeyboard.getKeyboard().remove("Phone number");
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Saved!", this.buildButtonsService.getMainMarkup());
+                    user.setPhase(Phase.SOCIAL);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type a <u>link</u> or a @username to Instagram/Facebook etc.", new ReplyKeyboardRemove(true));
                 } else
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
 
-            case PHONE_NUMBER:
-                if (message.hasContact()) {
-                    user.setPhoneNumber(message.getContact().getPhoneNumber());
-                    user.setPhase(Phase.CONTACTS);
-
-//                    this.addContactsKeyboard.getKeyboard().remove
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Optionally, you can save more data", addContactsKeyboard);
-                } else if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
-                    user.setPhase(Phase.CONTACTS);
-                } else {
-                    var newMessage = SendMessage.builder().text("You haven't shared the phone number!").chatId(message.getChatId().toString()).build();
-                    this.buildButtonsService = new BuildButtonsService(new AddContactsKeyboard());
-                    return newMessage;
-                }
             case EMAIL:
+                user.setEmail(message.getText());
+                user.setPhase(Phase.CONTACTS);
+                this.addContactsKeyboard.getKeyboard().remove("Email");
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Email is saved!", this.buildButtonsService.getMainMarkup());
+
             case SOCIAL:
+                user.setSocial(message.getText());
+                this.addContactsKeyboard.getKeyboard().remove("Social media");
+                user.setPhase(Phase.CONTACTS);
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Social media is saved!", this.buildButtonsService.getMainMarkup());
+
             case AGE:
                 if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setAge(null);
