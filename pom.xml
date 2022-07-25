@@ -54,6 +54,11 @@
                     <version>master-46c5aa6b80-1</version>
         </dependency>-->
 
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegramapi</artifactId>
+            <version>66.2</version>
+        </dependency>
 
     </dependencies>
 

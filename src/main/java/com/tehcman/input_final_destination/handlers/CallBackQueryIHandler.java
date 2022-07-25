@@ -7,6 +7,8 @@ import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildInlineButtonsService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.telegram.api.functions.messages.TLRequestMessagesGetAllChats;
+import org.telegram.api.functions.messages.TLRequestMessagesGetHistory;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
@@ -88,6 +90,11 @@ public class CallBackQueryIHandler implements IHandler<CallbackQuery> {
         prevNumber = randNumb;
 
         return jokes.get(randNumb);
+    }
+
+    private void testing(){
+        TLRequestMessagesGetAllChats getAllChats = new TLRequestMessagesGetAllChats();
+        TLRequestMessagesGetHistory tlreqHistory = new TLRequestMessagesGetHistory();
     }
 
 }
