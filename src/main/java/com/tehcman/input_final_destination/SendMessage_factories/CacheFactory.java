@@ -111,28 +111,39 @@ public class CacheFactory implements ISendMessageFactory {
                 //TODO: create logic to save contacts and delete buttons
                 //problem, it does not store this phase
             case CONTACTS:
-                if ((message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) || (addContactsKeyboard.getKeyboard().size() == 1)) {
+                if (message.getText() != null) {
+                    if ((message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
+                        user.setPhase(Phase.AGE);
+                        this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
+                    } else if (message.getText().equals("Email")) {
+                        user.setPhase(Phase.EMAIL);
+                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your email", new ReplyKeyboardRemove(true));
+
+                    } else if (message.getText().equals("Social media")) {
+                        user.setPhase(Phase.SOCIAL);
+                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type a <u>link</u> or a @username to Instagram/Facebook etc.", new ReplyKeyboardRemove(true));
+                    } else if (message.getText().equals("Phone number")) {
+                        user.setPhase(Phase.PHONE_NUMBER);
+                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"SHARE\" button>", new ReplyKeyboardRemove(true));
+
+                    } else
+                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
+                }
+                else if (message.hasContact()) {
+                    this.addContactsKeyboard.removeRow("Phone number");
+                    user.setPhase(Phase.CONTACTS);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
+                }
+                if((addContactsKeyboard.getKeyboard().size() == 1)){
                     user.setPhase(Phase.AGE);
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
-                } else if (message.getText().equals("Email")) {
-                    user.setPhase(Phase.EMAIL);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your email", new ReplyKeyboardRemove(true));
-
-                } else if (message.getText().equals("Social media")) {
-                    user.setPhase(Phase.SOCIAL);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type a <u>link</u> or a @username to Instagram/Facebook etc.", new ReplyKeyboardRemove(true));
-                }else if (message.getText().equals("Phone number")){
-                    user.setPhase(Phase.PHONE_NUMBER);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"SHARE\" button>", new ReplyKeyboardRemove(true));
-
-                } else
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
+                }
 
             case PHONE_NUMBER:
                 if (message.hasContact()) {
                     user.setPhoneNumber(message.getContact().getPhoneNumber());
-                    this.addContactsKeyboard.removeRow("Phone number");
                     user.setPhase(Phase.CONTACTS);
 
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
