@@ -16,6 +16,8 @@ public abstract class Processor {
 
     abstract void handleSaveToCache(Message message);
 
+    abstract void commandHandler(Message message);
+
     private Cache<User> userCache;
 
     @Autowired
@@ -27,21 +29,28 @@ public abstract class Processor {
         //active registration
         if (update.hasCallbackQuery()) {
             handleCallBackQuery(update.getCallbackQuery());
+        }//forwarding the special Telegram commands /...
+        else if (update.getMessage().getText().equals("/start")) {
+            commandHandler(update.getMessage());
+            return;
         } else {
             User userFromCache = userCache.findBy(update.getMessage().getChatId());
             if ((userFromCache != null) && !userFromCache.getPhase().equals(Phase.NONE)) {
 /*                switch (userFromCache.getPosition()) {
                     case PHONE_NUMBER:
                     case AGE:*/
-                        handleSaveToCache(update.getMessage());
-                        return; //so it won't go to if lines
+                handleSaveToCache(update.getMessage());
+                return; //so it won't go to if lines
 //                }
             }
+
         }
+
         if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Accommodation search/hosting"))) {
             handleSaveToCache(update.getMessage());
         } else if ((update.getMessage() != null) && (update.getMessage().getText() != null)) {
             handleText(update);
         }
     }
+
 }

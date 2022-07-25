@@ -1,6 +1,7 @@
 package com.tehcman.processors;
 
 import com.tehcman.input_final_destination.handlers.CallBackQueryIHandler;
+import com.tehcman.input_final_destination.handlers.CommandHandler;
 import com.tehcman.input_final_destination.handlers.SaveToCacheIHandler;
 import com.tehcman.input_final_destination.handlers.TextHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,14 @@ public class DefaultProcessor extends Processor{
     private final CallBackQueryIHandler callBackQueryHandler;
     private final TextHandler textHandler;
     private final SaveToCacheIHandler saveToCacheHandler;
+    private final CommandHandler commandHandler;
 
     @Autowired
-    public DefaultProcessor(CallBackQueryIHandler callBackQueryHandler, TextHandler textHandler, SaveToCacheIHandler saveToCacheHandler) {
+    public DefaultProcessor(CallBackQueryIHandler callBackQueryHandler, TextHandler textHandler, SaveToCacheIHandler saveToCacheHandler, CommandHandler commandHandler) {
         this.callBackQueryHandler = callBackQueryHandler;
         this.textHandler = textHandler;
         this.saveToCacheHandler = saveToCacheHandler;
+        this.commandHandler = commandHandler;
     }
 
 
@@ -38,4 +41,9 @@ public class DefaultProcessor extends Processor{
         textHandler.handle(update.getMessage());
     }
 
+
+    @Override
+    public void commandHandler(Message message) {
+        commandHandler.handle(message);
+    }
 }

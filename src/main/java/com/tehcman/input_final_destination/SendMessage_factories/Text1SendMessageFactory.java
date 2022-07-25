@@ -3,6 +3,7 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.cahce.UserCache;
+import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
 import com.tehcman.informational_portal.GeneralInformation;
 import com.tehcman.informational_portal.IListOfNewsChannels;
@@ -44,12 +45,17 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
 
     @Override
     public SendMessage createSendMessage(Message message) {
-        if (message.getText().equals("/start")) {
+/*        if (message.getText().equals("/start")) {
 //            buildButtonsService.beforeRegistrationButtons();
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
 
-            return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Yay! You've just launched this bot!", buildButtonsService.getMainMarkup());
-        } else if (message.getText().equals("View my data")) {
+            User userFromCache = userCache.findBy(message.getChatId());
+            if ((userFromCache != null) && (userFromCache.getPhase() != Phase.NONE)){
+                userCache.remove(userFromCache.getId());
+            }
+
+            return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Yay! You've just launched this bot!", buildButtonsService.getMainMarkup());*/
+       /* } else */if (message.getText().equals("View my data")) {
             User userFromCache = userCache.findBy(message.getChatId());
             this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), buildButtonsService.getMainMarkup());
