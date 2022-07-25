@@ -34,7 +34,7 @@ public class CacheFactory implements ISendMessageFactory {
         if (userFromCache == null) {
             User newUser = generateDefaultUserInformationFromMessage(message);
             userCache.add(newUser);
-            return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, choose who you are", buildButtonsService.getMainMarkup());
+            return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How can we help you", buildButtonsService.getMainMarkup());
 
         } else if (userFromCache.getPhase() == Phase.NONE) {
             return new SendMessage(message.getChatId().toString(), "Hey. You are already in the system." + " Instead of duplicating data of yourself, do something useful in your life");
