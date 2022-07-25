@@ -109,7 +109,7 @@ public class CacheFactory implements ISendMessageFactory {
                 }
 
                 //TODO: create logic to save contacts and delete buttons
-                //problem, it does not store this phase
+                //problem, it does not delete the phone number button
             case CONTACTS:
                 if ((message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) || (addContactsKeyboard.getKeyboard().size() == 1)) {
                     user.setPhase(Phase.AGE);

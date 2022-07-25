@@ -26,14 +26,20 @@ public abstract class Processor {
     }
 
     public void direct(Update update) {
+        if ((update.getMessage() != null) && (update.getMessage().getText() != null)) {
+            if (update.getMessage().getText().equals("Accommodation search/hosting")) {
+                handleSaveToCache(update.getMessage());
+            } else if (update.getMessage().getText().equals("/start")) {
+                commandHandler(update.getMessage());
+            } else
+                handleText(update);
+        }
+
         //active registration
-        if (update.hasCallbackQuery()) {
+        else if (update.hasCallbackQuery()) {
             handleCallBackQuery(update.getCallbackQuery());
         }//forwarding the special Telegram commands /...
-        else if (update.getMessage().getText().equals("/start")) {
-            commandHandler(update.getMessage());
-            return;
-        } else {
+        else {
             User userFromCache = userCache.findBy(update.getMessage().getChatId());
             if ((userFromCache != null) && !userFromCache.getPhase().equals(Phase.NONE)) {
 /*                switch (userFromCache.getPosition()) {
@@ -43,14 +49,6 @@ public abstract class Processor {
                 return; //so it won't go to if lines
 //                }
             }
-
-        }
-
-        if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Accommodation search/hosting"))) {
-            handleSaveToCache(update.getMessage());
-        } else if ((update.getMessage() != null) && (update.getMessage().getText() != null)) {
-            handleText(update);
         }
     }
-
 }
