@@ -108,9 +108,13 @@ public class CacheFactory implements ISendMessageFactory {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
                 }
 
-                //TODO: create logic to save contacts and delete buttons
-                //problem, it does not store this phase
+                //TODO: fix the first line of the if statement: check the user from the user cache whether they have the contacts filled
             case CONTACTS:
+                if ((addContactsKeyboard.getKeyboard().size() == 1)) {
+                    user.setPhase(Phase.AGE);
+                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Data is saved! Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
+                }
                 if (message.getText() != null) {
                     if ((message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
                         user.setPhase(Phase.AGE);
@@ -129,17 +133,12 @@ public class CacheFactory implements ISendMessageFactory {
 
                     } else
                         return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
-                }
-                else if (message.hasContact()) {
+                } else if (message.hasContact()) {
                     this.addContactsKeyboard.removeRow("Phone number");
                     user.setPhase(Phase.CONTACTS);
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
                 }
-                if((addContactsKeyboard.getKeyboard().size() == 1)){
-                    user.setPhase(Phase.AGE);
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
-                }
+
 
             case PHONE_NUMBER:
                 if (message.hasContact()) {
