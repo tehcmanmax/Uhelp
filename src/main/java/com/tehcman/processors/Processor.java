@@ -25,6 +25,7 @@ public abstract class Processor {
         this.userCache = userCache;
     }
 
+    //TODO fix
     public void direct(Update update) {
         if ((update.getMessage() != null) && (update.getMessage().getText() != null)) {
             if (update.getMessage().getText().equals("Accommodation search/hosting")) {
