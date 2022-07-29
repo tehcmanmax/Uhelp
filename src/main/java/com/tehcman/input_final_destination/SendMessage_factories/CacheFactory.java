@@ -108,9 +108,8 @@ public class CacheFactory implements ISendMessageFactory {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
                 }
 
-                //TODO: fix the first line of the if statement: check the user from the user cache whether they have the contacts filled
             case CONTACTS:
-                if ((addContactsKeyboard.getKeyboard().size() == 1)) {
+                if ((addContactsKeyboard.getKeyboard().size() <= 1)) { //2 because phone button is stays, thus the keyboard collection consists of 2 elements
                     user.setPhase(Phase.AGE);
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Data is saved! Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
@@ -127,27 +126,25 @@ public class CacheFactory implements ISendMessageFactory {
                     } else if (message.getText().equals("Social media")) {
                         user.setPhase(Phase.SOCIAL);
                         return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type a <u>link</u> or a @username to Instagram/Facebook etc.", new ReplyKeyboardRemove(true));
+/*                  FIXME: DELETE FOLLOWING LINES
                     } else if (message.getText().equals("Phone number")) {
-                        user.setPhase(Phase.PHONE_NUMBER);
+                        user.setPhase(Phase.CONTACTS);
                         return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"SHARE\" button>", new ReplyKeyboardRemove(true));
+*/
 
                     } else
                         return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
                 } else if (message.hasContact()) {
                     this.addContactsKeyboard.removeRow("Phone number");
                     user.setPhase(Phase.CONTACTS);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
-                }
-
-
-            case PHONE_NUMBER:
-                if (message.hasContact()) {
                     user.setPhoneNumber(message.getContact().getPhoneNumber());
-                    user.setPhase(Phase.CONTACTS);
-
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
+                    if ((addContactsKeyboard.getKeyboard().size() <= 1)) { //2 because phone button is stays, thus the keyboard collection consists of 2 elements
+                        user.setPhase(Phase.AGE);
+                        this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Data is saved! Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
+                    } else
+                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
                 }
-
 
             case EMAIL:
                 user.setEmail(message.getText());
@@ -258,6 +255,8 @@ public class CacheFactory implements ISendMessageFactory {
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
                 }
+
+                //todo change from the question to action: "if you have additional comments, please type below"
             case AMOUNT_PEOPLE_SUB:
                 if (message.getText().matches("\\d{1,2}")) {
                     user.setAmountOfPeople(Integer.valueOf(message.getText()));
@@ -308,5 +307,14 @@ public class CacheFactory implements ISendMessageFactory {
         }
         System.out.println(user);
         return null;
+    }
+
+    private SendMessage isKeyboardSizeOne(User user, Message message, SendMessage sendMessage) {
+        if ((this.addContactsKeyboard.getKeyboard().size() <= 1)) { //2 because phone button is stays, thus the keyboard collection consists of 2 elements
+            user.setPhase(Phase.AGE);
+            this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+            return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Data is saved! Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
+        }
+        return sendMessage;
     }
 }

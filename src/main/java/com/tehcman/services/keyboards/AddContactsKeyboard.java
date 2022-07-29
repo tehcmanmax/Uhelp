@@ -69,7 +69,8 @@ myArrayList.removeAll(toRemove);
 
         if (buttonName.equals("Phone number")) {
 //            int index = this.keyboard.size() - 2;
-            this.keyboard.get(0).remove(0);
+//            this.keyboard.get(0).remove(0);
+            this.keyboard.remove(0);
         }
         this.keyboard.removeIf(str -> str.contains(buttonName));
     }
