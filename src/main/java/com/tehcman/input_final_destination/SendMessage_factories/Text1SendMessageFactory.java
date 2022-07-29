@@ -9,6 +9,7 @@ import com.tehcman.informational_portal.IListOfNewsChannels;
 import com.tehcman.informational_portal.ListOfNewsChannels;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.BuildSendMessageService;
+import com.tehcman.services.keyboards.AddContactsKeyboard;
 import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,15 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     private final IListOfNewsChannels iListOfNewsChannels;
     private final GeneralInformation generalInformation;
     private final Cache<User> userCache;
+    private final CacheFactory cacheFactory;
 
 
     @Autowired
-    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache) {
+    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache, CacheFactory cacheFactory) {
         this.buildSendMessageService = buildSendMessageService;
 
         this.userCache = userCache;
+        this.cacheFactory = cacheFactory;
         this.iListOfNewsChannels = new ListOfNewsChannels();
         this.generalInformation = new GeneralInformation();
     }
@@ -55,6 +58,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), buildButtonsService.getMainMarkup());
         } else if (message.getText().equals("Remove my data")) {
 //            buildButtonsService.beforeRegistrationButtons();
+            this.cacheFactory.setAddContactsKeyboard(new AddContactsKeyboard()); //recreates deleted contacts keyboard
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             userCache.remove(message.getChatId());
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup());

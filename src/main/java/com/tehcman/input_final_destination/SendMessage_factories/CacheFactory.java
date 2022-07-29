@@ -18,7 +18,8 @@ public class CacheFactory implements ISendMessageFactory {
     private final IBuildSendMessageService ibuildSendMessageService;
     private final Cache<User> userCache;
     private BuildButtonsService buildButtonsService;
-    private final AddContactsKeyboard addContactsKeyboard;
+
+    private AddContactsKeyboard addContactsKeyboard;
 
     public CacheFactory(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache) {
         this.ibuildSendMessageService = ibuildSendMessageService;
@@ -26,6 +27,9 @@ public class CacheFactory implements ISendMessageFactory {
         addContactsKeyboard = new AddContactsKeyboard();
     }
 
+    public void setAddContactsKeyboard(AddContactsKeyboard addContactsKeyboard) {
+        this.addContactsKeyboard = addContactsKeyboard;
+    }
 
     @Override
     public SendMessage createSendMessage(Message message) {
@@ -109,11 +113,6 @@ public class CacheFactory implements ISendMessageFactory {
                 }
 
             case CONTACTS:
-                if ((addContactsKeyboard.getKeyboard().size() <= 1)) { //2 because phone button is stays, thus the keyboard collection consists of 2 elements
-                    user.setPhase(Phase.AGE);
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Data is saved! Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
-                }
                 if (message.getText() != null) {
                     if ((message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
                         user.setPhase(Phase.AGE);
@@ -126,41 +125,27 @@ public class CacheFactory implements ISendMessageFactory {
                     } else if (message.getText().equals("Social media")) {
                         user.setPhase(Phase.SOCIAL);
                         return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type a <u>link</u> or a @username to Instagram/Facebook etc.", new ReplyKeyboardRemove(true));
-/*                  FIXME: DELETE FOLLOWING LINES
-                    } else if (message.getText().equals("Phone number")) {
-                        user.setPhase(Phase.CONTACTS);
-                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the \"SHARE\" button>", new ReplyKeyboardRemove(true));
-*/
-
                     } else
                         return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
                 } else if (message.hasContact()) {
                     this.addContactsKeyboard.removeRow("Phone number");
                     user.setPhase(Phase.CONTACTS);
                     user.setPhoneNumber(message.getContact().getPhoneNumber());
-                    if ((addContactsKeyboard.getKeyboard().size() <= 1)) { //2 because phone button is stays, thus the keyboard collection consists of 2 elements
-                        user.setPhase(Phase.AGE);
-                        this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Data is saved! Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
-                    } else
-                        return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup());
+                    return isKeyboardSizeOne(user, message, ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Phone number is saved!", this.buildButtonsService.getMainMarkup()));
                 }
 
             case EMAIL:
                 user.setEmail(message.getText());
                 user.setPhase(Phase.CONTACTS);
                 this.addContactsKeyboard.removeRow("Email");
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Email is saved!", this.buildButtonsService.getMainMarkup());
+                return isKeyboardSizeOne(user, message, ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Email is saved!", this.buildButtonsService.getMainMarkup()));
 
             case SOCIAL:
                 user.setSocial(message.getText());
                 user.setPhase(Phase.CONTACTS);
 
                 this.addContactsKeyboard.removeRow("Social media");
-//                this.addContactsKeyboard.getKeyboard()..removeIf(s -> s.contains("Social media"));
-//                this.buildButtonsService = new BuildButtonsService(this.addContactsKeyboard);
-
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Social media is saved!", buildButtonsService.getMainMarkup());
+                return isKeyboardSizeOne(user, message, ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Social media is saved!", buildButtonsService.getMainMarkup()));
 
             case AGE:
                 if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
@@ -310,11 +295,10 @@ public class CacheFactory implements ISendMessageFactory {
     }
 
     private SendMessage isKeyboardSizeOne(User user, Message message, SendMessage sendMessage) {
-        if ((this.addContactsKeyboard.getKeyboard().size() <= 1)) { //2 because phone button is stays, thus the keyboard collection consists of 2 elements
+        if ((this.addContactsKeyboard.getKeyboard().size() <= 1)) {
             user.setPhase(Phase.AGE);
             this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
             return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Data is saved! Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
-        }
-        return sendMessage;
+        } else return sendMessage;
     }
 }
