@@ -225,11 +225,12 @@ public class CacheFactory implements ISendMessageFactory {
                     user.setAmountOfPeople(1);
                     user.setPhase(Phase.ADDITIONAL);
 
-                    this.buildButtonsService = new BuildButtonsService(new AddYesNo());
-                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
 
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you have additional comments\n" +
-                            "(You have little children, pets etc.)?", this.buildButtonsService.getMainMarkup());
+                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "If you have additional comments (You will arrive with little children, pets etc.) Please type them below."
+                            + "\n\n"
+                            + " If you don't have any comments, press on the <u>SKIP</u> button", buildButtonsService.getMainMarkup());
                 } else if (message.getText().equalsIgnoreCase("A group of people")) {
                     user.setPhase(Phase.AMOUNT_PEOPLE_SUB);
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
@@ -241,17 +242,16 @@ public class CacheFactory implements ISendMessageFactory {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
                 }
 
-                //todo change from the question to action: "if you have additional comments, please type below"
             case AMOUNT_PEOPLE_SUB:
                 if (message.getText().matches("\\d{1,2}")) {
                     user.setAmountOfPeople(Integer.valueOf(message.getText()));
                     user.setPhase(Phase.ADDITIONAL);
 
-                    this.buildButtonsService = new BuildButtonsService(new AddYesNo());
+                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
                     this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
-
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you want to leave additional contacts\n" +
-                            "(You have little children, pets etc.)?", this.buildButtonsService.getMainMarkup());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "If you have additional comments (You will arrive with little children, pets etc.) Please type them below."
+                            + "\n\n"
+                            + " If you don't have any comments, press on the <u>SKIP</u> button", buildButtonsService.getMainMarkup());
                 } else {
                     SendMessage newMessage = new SendMessage();
                     newMessage.setText("Please, enter a <u>number</u> (0-99)");
@@ -261,7 +261,7 @@ public class CacheFactory implements ISendMessageFactory {
                     return newMessage;
                 }
             case ADDITIONAL:
-                if (message.getText().equalsIgnoreCase("no")) {
+                if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setAdditional(null);
                     user.setPhase(Phase.NONE);
 
@@ -271,24 +271,18 @@ public class CacheFactory implements ISendMessageFactory {
                             "Your data has been saved. It is available only to other users if this service\n" +
                             "Now you can view users who\n" +
                             "ready to provide housing", buildButtonsService.getMainMarkup());
-                } else if (message.getText().equalsIgnoreCase("yes")) {
-                    user.setPhase(Phase.ADDITIONAL_YES);
-
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type your comment at this chat", new ReplyKeyboardRemove(true));
 
                 } else {
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
+                    user.setAdditional(message.getText());
+                    user.setPhase(Phase.NONE);
+
+                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
+                            "\n" +
+                            "Your data has been saved. It is available only to other users if this service\n\n" +
+                            "Now you can view users who is ready to provide housing to you", buildButtonsService.getMainMarkup());
+
                 }
-            case ADDITIONAL_YES:
-                user.setAdditional(message.getText());
-                user.setPhase(Phase.NONE);
-
-                this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
-                        "\n" +
-                        "Your data has been saved. It is available only to other users if this service\n\n" +
-                        "Now you can view users who is ready to provide housing to you", buildButtonsService.getMainMarkup());
-
         }
         System.out.println(user);
         return null;
