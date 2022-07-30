@@ -41,12 +41,16 @@ public class SaveToCacheHandler implements IHandler<Message> {
             if (isUserInCache(message).getPhase() == Phase.NONE) {
                 messageSender.messageSend(new SendMessage(message.getChatId().toString(), "Hey. You are already in the system." + " Instead of duplicating data of yourself, do something useful in your life"));
             } else if ((!isUserInCache(message).getPhase().equals(Phase.STATUS)) && (isUserInCache(message).getStatus().equals(Status.REFUGEE))) {
-                SendMessage newMsg = cacheFactoryRefugee.registerRestUserData(message);
+                SendMessage newMsg = cacheFactoryRefugee.createSendMessage(message);
                 messageSender.messageSend(newMsg);
                 //TODO else if for a host ,,,
             }
         } else {
             User newUser = generateDefaultUserInformationFromMessage(message);
+
+            //FIXME FOLLOWING LINES BREAK THE CODE
+
+            messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "What do you want to do?", buildButtonsService.getMainMarkup()));
             if (newUser.getPhase().equals(Phase.STATUS)) {
                 if (message.getText().equals("Searching Accommodation")) {
                     newUser.setStatus(Status.REFUGEE);
@@ -64,6 +68,7 @@ public class SaveToCacheHandler implements IHandler<Message> {
                     messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must press on a button!", buildButtonsService.getMainMarkup()));
                 }
             }
+            else newUser.setPhase(Phase.STATUS);
         }
     }
 
@@ -73,7 +78,7 @@ public class SaveToCacheHandler implements IHandler<Message> {
     }
 
     private User generateDefaultUserInformationFromMessage(Message message) {
-        User newUser = new User(message.getChatId(), message.getFrom().getUserName(), message.getFrom().getFirstName(), Phase.STATUS);
+        User newUser = new User(message.getChatId(), message.getFrom().getUserName(), message.getFrom().getFirstName(), Phase.PREREGISTRATION);
         this.buildButtonsService = new BuildButtonsService(new AddStatusKeyboard());
 //        buildButtonsService.addingPhoneNumberButton(); //adding phone number button
         return newUser;

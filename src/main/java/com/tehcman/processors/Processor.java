@@ -40,7 +40,9 @@ public abstract class Processor {
         }
         if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Accommodation search/hosting"))) {
             handleSaveToCache(update.getMessage());
-        } else if ((update.getMessage() != null) && (update.getMessage().getText() != null)) {
+        }
+//        else if ((update.getMessage() != null) && (update.getMessage().getText() != null) && ())
+        else if ((update.getMessage() != null) && (update.getMessage().getText() != null)) {
             handleText(update);
         }
     }

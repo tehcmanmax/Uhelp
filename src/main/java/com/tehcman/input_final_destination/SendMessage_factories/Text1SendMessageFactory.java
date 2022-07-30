@@ -46,7 +46,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
 
 
     @Override
-    public SendMessage registerRestUserData(Message message) {
+    public SendMessage createSendMessage(Message message) {
         if (message.getText().equals("/start")) {
 //            buildButtonsService.beforeRegistrationButtons();
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());

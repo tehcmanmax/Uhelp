@@ -31,7 +31,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
     }
 
     @Override
-    public SendMessage registerRestUserData(Message message) {
+    public SendMessage createSendMessage(Message message) {
         //if no userFromCache is found in the registry(cache), start a new userFromCache registration
         User userFromCache = userCache.findBy(message.getChatId());
         switch (userFromCache.getPhase()) {
