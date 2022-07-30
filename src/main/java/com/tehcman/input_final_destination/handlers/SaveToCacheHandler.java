@@ -9,13 +9,13 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 @Component
-public class SaveToCacheIHandler implements IHandler<Message> {
+public class SaveToCacheHandler implements IHandler<Message> {
 
     private final MessageSender messageSender;
     private final ISendMessageFactory cacheFactory;
 
     @Autowired
-    public SaveToCacheIHandler(MessageSender messageSender, CacheFactory cacheFactory) {
+    public SaveToCacheHandler(MessageSender messageSender, CacheFactory cacheFactory) {
         this.messageSender = messageSender;
         this.cacheFactory = cacheFactory;
     }

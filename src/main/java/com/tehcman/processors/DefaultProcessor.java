@@ -1,7 +1,7 @@
 package com.tehcman.processors;
 
 import com.tehcman.input_final_destination.handlers.CallBackQueryIHandler;
-import com.tehcman.input_final_destination.handlers.SaveToCacheIHandler;
+import com.tehcman.input_final_destination.handlers.SaveToCacheHandler;
 import com.tehcman.input_final_destination.handlers.TextHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,10 +13,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class DefaultProcessor extends Processor{
     private final CallBackQueryIHandler callBackQueryHandler;
     private final TextHandler textHandler;
-    private final SaveToCacheIHandler saveToCacheHandler;
+    private final SaveToCacheHandler saveToCacheHandler;
 
     @Autowired
-    public DefaultProcessor(CallBackQueryIHandler callBackQueryHandler, TextHandler textHandler, SaveToCacheIHandler saveToCacheHandler) {
+    public DefaultProcessor(CallBackQueryIHandler callBackQueryHandler, TextHandler textHandler, SaveToCacheHandler saveToCacheHandler) {
         this.callBackQueryHandler = callBackQueryHandler;
         this.textHandler = textHandler;
         this.saveToCacheHandler = saveToCacheHandler;
