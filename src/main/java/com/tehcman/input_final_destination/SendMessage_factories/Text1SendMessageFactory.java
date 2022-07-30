@@ -26,15 +26,15 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     private final IListOfNewsChannels iListOfNewsChannels;
     private final GeneralInformation generalInformation;
     private final Cache<User> userCache;
-    private final CacheFactory cacheFactory;
+    private final CacheFactoryRefugee cacheFactoryRefugee;
 
 
     @Autowired
-    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache, CacheFactory cacheFactory) {
+    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache, CacheFactoryRefugee cacheFactoryRefugee) {
         this.buildSendMessageService = buildSendMessageService;
 
         this.userCache = userCache;
-        this.cacheFactory = cacheFactory;
+        this.cacheFactoryRefugee = cacheFactoryRefugee;
         this.iListOfNewsChannels = new ListOfNewsChannels();
         this.generalInformation = new GeneralInformation();
     }
@@ -46,7 +46,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
 
 
     @Override
-    public SendMessage createSendMessage(Message message) {
+    public SendMessage registerRestUserData(Message message) {
         if (message.getText().equals("/start")) {
 //            buildButtonsService.beforeRegistrationButtons();
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
@@ -58,7 +58,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), buildButtonsService.getMainMarkup());
         } else if (message.getText().equals("Remove my data")) {
 //            buildButtonsService.beforeRegistrationButtons();
-            this.cacheFactory.setAddContactsKeyboard(new AddContactsKeyboard()); //recreates deleted contacts keyboard
+            this.cacheFactoryRefugee.setAddContactsKeyboard(new AddContactsKeyboard()); //recreates deleted contacts keyboard
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             userCache.remove(message.getChatId());
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup());

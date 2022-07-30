@@ -35,7 +35,7 @@ public class TextHandler implements IHandler<Message> {
             messageSender.messageSend(msg1);
             messageSender.messageSend(msg2);
         } else {
-            SendMessage newMessageToUser = text1SendMessageFactory.createSendMessage(message);
+            SendMessage newMessageToUser = text1SendMessageFactory.registerRestUserData(message);
 
             messageSender.messageSend(newMessageToUser);
         }
