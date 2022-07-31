@@ -54,6 +54,8 @@ public class SaveToCacheIHandler implements IHandler<Message> {
             }
         }
     }
+
+    //fixme it doesnt change the keyboard
     private SendMessage registerRestUserData(User user, Message message) {
         switch (user.getPhase()) {
             case STATUS:
@@ -62,7 +64,10 @@ public class SaveToCacheIHandler implements IHandler<Message> {
                     user.setPhase(Phase.NAME);
 
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
+
+                    //fixme error is somewhere here
+//                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
+                    return cacheFactoryRefugee.createSendMessage(message);
                 } else if (message.getText().equals("Providing Accommodation")) {
                     user.setStatus(Status.HOST);
                     user.setPhase(Phase.NAME);
