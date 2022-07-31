@@ -48,6 +48,10 @@ public class User {
         return phase;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
     public void setPhase(Phase phase) {
         this.phase = phase;
     }
