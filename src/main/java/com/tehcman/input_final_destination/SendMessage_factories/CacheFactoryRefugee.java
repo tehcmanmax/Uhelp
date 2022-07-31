@@ -14,14 +14,14 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 
 @Component
-public class CacheFactory implements ISendMessageFactory {
+public class CacheFactoryRefugee implements ISendMessageFactory {
     private final IBuildSendMessageService ibuildSendMessageService;
     private final Cache<User> userCache;
     private BuildButtonsService buildButtonsService;
 
     private AddContactsKeyboard addContactsKeyboard;
 
-    public CacheFactory(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache) {
+    public CacheFactoryRefugee(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
         addContactsKeyboard = new AddContactsKeyboard();
