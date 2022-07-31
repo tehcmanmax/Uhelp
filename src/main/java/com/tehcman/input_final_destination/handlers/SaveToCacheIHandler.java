@@ -1,5 +1,7 @@
 package com.tehcman.input_final_destination.handlers;
 
+import com.tehcman.cahce.Cache;
+import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryHost;
 import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryRefugee;
 import com.tehcman.sendmessage.MessageSender;
@@ -15,24 +17,30 @@ public class SaveToCacheIHandler implements IHandler<Message> {
     private final CacheFactoryRefugee cacheFactoryRefugee;
     private final CacheFactoryHost cacheFactoryHost;
     private final InitDataAndStatusHandler initDataAndStatusHandler;
+    private final Cache<User> userCache;
 
     @Autowired
-    public SaveToCacheIHandler(MessageSender messageSender, CacheFactoryRefugee cacheFactoryRefugee, CacheFactoryHost cacheFactoryHost, InitDataAndStatusHandler initDataAndStatusHandler) {
+    public SaveToCacheIHandler(MessageSender messageSender, CacheFactoryRefugee cacheFactoryRefugee, CacheFactoryHost cacheFactoryHost, InitDataAndStatusHandler initDataAndStatusHandler, Cache<User> userCache) {
         this.messageSender = messageSender;
         this.cacheFactoryRefugee = cacheFactoryRefugee;
         this.cacheFactoryHost = cacheFactoryHost;
         this.initDataAndStatusHandler = initDataAndStatusHandler;
+        this.userCache = userCache;
     }
-
 
 
     @Override
     public void handle(Message message) {
 
-//        initDataAndStatusHandler.handle(message); and then if statements
-        SendMessage newMsg = cacheFactoryRefugee.createSendMessage(message);
-        messageSender.messageSend(newMsg);
-    }
+        if ((userCache.findBy(message.getChatId()) == null)) {
+            initDataAndStatusHandler.createSendMessage(message);
+        } else {
+            User user = userCache.findBy(message.getChatId());
+//            if (user.ge)
 
+            SendMessage newMsg = cacheFactoryRefugee.createSendMessage(message);
+            messageSender.messageSend(newMsg);
+        }
+    }
 
 }

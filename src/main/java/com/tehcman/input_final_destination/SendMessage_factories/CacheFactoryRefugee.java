@@ -33,48 +33,15 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
 
     @Override
     public SendMessage createSendMessage(Message message) {
-        //if no user is found in the registry(cache), start a new user registration
         User userFromCache = userCache.findBy(message.getChatId());
-        if (userFromCache == null) {
-            User newUser = generateDefaultUserInformationFromMessage(message);
-            userCache.add(newUser);
-            return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How can we help you", buildButtonsService.getMainMarkup());
-
-        } else if (userFromCache.getPhase() == Phase.NONE) {
-            return new SendMessage(message.getChatId().toString(), "Hey. You are already in the system." + " Instead of duplicating data of yourself, do something useful in your life");
-        } else {
-            return registerRestUserData(userFromCache, message);
-        }
+        return registerRestUserData(userFromCache, message);
     }
 
 
-    private User generateDefaultUserInformationFromMessage(Message message) {
-        User newUser = new User(message.getChatId(), message.getFrom().getUserName(), message.getFrom().getFirstName(), Phase.STATUS);
-        this.buildButtonsService = new BuildButtonsService(new AddStatusKeyboard());
-//        buildButtonsService.addingPhoneNumberButton(); //adding phone number button
-        return newUser;
-    }
+
 
     private SendMessage registerRestUserData(User user, Message message) {
         switch (user.getPhase()) {
-
-            case STATUS:
-                if (message.getText().equals("Searching Accommodation")) {
-                    user.setStatus(Status.REFUGEE);
-                    user.setPhase(Phase.NAME);
-
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
-                } else if (message.getText().equals("Providing Accommodation")) {
-                    user.setStatus(Status.HOST);
-                    user.setPhase(Phase.NAME);
-
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
-
-                } else {
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must press on a button!", buildButtonsService.getMainMarkup());
-                }
 
             case NAME:
                 if (!(message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
