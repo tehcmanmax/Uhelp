@@ -38,6 +38,8 @@ public abstract class Processor {
 //                }
             }
         }
+
+        //FIXME put the InitDataAndStatus class method insted of handle...
         if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Accommodation search/hosting"))) {
             handleSaveToCache(update.getMessage());
         } else if ((update.getMessage() != null) && (update.getMessage().getText() != null)) {
