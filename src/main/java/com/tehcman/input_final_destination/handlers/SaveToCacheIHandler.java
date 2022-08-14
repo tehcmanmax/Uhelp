@@ -41,10 +41,10 @@ public class SaveToCacheIHandler implements IHandler<Message> {
         User user = userCache.findBy(message.getChatId());
         if (user == null) {
             messageSender.messageSend(initDataAndStatusHandler.createSendMessage(message));
-        } else if (user.getPhase() == Phase.STATUS){
+        } else if (user.getPhase() == Phase.STATUS) {
             registerRestUserData(user, message);
-
-        }else{
+            //TODO careful with this part!
+        } else {
             if (user.getStatus() == Status.REFUGEE) {
                 SendMessage newMsg = cacheFactoryRefugee.createSendMessage(message);
                 messageSender.messageSend(newMsg);
@@ -55,7 +55,6 @@ public class SaveToCacheIHandler implements IHandler<Message> {
         }
     }
 
-    //fixme it doesnt change the keyboard
     private SendMessage registerRestUserData(User user, Message message) {
         switch (user.getPhase()) {
             case STATUS:
@@ -74,8 +73,11 @@ public class SaveToCacheIHandler implements IHandler<Message> {
                     user.setStatus(Status.HOST);
                     user.setPhase(Phase.NAME);
 
-                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
+                    //TODO careful with this part!
+                    SendMessage newMessage = cacheFactoryRefugee.createSendMessage(message);
+                    messageSender.messageSend(newMessage);
+//                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
+                    return cacheFactoryRefugee.createSendMessage(message);
 
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must press on a button!", buildButtonsService.getMainMarkup());
