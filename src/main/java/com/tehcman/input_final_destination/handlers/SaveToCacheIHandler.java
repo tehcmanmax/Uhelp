@@ -65,7 +65,9 @@ public class SaveToCacheIHandler implements IHandler<Message> {
 
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
 
-                    //fixme error is somewhere here
+                    //TODO
+                    SendMessage newMessage = cacheFactoryRefugee.createSendMessage(message);
+                    messageSender.messageSend(newMessage);
 //                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
                     return cacheFactoryRefugee.createSendMessage(message);
                 } else if (message.getText().equals("Providing Accommodation")) {

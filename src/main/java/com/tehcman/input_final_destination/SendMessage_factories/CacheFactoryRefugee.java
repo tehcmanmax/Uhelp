@@ -38,8 +38,6 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
     }
 
 
-
-
     private SendMessage registerRestUserData(User user, Message message) {
         switch (user.getPhase()) {
 
