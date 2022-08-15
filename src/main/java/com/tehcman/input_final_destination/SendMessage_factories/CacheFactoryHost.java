@@ -154,7 +154,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 this.buildButtonsService = new BuildButtonsService(new AddYesNo());
 
                 this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "preferences in the dates?", this.buildButtonsService.getMainMarkup());
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you have preferences in the dates?", this.buildButtonsService.getMainMarkup());
 
             case DATE:
                 if (message.getText().equalsIgnoreCase("no")) {
@@ -183,6 +183,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 }
                 user.setPhase(Phase.AMOUNT_PEOPLE);
 
+                //FIXME does not change the button
                 var onePerson = KeyboardButton.builder().text("One person").build();
                 this.buildButtonsService = new BuildButtonsService(new AddAmountOfPeopleKeyboard());
                 this.buildButtonsService.getMainMarkup().getKeyboard().get(0).set(0, onePerson);

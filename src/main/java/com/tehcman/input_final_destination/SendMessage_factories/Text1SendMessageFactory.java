@@ -27,14 +27,16 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     private final GeneralInformation generalInformation;
     private final Cache<User> userCache;
     private final CacheFactoryRefugee cacheFactoryRefugee;
+    private final CacheFactoryHost cacheFactoryHost;
 
 
     @Autowired
-    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache, CacheFactoryRefugee cacheFactoryRefugee) {
+    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache, CacheFactoryRefugee cacheFactoryRefugee, CacheFactoryHost cacheFactoryHost) {
         this.buildSendMessageService = buildSendMessageService;
 
         this.userCache = userCache;
         this.cacheFactoryRefugee = cacheFactoryRefugee;
+        this.cacheFactoryHost = cacheFactoryHost;
         this.iListOfNewsChannels = new ListOfNewsChannels();
         this.generalInformation = new GeneralInformation();
     }
@@ -59,6 +61,8 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
         } else if (message.getText().equals("Remove my data")) {
 //            buildButtonsService.beforeRegistrationButtons();
             this.cacheFactoryRefugee.setAddContactsKeyboard(new AddContactsKeyboard()); //recreates deleted contacts keyboard
+            this.cacheFactoryHost.setAddContactsKeyboard(new AddContactsKeyboard());
+
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             userCache.remove(message.getChatId());
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup());
