@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
 @Component
 public class CacheFactoryHost implements ISendMessageFactory {
@@ -39,7 +40,6 @@ public class CacheFactoryHost implements ISendMessageFactory {
 
     private SendMessage registerRestUserData(User user, Message message) {
         switch (user.getPhase()) {
-
             case NAME:
                 if (!(message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
                     user.setPhase(Phase.SEX);
@@ -116,13 +116,13 @@ public class CacheFactoryHost implements ISendMessageFactory {
                     user.setAge(null);
                     user.setPhase(Phase.CITY);
 
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>city</b> where you are planning to stay", new ReplyKeyboardRemove(true));
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>city</b> where you are planning to host", new ReplyKeyboardRemove(true));
 
                 } else if (message.getText().matches("\\d{1,2}")) {
                     user.setAge(message.getText());
                     user.setPhase(Phase.CITY);
 
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>city</b> where you are planning to stay", new ReplyKeyboardRemove(true));
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>city</b> where you are planning to host", new ReplyKeyboardRemove(true));
 
                 } else {
                     SendMessage newMessage = new SendMessage();
@@ -142,7 +142,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 this.buildButtonsService = new BuildButtonsService(new AddYesNo());
 
                 this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>country</b> where you are planning to stay", new ReplyKeyboardRemove(true));
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>country</b> where you are planning to host", new ReplyKeyboardRemove(true));
 
             case COUNTRY:
                 if (message.getText().matches("[^\\d\\W]{2,}")) {
@@ -154,7 +154,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 this.buildButtonsService = new BuildButtonsService(new AddYesNo());
 
                 this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you know your arrival date?", this.buildButtonsService.getMainMarkup());
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "preferences in the dates?", this.buildButtonsService.getMainMarkup());
 
             case DATE:
                 if (message.getText().equalsIgnoreCase("no")) {
@@ -162,7 +162,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                     user.setPhase(Phase.AMOUNT_PEOPLE);
 
                     this.buildButtonsService = new BuildButtonsService(new AddAmountOfPeopleKeyboard());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How many people are looking for housing? ", buildButtonsService.getMainMarkup());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How many people you can host? ", buildButtonsService.getMainMarkup());
                 } else if (message.getText().equalsIgnoreCase("yes")) {
                     user.setPhase(Phase.DATE_YES);
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
@@ -182,10 +182,14 @@ public class CacheFactoryHost implements ISendMessageFactory {
                     user.setDate(message.getText());
                 }
                 user.setPhase(Phase.AMOUNT_PEOPLE);
+
+                var onePerson = KeyboardButton.builder().text("One person").build();
                 this.buildButtonsService = new BuildButtonsService(new AddAmountOfPeopleKeyboard());
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How many people are looking for housing? ", buildButtonsService.getMainMarkup());
+                this.buildButtonsService.getMainMarkup().getKeyboard().get(0).set(0, onePerson);
+
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How many people you can host? ", buildButtonsService.getMainMarkup());
             case AMOUNT_PEOPLE:
-                if ((message.getText().equalsIgnoreCase("I'm alone")) || (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
+                if ((message.getText().equalsIgnoreCase("One person")) || (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
                     user.setAmountOfPeople(1);
                     user.setPhase(Phase.ADDITIONAL);
 

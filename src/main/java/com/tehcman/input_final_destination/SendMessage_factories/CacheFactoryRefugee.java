@@ -214,7 +214,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
 
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
                     this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "If you have additional comments (You will arrive with little children, pets etc.) Please type them below."
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "If you have additional comments (You will accept people  with little children, pets etc.) Please type them below."
                             + "\n\n"
                             + " If you don't have any comments, press on the <u>SKIP</u> button", buildButtonsService.getMainMarkup());
                 } else {
