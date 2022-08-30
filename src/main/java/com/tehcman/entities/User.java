@@ -1,13 +1,19 @@
 package com.tehcman.entities;
 
+import javax.persistence.*;
+
+@Entity
 public class User {
 
     //fill the following fields from the user's message
+    @Id
     private final Long id;
     private final String tgUsername;
 
 
     private String name;
+
+    @Transient
     private Phase phase;
 
     private String phoneNumber;
@@ -19,6 +25,7 @@ public class User {
 
 
     //sprint 2:
+    @Enumerated(EnumType.STRING)
     private Status status;
     private Character sex;
     private String city;
