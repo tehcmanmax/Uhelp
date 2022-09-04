@@ -66,9 +66,10 @@ public class SaveToCacheIHandler implements IHandler<Message> {
 
                     //TODO careful with this part!
                     SendMessage newMessage = cacheFactoryRefugee.createSendMessage(message);
+                    Message msg = newMessage;
                     messageSender.messageSend(newMessage);
 //                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
-                    return cacheFactoryRefugee.createSendMessage(message);
+                    return cacheFactoryRefugee.createSendMessage(newMessage);
                 } else if (message.getText().equals("Providing Accommodation")) {
                     user.setStatus(Status.HOST);
                     user.setPhase(Phase.NAME);
