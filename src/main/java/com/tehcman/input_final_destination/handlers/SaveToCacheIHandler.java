@@ -9,6 +9,7 @@ import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryRef
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.IBuildSendMessageService;
+import com.tehcman.services.keyboards.AddSexKeyboard;
 import com.tehcman.services.keyboards.AddSkipButtonKeyboardRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -60,25 +61,26 @@ public class SaveToCacheIHandler implements IHandler<Message> {
             case STATUS:
                 if (message.getText().equals("Searching Accommodation")) {
                     user.setStatus(Status.REFUGEE);
-                    user.setPhase(Phase.NAME);
+                    user.setPhase(Phase.SEX);
 
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
 
                     //TODO careful with this part!
                     SendMessage newMessage = cacheFactoryRefugee.createSendMessage(message);
-                    Message msg = newMessage;
-                    messageSender.messageSend(newMessage);
+//                    Message msg = newMessage;
+                    this.buildButtonsService = new BuildButtonsService(new AddSexKeyboard());
+                    messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Are you man or woman?", buildButtonsService.getMainMarkup()));
 //                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
-                    return cacheFactoryRefugee.createSendMessage(newMessage);
+                    return null;
                 } else if (message.getText().equals("Providing Accommodation")) {
                     user.setStatus(Status.HOST);
-                    user.setPhase(Phase.NAME);
+                    user.setPhase(Phase.SEX);
 
                     //TODO careful with this part!
                     SendMessage newMessage = cacheFactoryRefugee.createSendMessage(message);
                     messageSender.messageSend(newMessage);
 //                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
-                    return cacheFactoryRefugee.createSendMessage(message);
+                    return null;
 
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must press on a button!", buildButtonsService.getMainMarkup());

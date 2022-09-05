@@ -41,41 +41,47 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
     private SendMessage registerRestUserData(User user, Message message) {
         switch (user.getPhase()) {
 
-            case NAME:
-                if (!(message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
-                    user.setPhase(Phase.SEX);
-                    user.setName(message.getText());
-
-                    this.buildButtonsService = new BuildButtonsService(new AddSexKeyboard());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Are you man or woman?", buildButtonsService.getMainMarkup());
-                }
-                user.setPhase(Phase.SEX);
-
-                this.buildButtonsService = new BuildButtonsService(new AddSexKeyboard());
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Are you man or woman?", buildButtonsService.getMainMarkup());
             case SEX:
+                this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
                 if (message.getText().equals("Male")) {
                     user.setSex('M');
-                    user.setPhase(Phase.CONTACTS);
+                    user.setPhase(Phase.NAME);
 
-                    this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
+                    //
+                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
+                    return sendMessage ;
+                    //
                 } else if (message.getText().equals("Female")) {
                     user.setSex('F');
-                    user.setPhase(Phase.CONTACTS);
+                    user.setPhase(Phase.NAME);
 
-                    this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
+                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
+                    return sendMessage ;
                 } else if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setSex(null);
-                    user.setPhase(Phase.CONTACTS);
+                    user.setPhase(Phase.NAME);
 
-                    this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
-                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(true);
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
+                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
+
+                    return sendMessage;
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
                 }
+            case NAME:
+                this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
+
+                if (!(message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
+                    user.setPhase(Phase.CONTACTS);
+                    user.setName(message.getText());
+
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
+                }
+                user.setPhase(Phase.CONTACTS);
+                user.setName(null);
+
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
+//                this.buildButtonsService = new BuildButtonsService(new AddSexKeyboard());
+//                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Are you man or woman?", buildButtonsService.getMainMarkup());
 
             case CONTACTS:
                 if (message.getText() != null) {
