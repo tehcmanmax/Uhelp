@@ -44,7 +44,7 @@ public class SaveToCacheIHandler implements IHandler<Message> {
             messageSender.messageSend(initDataAndStatusHandler.createSendMessage(message));
         } else if (user.getPhase() == Phase.STATUS) {
             registerRestUserData(user, message);
-            //TODO careful with this part!
+            //careful with this part!
         } else {
             if (user.getStatus() == Status.REFUGEE) {
                 SendMessage newMsg = cacheFactoryRefugee.createSendMessage(message);
@@ -65,7 +65,7 @@ public class SaveToCacheIHandler implements IHandler<Message> {
 
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
 
-                    //TODO careful with this part!
+                    //careful with this part!
                     SendMessage newMessage = cacheFactoryRefugee.createSendMessage(message);
 //                    Message msg = newMessage;
                     this.buildButtonsService = new BuildButtonsService(new AddSexKeyboard());
@@ -78,7 +78,7 @@ public class SaveToCacheIHandler implements IHandler<Message> {
 
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
 
-                    //TODO careful with this part!
+                    //careful with this part!
                     SendMessage newMessage = cacheFactoryHost.createSendMessage(message);
 //                    Message msg = newMessage;
                     this.buildButtonsService = new BuildButtonsService(new AddSexKeyboard());
