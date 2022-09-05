@@ -76,9 +76,13 @@ public class SaveToCacheIHandler implements IHandler<Message> {
                     user.setStatus(Status.HOST);
                     user.setPhase(Phase.SEX);
 
+                    this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
+
                     //TODO careful with this part!
-                    SendMessage newMessage = cacheFactoryRefugee.createSendMessage(message);
-                    messageSender.messageSend(newMessage);
+                    SendMessage newMessage = cacheFactoryHost.createSendMessage(message);
+//                    Message msg = newMessage;
+                    this.buildButtonsService = new BuildButtonsService(new AddSexKeyboard());
+                    messageSender.messageSend(ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Are you man or woman?", buildButtonsService.getMainMarkup()));
 //                    SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
                     return null;
 

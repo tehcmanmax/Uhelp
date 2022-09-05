@@ -2,7 +2,6 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
-import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.Emoji;
@@ -47,41 +46,36 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                     user.setSex('M');
                     user.setPhase(Phase.NAME);
 
-                    //
                     SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
-                    return sendMessage ;
-                    //
+                    return sendMessage;
                 } else if (message.getText().equals("Female")) {
                     user.setSex('F');
                     user.setPhase(Phase.NAME);
 
                     SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
-                    return sendMessage ;
+                    return sendMessage;
                 } else if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setSex(null);
                     user.setPhase(Phase.NAME);
 
                     SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
-
                     return sendMessage;
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
                 }
+
             case NAME:
                 this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
-
                 if (!(message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
                     user.setPhase(Phase.CONTACTS);
                     user.setName(message.getText());
 
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you. If you use a browser, share phone number in additional comments later in this registration form", buildButtonsService.getMainMarkup());
                 }
                 user.setPhase(Phase.CONTACTS);
                 user.setName(null);
 
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you", buildButtonsService.getMainMarkup());
-//                this.buildButtonsService = new BuildButtonsService(new AddSexKeyboard());
-//                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Are you man or woman?", buildButtonsService.getMainMarkup());
+                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you. If you use a browser, share phone number in additional comments later in this registration form", buildButtonsService.getMainMarkup());
 
             case CONTACTS:
                 if (message.getText() != null) {
@@ -207,7 +201,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
                     this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
 
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a number (including you) at this chat",
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a number (including you) in this chat",
                             this.buildButtonsService.getMainMarkup());
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, press on the <u>buttons</u>", buildButtonsService.getMainMarkup());
