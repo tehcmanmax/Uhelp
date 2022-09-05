@@ -26,15 +26,17 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     private final IListOfNewsChannels iListOfNewsChannels;
     private final GeneralInformation generalInformation;
     private final Cache<User> userCache;
-    private final CacheFactory cacheFactory;
+    private final CacheFactoryRefugee cacheFactoryRefugee;
+    private final CacheFactoryHost cacheFactoryHost;
 
 
     @Autowired
-    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache, CacheFactory cacheFactory) {
+    Text1SendMessageFactory(BuildSendMessageService buildSendMessageService, UserCache userCache, CacheFactoryRefugee cacheFactoryRefugee, CacheFactoryHost cacheFactoryHost) {
         this.buildSendMessageService = buildSendMessageService;
 
         this.userCache = userCache;
-        this.cacheFactory = cacheFactory;
+        this.cacheFactoryRefugee = cacheFactoryRefugee;
+        this.cacheFactoryHost = cacheFactoryHost;
         this.iListOfNewsChannels = new ListOfNewsChannels();
         this.generalInformation = new GeneralInformation();
     }
@@ -58,7 +60,9 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), buildButtonsService.getMainMarkup());
         } else if (message.getText().equals("Remove my data")) {
 //            buildButtonsService.beforeRegistrationButtons();
-            this.cacheFactory.setAddContactsKeyboard(new AddContactsKeyboard()); //recreates deleted contacts keyboard
+            this.cacheFactoryRefugee.setAddContactsKeyboard(new AddContactsKeyboard()); //recreates deleted contacts keyboard
+            this.cacheFactoryHost.setAddContactsKeyboard(new AddContactsKeyboard());
+
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             userCache.remove(message.getChatId());
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "All data about you has been removed", buildButtonsService.getMainMarkup());
