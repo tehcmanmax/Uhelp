@@ -8,9 +8,11 @@ import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryHos
 import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryRefugee;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
+import com.tehcman.services.BuildSendMessageService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.AddSexKeyboard;
 import com.tehcman.services.keyboards.AddSkipButtonKeyboardRow;
+import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -40,6 +42,19 @@ public class SaveToCacheIHandler implements IHandler<Message> {
     @Override
     public void handle(Message message) {
         User user = userCache.findBy(message.getChatId());
+
+        //TODO root place for commands; when adding more commands in the future, code here
+        if (message.getText().equals("/start")) {
+            this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
+            if (user != null) {
+                userCache.remove(message.getChatId());
+            }
+            user.setPhase(Phase.STATUS);
+            IBuildSendMessageService buildSendMessageService = new BuildSendMessageService();
+            SendMessage msg = buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Yay! You've just restarted this bot!", buildButtonsService.getMainMarkup());
+            messageSender.messageSend(msg);
+        }
+        //
         if (user == null) {
             messageSender.messageSend(initDataAndStatusHandler.createSendMessage(message));
         } else if (user.getPhase() == Phase.STATUS) {
