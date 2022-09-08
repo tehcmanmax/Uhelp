@@ -1,6 +1,11 @@
 package com.tehcman.services.keyboards;
 
+import com.tehcman.cahce.UserCache;
+import com.tehcman.entities.Status;
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -9,12 +14,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Component
 public class AfterRegistrationKeyboard extends ReplyKeyboardMarkup {
     private final DefaultKeyboardRows keyboardRows;
+    private final Message message;
 
-    public AfterRegistrationKeyboard() {
+    @Autowired
+    private final UserCache userCache;
+
+    public AfterRegistrationKeyboard(Message message) {
         this.keyboardRows = new DefaultKeyboardRows();
-
+        this.userCache = new UserCache();
+        this.message = message;
     }
 
     public @NonNull List<KeyboardRow> getKeyboard() {
@@ -23,8 +34,19 @@ public class AfterRegistrationKeyboard extends ReplyKeyboardMarkup {
         var row3 = new KeyboardRow();
         var button3 = new KeyboardButton("View my data");
         var button4 = new KeyboardButton("Remove my data");
+
+        var button5 = new KeyboardButton("Oops, something is wrong");
+
+        if (userCache.findBy(this.message.getChatId()).getStatus() == Status.HOST) {
+            button5 = new KeyboardButton("Show me shelter seeking people");
+        }
+        else if (userCache.findBy(this.message.getChatId()).getStatus() == Status.REFUGEE) {
+            button5 = new KeyboardButton("Show me shelter providing people");
+        }
+
         row3.add(button3);
         row3.add(button4);
+        row3.add(button5);
 
         Collections.addAll(arrayOfKeyboardRows, keyboardRows.create1stRow(), /*keyboardRows.create2ndRow(),*/ row3);
         return arrayOfKeyboardRows;

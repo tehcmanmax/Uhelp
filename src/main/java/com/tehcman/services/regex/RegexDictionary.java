@@ -22,6 +22,13 @@ Garðabær
 Sauðárkrókur
 Þorlákshöfn
 *
+*  ***
+*  EMAIL
+It allows numeric values from 0 to 9.
+We allow both uppercase and lowercase letters from a to z.
+Hyphen “-” and dot “.” aren't allowed at the start and end of the domain part.
+No consecutive dots.
+
 * TODO: POSSIBLE IMPROVEMENT: use class reflection on classes that utilize this class
 */
 
@@ -36,9 +43,13 @@ public final class RegexDictionary {
     public final static Map<Phase, String> getRegex = new HashMap<>();
 
     static {
+        getRegex.put(NAME, "\\d{2,}");
         getRegex.put(AGE, "\\d{1,2}");
         getRegex.put(AMOUNT_PEOPLE_SUB, "\\d{1,2}");
-        getRegex.put(COUNTRY, "[a-zA-Z]{2,}\n");
         getRegex.put(CITY, "^([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*$\n");
+        getRegex.put(COUNTRY, "[a-zA-Z]{2,}\n");
+        getRegex.put(EMAIL, "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+
     }
 }

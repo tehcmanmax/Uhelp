@@ -69,16 +69,21 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
 
             case NAME:
                 this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
-                if (!(message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW))) {
+                if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setPhase(CONTACTS);
                     user.setName(message.getText());
 
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you. If you use a browser, share phone number in additional comments later in this registration form", buildButtonsService.getMainMarkup());
-                }
-                user.setPhase(CONTACTS);
-                user.setName(null);
 
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you. If you use a browser, share phone number in additional comments later in this registration form", buildButtonsService.getMainMarkup());
+                }
+                if (message.getText().matches(RegexDictionary.getRegex.get(NAME))) {
+                    SendMessage newMessage = new SendMessage();
+                    newMessage.setText("Please, enter your name with at least 2 charac");
+                    newMessage.setParseMode("HTML");
+                    newMessage.setChatId(user.getId().toString());
+
+                    return newMessage;
+                }
 
             case CONTACTS:
                 if (message.getText() != null) {
@@ -136,29 +141,30 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
 
                     return newMessage;
                 }
+
             case CITY:
                 if (message.getText().matches(RegexDictionary.getRegex.get(CITY))) {
                     user.setCity(message.getText());
+                    user.setPhase(COUNTRY);
+                    this.buildButtonsService = new BuildButtonsService(new AddYesNo());
+
+                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>country</b> where you are planning to host", new ReplyKeyboardRemove(true));
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must type <i>full</i> city name", new ReplyKeyboardRemove(true));
                 }
-                user.setPhase(COUNTRY);
-                this.buildButtonsService = new BuildButtonsService(new AddYesNo());
-
-                this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, type a <b>country</b> where you are planning to stay", new ReplyKeyboardRemove(true));
 
             case COUNTRY:
                 if (message.getText().matches(String.valueOf(RegexDictionary.getRegex.get(COUNTRY)))) {
                     user.setCountry(message.getText());
+                    user.setPhase(DATE);
+                    this.buildButtonsService = new BuildButtonsService(new AddYesNo());
+
+                    this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you know your arrival date?", this.buildButtonsService.getMainMarkup());
                 } else {
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "You must type <i>full</i> country name", new ReplyKeyboardRemove(true));
                 }
-                user.setPhase(DATE);
-                this.buildButtonsService = new BuildButtonsService(new AddYesNo());
-
-                this.buildButtonsService.getMainMarkup().setOneTimeKeyboard(Boolean.TRUE);
-                return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Do you know your arrival date?", this.buildButtonsService.getMainMarkup());
 
             case DATE:
                 if (message.getText().equalsIgnoreCase("no")) {
@@ -233,7 +239,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                     user.setAdditional(null);
                     user.setPhase(NONE);
 
-                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
+                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n" +
@@ -244,7 +250,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                     user.setAdditional(message.getText());
                     user.setPhase(NONE);
 
-                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard());
+                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n\n" +
