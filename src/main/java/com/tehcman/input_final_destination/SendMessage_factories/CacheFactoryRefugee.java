@@ -211,7 +211,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                 }
 
             case AMOUNT_PEOPLE_SUB:
-                if (message.getText().matches("\\d{1,2}")) {
+                if (message.getText().matches(RegexDictionary.getRegex.get(AMOUNT_PEOPLE_SUB))) {
                     user.setAmountOfPeople(Integer.valueOf(message.getText()));
                     user.setPhase(ADDITIONAL);
 

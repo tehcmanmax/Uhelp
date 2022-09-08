@@ -1,4 +1,29 @@
 package com.tehcman.services.regex;
+/*  REGEX EXPLAINED
+* ***
+* CITY
+The list of cities it accepts:
+
+Toronto
+St. Catharines
+San Fransisco
+Val-d'Or
+Presqu'ile
+Niagara on the Lake
+Niagara-on-the-Lake
+München
+toronto
+toRonTo
+villes du Québec
+Provence-Alpes-Côte d'Azur
+Île-de-France
+Kópavogur
+Garðabær
+Sauðárkrókur
+Þorlákshöfn
+*
+* TODO: POSSIBLE IMPROVEMENT: use class reflection on classes that utilize this class
+*/
 
 import com.tehcman.entities.Phase;
 
@@ -12,7 +37,8 @@ public final class RegexDictionary {
 
     static {
         getRegex.put(AGE, "\\d{1,2}");
-        getRegex.put(COUNTRY, "[^\\d\\W]{2,}");
-        getRegex.put(CITY, "[^\\d\\W]{3,}");
+        getRegex.put(AMOUNT_PEOPLE_SUB, "\\d{1,2}");
+        getRegex.put(COUNTRY, "[a-zA-Z]{2,}\n");
+        getRegex.put(CITY, "^([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*$\n");
     }
 }

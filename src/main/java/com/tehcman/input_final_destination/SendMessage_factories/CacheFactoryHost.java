@@ -190,7 +190,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type in the chat how many people you can host? ", new ReplyKeyboardRemove(true));
 
             case AMOUNT_PEOPLE_SUB:
-                if (message.getText().matches("\\d{0,2}")) {
+                if (message.getText().matches(RegexDictionary.getRegex.get(AMOUNT_PEOPLE_SUB))) {
                     user.setAmountOfPeople(Integer.valueOf(message.getText()));
                     user.setPhase(ADDITIONAL);
 
