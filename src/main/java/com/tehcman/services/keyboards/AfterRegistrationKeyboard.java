@@ -1,7 +1,9 @@
 package com.tehcman.services.keyboards;
 
+import com.tehcman.cahce.Cache;
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
+import com.tehcman.entities.User;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,17 +16,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Component
 public class AfterRegistrationKeyboard extends ReplyKeyboardMarkup {
     private final DefaultKeyboardRows keyboardRows;
     private final Message message;
 
-    @Autowired
-    private final UserCache userCache;
+    private final Cache<User> userCache;
 
-    public AfterRegistrationKeyboard(Message message) {
+    public AfterRegistrationKeyboard(Message message, Cache<User> userCache) {
         this.keyboardRows = new DefaultKeyboardRows();
-        this.userCache = new UserCache();
+        this.userCache = userCache;
         this.message = message;
     }
 

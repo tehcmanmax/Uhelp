@@ -56,7 +56,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Yay! You've just launched this bot!", buildButtonsService.getMainMarkup());
         } else if (message.getText().equals("View my data")) {
             User userFromCache = userCache.findBy(message.getChatId());
-            this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message));
+            this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), buildButtonsService.getMainMarkup());
         } else if (message.getText().equals("Remove my data")) {
 //            buildButtonsService.beforeRegistrationButtons();

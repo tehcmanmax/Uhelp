@@ -64,7 +64,7 @@ public class Text2SendMessageAbstractFactory implements ISendMessageAbstractFact
     private BuildButtonsService returnReplyMarkup(Message message) {
         User userFromCache = userCache.findBy(message.getChatId());
         if ((userFromCache != null) && userFromCache.getPhase().equals(Phase.NONE)) {
-            return new BuildButtonsService(new AfterRegistrationKeyboard(message));
+            return new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
         }
         return new BuildButtonsService(new BeforeRegistrationKeyboard());
     }

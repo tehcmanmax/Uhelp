@@ -168,10 +168,10 @@ public class CacheFactoryHost implements ISendMessageFactory {
             case DATE:
                 if (message.getText().equalsIgnoreCase("no")) {
                     user.setDate(null);
-                    user.setPhase(AMOUNT_PEOPLE);
+                    user.setPhase(AMOUNT_PEOPLE_SUB);
 
                     this.buildButtonsService = new BuildButtonsService(new AddAmountOfPeopleKeyboard());
-                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How many people you can host? ", buildButtonsService.getMainMarkup());
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type in the chat how many people you can host? ", new ReplyKeyboardRemove(true));
                 } else if (message.getText().equalsIgnoreCase("yes")) {
                     user.setPhase(DATE_YES);
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
@@ -217,7 +217,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                     user.setAdditional(null);
                     user.setPhase(NONE);
 
-                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message));
+                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n" +
@@ -228,7 +228,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                     user.setAdditional(message.getText());
                     user.setPhase(NONE);
 
-                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message));
+                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n\n" +

@@ -21,6 +21,16 @@ Kópavogur
 Garðabær
 Sauðárkrókur
 Þorlákshöfn
+* And what it rejects:
+
+A----B
+------
+*******
+&&
+()
+//
+\\
+https://stackoverflow.com/questions/11757013/regular-expressions-for-city-name
 *
 *  ***
 *  EMAIL
@@ -46,10 +56,9 @@ public final class RegexDictionary {
         getRegex.put(NAME, "\\d{2,}");
         getRegex.put(AGE, "\\d{1,2}");
         getRegex.put(AMOUNT_PEOPLE_SUB, "\\d{1,2}");
-        getRegex.put(CITY, "^([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*$\n");
-        getRegex.put(COUNTRY, "[a-zA-Z]{2,}\n");
+        getRegex.put(CITY, "^([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*$");
+        getRegex.put(COUNTRY, "[a-zA-Z]{2,}");
         getRegex.put(EMAIL, "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
-
     }
 }

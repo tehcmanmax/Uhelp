@@ -239,7 +239,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                     user.setAdditional(null);
                     user.setPhase(NONE);
 
-                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message));
+                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n" +
@@ -250,7 +250,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                     user.setAdditional(message.getText());
                     user.setPhase(NONE);
 
-                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message));
+                    this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n\n" +
