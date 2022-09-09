@@ -34,6 +34,12 @@ public class TextHandler implements IHandler<Message> {
 
             messageSender.messageSend(msg1);
             messageSender.messageSend(msg2);
+
+             //TODO behavior: one replied tg message is one profile; up to 10 profiles
+        } else if ((message.getText().equals("Show me shelter seeking people"))) {
+
+        } else if ((message.getText().equals("Show me shelter providing people"))) {
+
         } else {
             SendMessage newMessageToUser = text1SendMessageFactory.createSendMessage(message);
 
