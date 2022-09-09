@@ -1,5 +1,7 @@
 package com.tehcman.entities;
 
+import java.util.Map;
+
 public class User {
 
     //fill the following fields from the user's message
@@ -27,6 +29,7 @@ public class User {
     private Integer amountOfPeople;
     private String date;
     private String additional;
+    private Map<Long, Long> lastViewedAccountID;
 
 
     public User(Long id, String tgUsername, String name, Phase phase) {

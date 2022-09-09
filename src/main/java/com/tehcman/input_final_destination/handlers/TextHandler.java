@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 @Component
 public class TextHandler implements IHandler<Message> {
     private final MessageSender messageSender;
-    private final ISendMessageFactory text1SendMessageFactory;
+    private final Text1SendMessageFactory text1SendMessageFactory;
     private final ISendMessageAbstractFactory create2SendMessagesFactory;
 
 
@@ -37,9 +37,12 @@ public class TextHandler implements IHandler<Message> {
 
              //TODO behavior: one replied tg message is one profile; up to 10 profiles
         } else if ((message.getText().equals("Show me shelter seeking people"))) {
+            SendMessage newMessageToUser = text1SendMessageFactory.sendRefugeeProfiles(message);
+            messageSender.messageSend(newMessageToUser);
 
         } else if ((message.getText().equals("Show me shelter providing people"))) {
-
+            SendMessage newMessageToUser = text1SendMessageFactory.sendHostProfiles(message);
+            messageSender.messageSend(newMessageToUser);
         } else {
             SendMessage newMessageToUser = text1SendMessageFactory.createSendMessage(message);
 
