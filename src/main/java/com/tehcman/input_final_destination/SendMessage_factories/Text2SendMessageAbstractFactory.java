@@ -10,6 +10,7 @@ import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
+import com.tehcman.services.keyboards.SuspendedRegistrationKeyboard;
 import org.junit.jupiter.params.aggregator.ArgumentAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,11 +24,13 @@ public class Text2SendMessageAbstractFactory implements ISendMessageAbstractFact
     private final Cache<User> userCache;
     private final IBuildSendMessageService buildSendMessageService;
     private final IListOfNewsChannels iListOfNewsChannels;
+    private final SuspendedRegistrationKeyboard suspendedRegistrationKeyboard;
 
     @Autowired
-    public Text2SendMessageAbstractFactory(IBuildSendMessageService buildSendMessageService, Cache<User> userCache) {
+    public Text2SendMessageAbstractFactory(IBuildSendMessageService buildSendMessageService, Cache<User> userCache, SuspendedRegistrationKeyboard suspendedRegistrationKeyboard) {
         this.buildSendMessageService = buildSendMessageService;
         this.userCache = userCache;
+        this.suspendedRegistrationKeyboard = suspendedRegistrationKeyboard;
         this.iListOfNewsChannels = new ListOfNewsChannels();
     }
 
@@ -63,7 +66,9 @@ public class Text2SendMessageAbstractFactory implements ISendMessageAbstractFact
 
     private BuildButtonsService returnReplyMarkup(Message message) {
         User userFromCache = userCache.findBy(message.getChatId());
-        if ((userFromCache != null) && userFromCache.getPhase().equals(Phase.NONE)) {
+        if (suspendedRegistrationKeyboard.getSuspended()) {
+            return new BuildButtonsService(suspendedRegistrationKeyboard);
+        } else if ((userFromCache != null) && userFromCache.getPhase().equals(Phase.NONE)) {
             return new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
         }
         return new BuildButtonsService(new BeforeRegistrationKeyboard());

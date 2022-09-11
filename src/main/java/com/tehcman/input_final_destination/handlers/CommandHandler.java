@@ -9,6 +9,7 @@ import com.tehcman.input_final_destination.resources.Command;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
+import com.tehcman.services.keyboards.SuspendedRegistrationKeyboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -20,12 +21,15 @@ public class CommandHandler implements IHandlerCommand<Message> {
     private final Cache<User> userCache;
     private final MessageSender messageSender;
     private final IBuildSendMessageService buildSendMessageService;
+    private final SuspendedRegistrationKeyboard suspendedRegistrationKeyboard;
+
 
     @Autowired
-    public CommandHandler(Cache<User> userCache, MessageSender messageSender, IBuildSendMessageService buildSendMessageService) {
+    public CommandHandler(Cache<User> userCache, MessageSender messageSender, IBuildSendMessageService buildSendMessageService, SuspendedRegistrationKeyboard suspendedRegistrationKeyboard) {
         this.userCache = userCache;
         this.messageSender = messageSender;
         this.buildSendMessageService = buildSendMessageService;
+        this.suspendedRegistrationKeyboard = suspendedRegistrationKeyboard;
     }
 
 
@@ -35,6 +39,7 @@ public class CommandHandler implements IHandlerCommand<Message> {
         User user = userCache.findBy(message.getChatId());
 
         if (message.getText().equals(Command.START.toString())) {
+            this.suspendedRegistrationKeyboard.setSuspended(false);
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             if (user != null) {
                 userCache.remove(message.getChatId());
@@ -55,18 +60,22 @@ public class CommandHandler implements IHandlerCommand<Message> {
                         SendMessage msg1 = buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Returned home!", buildButtonsService.getMainMarkup());
                         messageSender.messageSend(msg1);
                         return true;
-//                    default:
+
+                    default:
+                        this.buildButtonsService = new BuildButtonsService(new SuspendedRegistrationKeyboard());
+                        SendMessage msg3 = buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Returned home!", buildButtonsService.getMainMarkup());
+                        this.suspendedRegistrationKeyboard.setSuspended(true);
+                        messageSender.messageSend(msg3);
+                        return true;
                 }
 
-            //case not started registration. user == null
+                //case not started registration. user == null
             } else
                 this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             SendMessage msg2 = buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Returned home!", buildButtonsService.getMainMarkup());
             messageSender.messageSend(msg2);
 
             return true;
-        }
-
-        else return false;
+        } else return false;
     }
 }
