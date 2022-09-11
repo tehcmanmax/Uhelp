@@ -75,7 +75,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                 this.buildButtonsService = new BuildButtonsService(addContactsKeyboard);
                 if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setPhase(CONTACTS);
-                    user.setName(message.getText());
+                    user.setName(null);
 
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you. If you use a browser, share phone number in additional comments later in this registration form", buildButtonsService.getMainMarkup());
 

@@ -25,17 +25,16 @@ public class TextHandler implements IHandler<Message> {
     private final UserCache userCache;
     private final IBuildSendMessageService iBuildSendMessageService;
 
-    private final AfterRegistrationKeyboard afterRegistrationKeyboard;
+//    private final AfterRegistrationKeyboard afterRegistrationKeyboard;
 
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService, AfterRegistrationKeyboard afterRegistrationKeyboard) {
+    public TextHandler(@Lazy MessageSender messageSender, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService) {
         this.messageSender = messageSender;
         this.text1SendMessageFactory = text1SendMessageFactory;
         this.create2SendMessagesFactory = create2SendMessagesFactory;
         this.userCache = userCache;
         this.iBuildSendMessageService = iBuildSendMessageService;
-        this.afterRegistrationKeyboard = afterRegistrationKeyboard;
     }
 
     @Override
