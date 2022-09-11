@@ -1,6 +1,7 @@
 package com.tehcman.input_final_destination.handlers;
 
 import com.tehcman.cahce.UserCache;
+import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.Text1SendMessageFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageAbstractFactory;
@@ -16,6 +17,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class TextHandler implements IHandler<Message> {
@@ -49,7 +51,9 @@ public class TextHandler implements IHandler<Message> {
 
             //TODO behavior: one replied tg message is one profile; up to 10 profiles
         } else if ((message.getText().equals("Show me shelter seeking people"))) {
-            List<User> list = userCache.getAll();
+            List<User> list = userCache.getAll().stream()
+                    .filter(x -> x.getStatus().equals(Status.REFUGEE))
+                    .collect(Collectors.toList());
             for (User user : list) {
                 System.out.println(user.toString());
             }
