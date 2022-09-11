@@ -1,5 +1,7 @@
 package com.tehcman.input_final_destination.handlers;
 
+import com.tehcman.cahce.TableHostCache;
+import com.tehcman.cahce.TableRefugeeCache;
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
@@ -28,15 +30,19 @@ public class TextHandler implements IHandler<Message> {
     private final IBuildSendMessageService iBuildSendMessageService;
 
     private ParsingJSONtoListService parsingJSONtoListService;
+    private final TableHostCache tableHostCache;
+    private final TableRefugeeCache tableRefugeeCache;
 
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService) {
+    public TextHandler(@Lazy MessageSender messageSender, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService, TableHostCache tableHostCache, TableRefugeeCache tableRefugeeCache) {
         this.messageSender = messageSender;
         this.text1SendMessageFactory = text1SendMessageFactory;
         this.create2SendMessagesFactory = create2SendMessagesFactory;
         this.userCache = userCache;
         this.iBuildSendMessageService = iBuildSendMessageService;
+        this.tableHostCache = tableHostCache;
+        this.tableRefugeeCache = tableRefugeeCache;
     }
 
     @Override
@@ -49,7 +55,7 @@ public class TextHandler implements IHandler<Message> {
             messageSender.messageSend(msg1);
             messageSender.messageSend(msg2);
 
-            //TODO behavior: one replied tg message is one profile; up to 10 profiles
+            //TODO behavior: passing the list based on the filter to the inline button message
         } else if ((message.getText().equals("Show me shelter seeking people"))) {
             List<User> list = userCache.getAll().stream()
                     .filter(x -> x.getStatus().equals(Status.REFUGEE))

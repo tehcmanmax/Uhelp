@@ -9,6 +9,8 @@ import java.util.List;
 
 @Service
 public class InlineProfileNavigation {
+
+
     public InlineKeyboardMarkup build() {
         var keyboardMarkup = new InlineKeyboardMarkup();
 
