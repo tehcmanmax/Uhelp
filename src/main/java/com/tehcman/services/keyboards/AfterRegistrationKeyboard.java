@@ -32,6 +32,7 @@ public class AfterRegistrationKeyboard extends ReplyKeyboardMarkup {
         List<KeyboardRow> arrayOfKeyboardRows = new ArrayList<>();
 
         var row3 = new KeyboardRow();
+        var row4 = new KeyboardRow();
         var button3 = new KeyboardButton("View my data");
         var button4 = new KeyboardButton("Remove my data");
 
@@ -46,9 +47,9 @@ public class AfterRegistrationKeyboard extends ReplyKeyboardMarkup {
 
         row3.add(button3);
         row3.add(button4);
-        row3.add(button5);
+        row4.add(button5);
 
-        Collections.addAll(arrayOfKeyboardRows, keyboardRows.create1stRow(), /*keyboardRows.create2ndRow(),*/ row3);
+        Collections.addAll(arrayOfKeyboardRows, keyboardRows.create1stRow(), /*keyboardRows.create2ndRow(),*/ row3, row4);
         return arrayOfKeyboardRows;
     }
 }

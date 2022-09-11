@@ -31,6 +31,8 @@ public class CallBackProfileNavigationHandler implements IHandler<CallbackQuery>
     //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache
     @Override
     public void handle(CallbackQuery inlineButtonPressed) {
+
+
         if ((inlineButtonPressed.getData().equals("rand_action")) && (userCache.getAll().size() > 1)) {
             var editMessageText = EditMessageText.builder()
                     .text(randomJoke())
