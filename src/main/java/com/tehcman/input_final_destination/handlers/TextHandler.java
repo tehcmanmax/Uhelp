@@ -8,7 +8,7 @@ import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageAbs
 import com.tehcman.input_final_destination.SendMessage_factories.Text2SendMessageAbstractFactory;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.IBuildSendMessageService;
-import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
+import com.tehcman.services.ParsingJSONtoListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class TextHandler implements IHandler<Message> {
     private final UserCache userCache;
     private final IBuildSendMessageService iBuildSendMessageService;
 
-//    private final AfterRegistrationKeyboard afterRegistrationKeyboard;
+    private ParsingJSONtoListService parsingJSONtoListService;
 
 
     @Autowired
@@ -54,6 +54,9 @@ public class TextHandler implements IHandler<Message> {
             List<User> list = userCache.getAll().stream()
                     .filter(x -> x.getStatus().equals(Status.REFUGEE))
                     .collect(Collectors.toList());
+
+            ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
+            list.addAll(parsingJSONtoListService.parse());
             for (User user : list) {
                 System.out.println(user.toString());
             }

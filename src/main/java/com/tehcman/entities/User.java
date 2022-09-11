@@ -1,19 +1,34 @@
 package com.tehcman.entities;
+/* USEFUL LINKS
+ * https://github.com/FasterXML/jackson-databind/issues/95
+ * https://www.tutorialspoint.com/jackson_annotations/jackson_annotations_jsonignoreproperties.htm
+ * https://www.baeldung.com/jackson-serialize-enums
+ * https://stackabuse.com/converting-json-array-to-a-java-array-or-list/
+ * https://www.baeldung.com/jackson-object-mapper-tutorial
+ * https://www.mockaroo.com/
 
+ * */
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+@JsonIgnoreProperties({"id", "phase"})
 public class User {
+    public User() {
+    }
 
     //fill the following fields from the user's message
     @Getter
-    private final Long id;
-    private final String tgUsername;
+    private /*final*/ Long id;
+    @Getter
+    private /*final*/ String tgUsername;
 
     @Setter
     private String name;
     @Getter
     @Setter
+//    @JsonIgnore
     private Phase phase;
 
     @Setter
@@ -32,6 +47,7 @@ public class User {
     @Setter
     private Status status;
     @Setter
+//    @JsonIgnore
     private Character sex;
     @Setter
     private String city;
@@ -54,10 +70,8 @@ public class User {
     @Override
     public String toString() {
         return "User{\n" +
-                "id=" + id + '\n' +
                 "tgUsername=" + tgUsername + '\n' +
                 "name=" + name + '\n' +
-                "phase=" + phase + '\n' +
                 "phoneNumber=" + phoneNumber + '\n' +
                 "email=" + email + '\n' +
                 "social=" + social + '\n' +
