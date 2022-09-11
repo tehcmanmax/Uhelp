@@ -1,4 +1,4 @@
-package com.tehcman.services.keyboards;
+package com.tehcman.services.keyboards.profile_registration;
 
 import lombok.NonNull;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;

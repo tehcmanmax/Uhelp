@@ -1,4 +1,4 @@
-package com.tehcman.services.keyboards;
+package com.tehcman.services.keyboards.profile_registration;
 
 import lombok.NonNull;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -7,7 +7,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class AddContactsKeyboard extends ReplyKeyboardMarkup {

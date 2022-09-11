@@ -2,13 +2,11 @@ package com.tehcman.input_final_destination.handlers;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
-import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageFactory;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.IBuildSendMessageService;
-import com.tehcman.services.keyboards.AddSkipButtonKeyboardRow;
-import com.tehcman.services.keyboards.AddStatusKeyboard;
+import com.tehcman.services.keyboards.profile_registration.AddStatusKeyboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

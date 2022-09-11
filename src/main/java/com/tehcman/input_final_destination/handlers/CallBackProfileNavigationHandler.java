@@ -3,8 +3,9 @@ package com.tehcman.input_final_destination.handlers;
 //TODO: next feature implementation: USE THIS CLASS TO FETCH NEWS FROM TELEGRAM NEWS CHANNELS; USE API TO FETCH THEM
 
 
+import com.tehcman.cahce.UserCache;
 import com.tehcman.sendmessage.MessageSender;
-import com.tehcman.services.BuildInlineButtonsService;
+import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
@@ -12,30 +13,30 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 @Component
-public class CallBackQueryIHandler implements IHandler<CallbackQuery> {
+public class CallBackProfileNavigationHandler implements IHandler<CallbackQuery> {
     private final MessageSender messageSender;
-    private final BuildInlineButtonsService buildInlineButtonsService; //testing the inline buttons
-    private List<String> jokes;
+    private final InlineProfileNavigation inlineProfileNavigation; //testing the inline buttons
     private int prevNumber = -1;
+    private final UserCache userCache;
 
-    public CallBackQueryIHandler(@Lazy MessageSender messageSender, BuildInlineButtonsService buildInlineButtonsService) {
+    public CallBackProfileNavigationHandler(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache) {
         this.messageSender = messageSender;
-        this.buildInlineButtonsService = buildInlineButtonsService;
+        this.inlineProfileNavigation = inlineProfileNavigation;
+        this.userCache = userCache;
     }
 
+    //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache
     @Override
     public void handle(CallbackQuery inlineButtonPressed) {
-        if (inlineButtonPressed.getData().equals("next_action")) {
-
+        if ((inlineButtonPressed.getData().equals("rand_action")) && (userCache.getAll().size() > 1)) {
             var editMessageText = EditMessageText.builder()
                     .text(randomJoke())
                     .chatId(inlineButtonPressed.getMessage().getChatId().toString())
                     .messageId(inlineButtonPressed.getMessage().getMessageId())
-                    .replyMarkup(buildInlineButtonsService.build())
+                    .replyMarkup(inlineProfileNavigation.build())
                     .build();
 
             messageSender.editMessageSend(editMessageText);
@@ -43,7 +44,7 @@ public class CallBackQueryIHandler implements IHandler<CallbackQuery> {
     }
 
     private String randomJoke() {
-        jokes = new ArrayList<>(Arrays.asList(
+        ArrayList<String> arr = new ArrayList<>(Arrays.asList(
                 "- What’s the best thing about Switzerland?\n\n" +
                         " - I don’t know, but the flag is a big plus.",
                 "Hear about the new restaurant called Karma?\n" +
@@ -81,13 +82,13 @@ public class CallBackQueryIHandler implements IHandler<CallbackQuery> {
                         "let's make sure he's dead.\" There is a silence, then a shot is heard.\n" +
                         "Back on the phone, the guy says \"OK, now what?\"\n"
         ));
-        int randNumb = (int) (Math.random() * jokes.size());
-        while(randNumb == prevNumber) {
-            randNumb = (int) (Math.random() * jokes.size());
+        int randNumb = (int) (Math.random() * arr.size());
+        while (randNumb == prevNumber) {
+            randNumb = (int) (Math.random() * arr.size());
         }
         prevNumber = randNumb;
 
-        return jokes.get(randNumb);
+        return arr.get(randNumb);
     }
 
 }

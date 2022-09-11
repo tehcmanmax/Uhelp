@@ -1,4 +1,4 @@
-package com.tehcman.services.keyboards;
+package com.tehcman.services.keyboards.profile_registration;
 
 import lombok.NonNull;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
@@ -9,23 +9,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AddSexKeyboard extends ReplyKeyboardMarkup {
+public class AddAmountOfPeopleKeyboard extends ReplyKeyboardMarkup {
     private final AddSkipButtonKeyboardRow addSkipButtonKeyboardRow;
 
-    public AddSexKeyboard() {
+    public AddAmountOfPeopleKeyboard() {
         addSkipButtonKeyboardRow = new AddSkipButtonKeyboardRow();
     }
 
     public @NonNull List<KeyboardRow> getKeyboard() {
         List<KeyboardRow> arrayOfKeyboardRows = new ArrayList<>();
 
-        var male = KeyboardButton.builder().text("Male").build();
-        var female = KeyboardButton.builder().text("Female").build();
+        var me = KeyboardButton.builder().text("I'm alone").build();
+        var many = KeyboardButton.builder().text("A group of people").build();
         var row1 = new KeyboardRow();
-        Collections.addAll(row1, male, female);
+        Collections.addAll(row1, me, many);
 
-        arrayOfKeyboardRows.add(row1);
-        arrayOfKeyboardRows.add(this.addSkipButtonKeyboardRow.getKeyboard().get(0));
+        Collections.addAll(arrayOfKeyboardRows, row1, this.addSkipButtonKeyboardRow.getKeyboard().get(0));
         return arrayOfKeyboardRows;
     }
+
 }
