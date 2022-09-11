@@ -1,6 +1,6 @@
 package com.tehcman.informational_portal;
 
-import com.tehcman.input_final_destination.resources.Emoji;
+import com.tehcman.resources.Emoji;
 
 import java.util.HashMap;
 import java.util.Map;

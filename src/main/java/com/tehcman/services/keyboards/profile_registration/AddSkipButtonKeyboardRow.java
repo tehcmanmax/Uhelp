@@ -1,6 +1,6 @@
 package com.tehcman.services.keyboards.profile_registration;
 
-import com.tehcman.input_final_destination.resources.Emoji;
+import com.tehcman.resources.Emoji;
 import lombok.NonNull;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;

@@ -5,7 +5,7 @@ import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
-import com.tehcman.input_final_destination.resources.Command;
+import com.tehcman.resources.Command;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
