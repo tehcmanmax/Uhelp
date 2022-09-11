@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class Text1SendMessageFactory implements ISendMessageFactory {
@@ -25,7 +26,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     private BuildButtonsService buildButtonsService;
     private final IListOfNewsChannels iListOfNewsChannels;
     private final GeneralInformation generalInformation;
-    private final Cache<User> userCache;
+    private final UserCache userCache;
     private final CacheFactory cacheFactory;
 
 
@@ -40,7 +41,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     }
 /*
     @Autowired
-    public void setUserCache(Cache<User> userCache) {
+    public void setUserCache(Cache userCache) {
         this.userCache = userCache;
     }*/
 

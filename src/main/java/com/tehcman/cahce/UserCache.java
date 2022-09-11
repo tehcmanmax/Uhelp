@@ -1,40 +1,49 @@
 package com.tehcman.cahce;
 
 import com.tehcman.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@Controller
 @Component
-public class UserCache implements Cache<User> {
-    private final Map<Long, User> cacheOfAllUsers;
+public class UserCache {
+//    private final Map<Long, User> cacheOfAllUsers;
+    @Autowired
+    private final Cache userRepository;
 
-    public UserCache() {
-        this.cacheOfAllUsers = new HashMap<>();
+    public UserCache(Cache userRepository) {
+        this.userRepository = userRepository;
     }
 
+//    public UserCache() {
+//        this.cacheOfAllUsers = new HashMap<>();
+//    }
 
-    @Override
-    public void add(User user) {
-        cacheOfAllUsers.putIfAbsent(user.getId(), user);
+
+@PostMapping
+    public void add(@RequestBody User user) {
+//        cacheOfAllUsers.putIfAbsent(user.getId(), user);
+        userRepository.save(user);
     }
 
-    @Override
-    public void remove(Long id) {
-        cacheOfAllUsers.remove(id);
+    @DeleteMapping(path = {"/{id}"})
+    public void remove(@PathVariable("id") Long id) {
+        userRepository.deleteById(id);
     }
 
-    @Override
-    public User findBy(Long id) {
-        return cacheOfAllUsers.get(id);
+    @GetMapping(path = {"/{id}"})
+    public User findBy(@PathVariable Long id) {
+        return userRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
-    @Override
+    @GetMapping
     public List<User> getAll() {
-        return new ArrayList<>(cacheOfAllUsers.values());
+//        return new ArrayList<>(cacheOfAllUsers.values());
+        return userRepository.findAll();
     }
 }
 

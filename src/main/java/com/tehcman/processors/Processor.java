@@ -1,6 +1,7 @@
 package com.tehcman.processors;
 
 import com.tehcman.cahce.Cache;
+import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,10 @@ public abstract class Processor {
 
     abstract void handleSaveToCache(Message message);
 
-    private Cache<User> userCache;
+    private UserCache userCache;
 
     @Autowired
-    public void setUserCache(Cache<User> userCache) {
+    public void setUserCache(UserCache userCache) {
         this.userCache = userCache;
     }
 

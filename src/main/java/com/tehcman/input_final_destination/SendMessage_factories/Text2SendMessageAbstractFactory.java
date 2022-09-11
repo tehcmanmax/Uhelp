@@ -2,6 +2,7 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 //Abstract Factory Method Pattern
 
 import com.tehcman.cahce.Cache;
+import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
 import com.tehcman.informational_portal.IListOfNewsChannels;
@@ -20,12 +21,12 @@ import java.util.Map;
 
 @Component
 public class Text2SendMessageAbstractFactory implements ISendMessageAbstractFactory {
-    private final Cache<User> userCache;
+    private final UserCache userCache;
     private final IBuildSendMessageService buildSendMessageService;
     private final IListOfNewsChannels iListOfNewsChannels;
 
     @Autowired
-    public Text2SendMessageAbstractFactory(IBuildSendMessageService buildSendMessageService, Cache<User> userCache) {
+    public Text2SendMessageAbstractFactory(IBuildSendMessageService buildSendMessageService, UserCache userCache) {
         this.buildSendMessageService = buildSendMessageService;
         this.userCache = userCache;
         this.iListOfNewsChannels = new ListOfNewsChannels();

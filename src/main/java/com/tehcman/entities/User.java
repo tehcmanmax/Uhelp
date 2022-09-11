@@ -7,8 +7,10 @@ public class User {
 
     //fill the following fields from the user's message
     @Id
-    private final Long id;
-    private final String tgUsername;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+//    @Column(name = "User", unique = true)
+    private  Long id;
+    private  String tgUsername;
 
 
     private String name;
@@ -36,6 +38,8 @@ public class User {
     private String additional;
 
 
+    public User() {}
+
     public User(Long id, String tgUsername, String name, Phase phase) {
         this.id = id;
         this.tgUsername = tgUsername;
@@ -45,6 +49,10 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public String getTgUsername() {
+        return tgUsername;
     }
 
     public void setPhoneNumber(String phoneNumber) {

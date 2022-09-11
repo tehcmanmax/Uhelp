@@ -17,14 +17,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRem
 @Component
 public class CacheFactory implements ISendMessageFactory {
     private final IBuildSendMessageService ibuildSendMessageService;
-    private final Cache<User> userCache;
+    private final Cache userCache;
     private BuildButtonsService buildButtonsService;
     private final BuildSendMessageService buildSendMessageService;
 
 
     private AddContactsKeyboard addContactsKeyboard;
 
-    public CacheFactory(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache, BuildSendMessageService buildSendMessageService) {
+    public CacheFactory(IBuildSendMessageService ibuildSendMessageService, Cache userCache, BuildSendMessageService buildSendMessageService) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
         this.buildSendMessageService = buildSendMessageService;
