@@ -1,4 +1,4 @@
-package com.tehcman.services.regex;
+package com.tehcman.input_final_destination.resources;
 /*  REGEX EXPLAINED
 * ***
 * CITY

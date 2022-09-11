@@ -51,14 +51,10 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     }*/
 
 
+    //FIXME DELETE THE COMMAND HANDLER
     @Override
     public SendMessage createSendMessage(Message message) {
-        if (message.getText().equals("/start")) {
-//            buildButtonsService.beforeRegistrationButtons();
-            this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
-
-            return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Yay! You've just launched this bot!", buildButtonsService.getMainMarkup());
-        } else if (message.getText().equals("View my data")) {
+        if (message.getText().equals("View my data")) {
             User userFromCache = userCache.findBy(message.getChatId());
             this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
             return buildSendMessageService.createHTMLMessage(message.getChatId().toString(), userFromCache.toString(), buildButtonsService.getMainMarkup());
@@ -91,7 +87,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
         }
     }
 
-    public SendMessage sendRefugeeProfiles(Message message){
+    public SendMessage sendRefugeeProfiles(Message message) {
         List<User> refugeeTable;
 //        refugeeTable = userCache.getAll().forEach(user -> user.getStatus().equals(Status.REFUGEE));
         Predicate<User> byStatus = user -> user.getStatus().equals(Status.REFUGEE);
@@ -106,7 +102,8 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
                 .build();
         return newMsg;
     }
-    public SendMessage sendHostProfiles(Message message){
+
+    public SendMessage sendHostProfiles(Message message) {
         return null;
     }
 }

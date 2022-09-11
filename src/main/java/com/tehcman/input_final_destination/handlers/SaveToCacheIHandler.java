@@ -43,18 +43,6 @@ public class SaveToCacheIHandler implements IHandler<Message> {
     public void handle(Message message) {
         User user = userCache.findBy(message.getChatId());
 
-        //TODO root place for commands; when adding more commands in the future, code here
-        if (message.getText().equals("/start")) {
-            this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
-            if (user != null) {
-                userCache.remove(message.getChatId());
-            }
-            user.setPhase(Phase.STATUS);
-            IBuildSendMessageService buildSendMessageService = new BuildSendMessageService();
-            SendMessage msg = buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Yay! You've just restarted this bot!", buildButtonsService.getMainMarkup());
-            messageSender.messageSend(msg);
-        }
-        //
         if (user == null) {
             messageSender.messageSend(initDataAndStatusHandler.createSendMessage(message));
         } else if (user.getPhase() == Phase.STATUS) {

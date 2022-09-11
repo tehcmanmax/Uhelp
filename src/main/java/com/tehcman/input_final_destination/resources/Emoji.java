@@ -1,4 +1,4 @@
-package com.tehcman.services;
+package com.tehcman.input_final_destination.resources;
 
 public enum Emoji {
     // Emoticones group

@@ -3,6 +3,7 @@ package com.tehcman.processors;
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
+import com.tehcman.input_final_destination.handlers.CommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -17,13 +18,24 @@ public abstract class Processor {
     abstract void handleSaveToCache(Message message);
 
     private Cache<User> userCache;
+    private CommandHandler commandHandler;
 
+    @Autowired
+    public void setCommandHandler(CommandHandler commandHandler) {
+        this.commandHandler = commandHandler;
+    }
     @Autowired
     public void setUserCache(Cache<User> userCache) {
         this.userCache = userCache;
     }
 
     public void direct(Update update) {
+
+        //handles commands!
+        if (commandHandler.handleCommand(update.getMessage())){
+            return;
+        }
+
         //active registration
         if (update.hasCallbackQuery()) {
             handleCallBackQuery(update.getCallbackQuery());
