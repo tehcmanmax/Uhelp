@@ -1,5 +1,6 @@
-package com.tehcman.cahce;
+package com.tehcman.temp;
 
+import com.tehcman.cahce.Cache;
 import com.tehcman.entities.User;
 import org.springframework.stereotype.Component;
 

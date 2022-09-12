@@ -9,19 +9,19 @@ import java.util.List;
 
 @Service
 public class InlineProfileNavigation {
+    private final InlineKeyboardMarkup mainMarkup;
 
-
-    public InlineKeyboardMarkup build() {
-        var keyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton nextAction = InlineKeyboardButton.builder()
-                .text("Next").callbackData("next_action").build();
+    public InlineProfileNavigation() {
+        this.mainMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton backAction = InlineKeyboardButton.builder()
                 .text("Back").callbackData("back_action").build();
 
         InlineKeyboardButton randAction = InlineKeyboardButton.builder()
                 .text("Random profile").callbackData("rand_action").build();
+
+        InlineKeyboardButton nextAction = InlineKeyboardButton.builder()
+                .text("Next").callbackData("next_action").build();
 
         List<List<InlineKeyboardButton>> listOfInlineButtons = new ArrayList<>();
         ArrayList<InlineKeyboardButton> row1 = new ArrayList<>();
@@ -31,8 +31,10 @@ public class InlineProfileNavigation {
         row1.add(nextAction);
         listOfInlineButtons.add(row1);
 
-        keyboardMarkup.setKeyboard(listOfInlineButtons);
-        return keyboardMarkup;
+        this.mainMarkup.setKeyboard(listOfInlineButtons);
     }
 
+    public InlineKeyboardMarkup getMainMarkup() {
+        return mainMarkup;
+    }
 }

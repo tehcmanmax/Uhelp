@@ -38,7 +38,7 @@ public class CallBackProfileNavigationHandler implements IHandler<CallbackQuery>
                     .text(randomJoke())
                     .chatId(inlineButtonPressed.getMessage().getChatId().toString())
                     .messageId(inlineButtonPressed.getMessage().getMessageId())
-                    .replyMarkup(inlineProfileNavigation.build())
+                    .replyMarkup(inlineProfileNavigation.getMainMarkup())
                     .build();
 
             messageSender.editMessageSend(editMessageText);

@@ -1,13 +1,12 @@
 package com.tehcman.input_final_destination.handlers;
 
-import com.tehcman.cahce.TableHostCache;
-import com.tehcman.cahce.TableRefugeeCache;
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.Text1SendMessageFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageAbstractFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.Text2SendMessageAbstractFactory;
+import com.tehcman.printers.PrintHost;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.ParsingJSONtoListService;
@@ -24,25 +23,22 @@ import java.util.stream.Collectors;
 @Component
 public class TextHandler implements IHandler<Message> {
     private final MessageSender messageSender;
+    private final PrintHost printHost;
     private final Text1SendMessageFactory text1SendMessageFactory;
     private final ISendMessageAbstractFactory create2SendMessagesFactory;
     private final UserCache userCache;
     private final IBuildSendMessageService iBuildSendMessageService;
 
-    private ParsingJSONtoListService parsingJSONtoListService;
-    private final TableHostCache tableHostCache;
-    private final TableRefugeeCache tableRefugeeCache;
 
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService, TableHostCache tableHostCache, TableRefugeeCache tableRefugeeCache) {
+    public TextHandler(@Lazy MessageSender messageSender, PrintHost printHost, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService) {
         this.messageSender = messageSender;
+        this.printHost = printHost;
         this.text1SendMessageFactory = text1SendMessageFactory;
         this.create2SendMessagesFactory = create2SendMessagesFactory;
         this.userCache = userCache;
         this.iBuildSendMessageService = iBuildSendMessageService;
-        this.tableHostCache = tableHostCache;
-        this.tableRefugeeCache = tableRefugeeCache;
     }
 
     @Override
@@ -70,12 +66,16 @@ public class TextHandler implements IHandler<Message> {
             messageSender.messageSend(sendMessage);
 
         } else if ((message.getText().equals("Show me shelter providing people"))) {
+            printHost.printHostRandom(message);
+
+/*
             List<User> list = userCache.getAll();
             for (User user : list) {
                 System.out.println(user.toString());
             }
-            SendMessage sendMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(message.getChatId()), list.toString(), new ReplyKeyboardRemove(true));
-            messageSender.messageSend(sendMessage);
+*/
+//            SendMessage sendMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(message.getChatId()), list.toString(), new ReplyKeyboardRemove(true));
+//            messageSender.messageSend(sendMessage);
         } else {
             SendMessage newMessageToUser = text1SendMessageFactory.createSendMessage(message);
 
