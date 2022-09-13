@@ -46,6 +46,7 @@ public class PrintHost {
         this.inlineProfileNavigation = inlineProfileNavigation;
     }
 
+//    FIXME
     private void setHostsFromCache() {
         this.hosts = userCache.getAll().stream()
                 .filter(x -> x.getStatus().equals(Status.HOST))
