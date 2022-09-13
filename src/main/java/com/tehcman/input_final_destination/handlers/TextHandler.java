@@ -6,7 +6,7 @@ import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.Text1SendMessageFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageAbstractFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.Text2SendMessageAbstractFactory;
-import com.tehcman.printers.PrintHost;
+import com.tehcman.printers.HostProfile;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.ParsingJSONtoListService;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Component
 public class TextHandler implements IHandler<Message> {
     private final MessageSender messageSender;
-    private final PrintHost printHost;
+    private final HostProfile printHost;
     private final Text1SendMessageFactory text1SendMessageFactory;
     private final ISendMessageAbstractFactory create2SendMessagesFactory;
     private final UserCache userCache;
@@ -32,7 +32,7 @@ public class TextHandler implements IHandler<Message> {
 
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, PrintHost printHost, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService) {
+    public TextHandler(@Lazy MessageSender messageSender, HostProfile printHost, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService) {
         this.messageSender = messageSender;
         this.printHost = printHost;
         this.text1SendMessageFactory = text1SendMessageFactory;
@@ -66,7 +66,7 @@ public class TextHandler implements IHandler<Message> {
             messageSender.messageSend(sendMessage);
 
         } else if ((message.getText().equals("Show me shelter providing people"))) {
-            printHost.printHostRandom(message);
+            printHost.printUserRandomDefault(message);
 
 /*
             List<User> list = userCache.getAll();

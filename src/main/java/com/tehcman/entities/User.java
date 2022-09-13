@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonIgnoreProperties({"phase"})
+@JsonIgnoreProperties({"phase", "isViewed"})
 public class User {
     public User() {
     }
@@ -23,6 +23,10 @@ public class User {
     private /*final*/ Long id;
     @Getter
     private /*final*/ String tgUsername;
+
+    @Getter
+    @Setter
+    private boolean isViewed;
 
     @Setter
     private String name;

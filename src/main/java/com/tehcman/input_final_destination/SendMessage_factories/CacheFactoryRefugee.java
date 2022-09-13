@@ -3,6 +3,7 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 import static com.tehcman.entities.Phase.*;
 
 import com.tehcman.cahce.Cache;
+import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.entities.User;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.resources.Emoji;
@@ -26,10 +27,12 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
     private BuildButtonsService buildButtonsService;
 
     private AddContactsKeyboard addContactsKeyboard;
+    private final RefugeeProfile refugeeProfile;
 
-    public CacheFactoryRefugee(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache) {
+    public CacheFactoryRefugee(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache, RefugeeProfile refugeeProfile) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
+        this.refugeeProfile = refugeeProfile;
         addContactsKeyboard = new AddContactsKeyboard();
     }
 
@@ -242,6 +245,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                 if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setAdditional(null);
                     user.setPhase(NONE);
+                    refugeeProfile.setUsersFromCache();
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
@@ -253,13 +257,13 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                 } else {
                     user.setAdditional(message.getText());
                     user.setPhase(NONE);
+                    refugeeProfile.setUsersFromCache();
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n\n" +
                             "Now you can view users who is ready to provide housing to you", buildButtonsService.getMainMarkup());
-
                 }
         }
         System.out.println(user);

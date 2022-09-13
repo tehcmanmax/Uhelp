@@ -3,6 +3,7 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 import static com.tehcman.entities.Phase.*;
 
 import com.tehcman.cahce.Cache;
+import com.tehcman.printers.HostProfile;
 import com.tehcman.entities.User;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.resources.Emoji;
@@ -26,10 +27,12 @@ public class CacheFactoryHost implements ISendMessageFactory {
     private BuildButtonsService buildButtonsService;
 
     private AddContactsKeyboard addContactsKeyboard;
+    private final HostProfile hostProfile;
 
-    public CacheFactoryHost(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache) {
+    public CacheFactoryHost(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache, HostProfile hostProfile) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
+        this.hostProfile = hostProfile;
         addContactsKeyboard = new AddContactsKeyboard();
     }
 
@@ -220,6 +223,8 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setAdditional(null);
                     user.setPhase(NONE);
+                    hostProfile.setUsersFromCache();
+
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
@@ -231,6 +236,8 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 } else {
                     user.setAdditional(message.getText());
                     user.setPhase(NONE);
+                    hostProfile.setUsersFromCache();
+
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +

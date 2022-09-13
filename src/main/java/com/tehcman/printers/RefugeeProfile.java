@@ -6,8 +6,9 @@ import com.tehcman.entities.User;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.ParsingJSONtoListService;
-import com.tehcman.services.keyboards.profile_search.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.tehcman.services.keyboards.profile_search.InlineNewProfilesNotification;
+import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
+import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class PrintHost {
+public class RefugeeProfile implements IPrintUserProfile {
     private List<User> hosts;
     private int prevNumber = -1;
     private final UserCache userCache;
@@ -29,14 +30,16 @@ public class PrintHost {
     private final InlineNoProfiles inlineNoProfiles;
     private final InlineProfileNavigation inlineProfileNavigation;
 
-    @Autowired
-    public PrintHost(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
+    public RefugeeProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
         this.hosts = new ArrayList<>();
 //        setHostsFromCache();
 
         //fetching data from json
         ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
-        this.hosts.addAll(parsingJSONtoListService.parse());
+
+        ArrayList<User> refugees = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.REFUGEE);
+        this.hosts.addAll(refugees);
+
 
         this.userCache = userCache;
         this.messageSender = messageSender;
@@ -46,14 +49,13 @@ public class PrintHost {
         this.inlineProfileNavigation = inlineProfileNavigation;
     }
 
-//    FIXME
-    private void setHostsFromCache() {
-        this.hosts = userCache.getAll().stream()
-                .filter(x -> x.getStatus().equals(Status.HOST))
-                .collect(Collectors.toList());
+    @Override
+    public String beautify(Long id) {
+        return null;
     }
 
-    public void printHostRandom(Message msg) {
+    @Override
+    public void printUserRandomDefault(Message msg) {
         int randNumb = (int) (Math.random() * this.hosts.size());
         while (randNumb == prevNumber) {
             randNumb = (int) (Math.random() * this.hosts.size());
@@ -65,7 +67,25 @@ public class PrintHost {
         messageSender.messageSend(newMessage);
     }
 
-    private String beautify(String host) {
-        return null;
+    @Override
+    public void setUsersFromCache() {
+
+    }
+
+    @Override
+    public void viewedAllUsers(Message msg) {
+
+    }
+
+    @Override
+    public void notifyNewProfiles(Message msg) {
+
+    }
+
+    @Override
+    public List<User> filterUsers(List<User> userList, Status whoToLookFor) {
+        return userList.stream()
+                .filter(x -> x.getStatus().equals(whoToLookFor))
+                .collect(Collectors.toList());
     }
 }
