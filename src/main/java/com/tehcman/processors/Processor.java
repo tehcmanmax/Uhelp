@@ -26,10 +26,12 @@ public abstract class Processor {
     public void setCommandHandler(CommandHandler commandHandler) {
         this.commandHandler = commandHandler;
     }
+
     @Autowired
     public void setSuspendedRegistrationKeyboard(SuspendedRegistrationKeyboard suspendedRegistrationKeyboard) {
         this.suspendedRegistrationKeyboard = suspendedRegistrationKeyboard;
     }
+
     @Autowired
     public void setUserCache(Cache<User> userCache) {
         this.userCache = userCache;
@@ -38,11 +40,11 @@ public abstract class Processor {
     public void direct(Update update) {
 
         //handles commands!
-        if (commandHandler.handleCommand(update.getMessage())){
+        if (commandHandler.handleCommand(update.getMessage())) {
             return;
         }
 
-        if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Continue the registration"))){
+        if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Continue the registration"))) {
             this.suspendedRegistrationKeyboard.setSuspended(false);
         }
 
@@ -55,14 +57,16 @@ public abstract class Processor {
 /*                switch (userFromCache.getPosition()) {
                     case PHONE_NUMBER:
                     case AGE:*/
-                        handleSaveToCache(update.getMessage());
-                        return; //so it won't go to if lines
+                handleSaveToCache(update.getMessage());
+                return; //so it won't go to if lines
 //                }
             }
         }
 
         //FIXME put the InitDataAndStatus class method instaed of handle...
-        if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Accommodation search/hosting") && (!suspendedRegistrationKeyboard.getSuspended()))) {
+        if ((update.getMessage() != null) && (update.getMessage().getText() != null) &&
+                ((update.getMessage().getText().equals("Accommodation search/hosting")/* || (update.getMessage().getText().equals("Continue the registration")*/) &&
+                        (!suspendedRegistrationKeyboard.getSuspended()))) {
             handleSaveToCache(update.getMessage());
         } else if ((update.getMessage() != null) && (update.getMessage().getText() != null)) {
             handleText(update);

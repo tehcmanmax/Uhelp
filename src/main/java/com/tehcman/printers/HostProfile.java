@@ -39,6 +39,7 @@ public class HostProfile implements IPrintUserProfile {
 
         ArrayList<User> hosts = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.HOST);
         this.hosts.addAll(hosts);
+        hosts.forEach(System.out::println);
 
         this.userCache = userCache;
         this.messageSender = messageSender;

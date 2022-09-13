@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class RefugeeProfile implements IPrintUserProfile {
-    private List<User> hosts;
+    private List<User> refugees;
     private int prevNumber = -1;
     private final UserCache userCache;
     private final MessageSender messageSender;
@@ -31,14 +31,15 @@ public class RefugeeProfile implements IPrintUserProfile {
     private final InlineProfileNavigation inlineProfileNavigation;
 
     public RefugeeProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
-        this.hosts = new ArrayList<>();
+        this.refugees = new ArrayList<>();
 //        setHostsFromCache();
 
         //fetching data from json
         ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
 
         ArrayList<User> refugees = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.REFUGEE);
-        this.hosts.addAll(refugees);
+        this.refugees.addAll(refugees);
+        this.refugees.forEach(System.out::println);
 
 
         this.userCache = userCache;
@@ -56,14 +57,14 @@ public class RefugeeProfile implements IPrintUserProfile {
 
     @Override
     public void printUserRandomDefault(Message msg) {
-        int randNumb = (int) (Math.random() * this.hosts.size());
+        int randNumb = (int) (Math.random() * this.refugees.size());
         while (randNumb == prevNumber) {
-            randNumb = (int) (Math.random() * this.hosts.size());
+            randNumb = (int) (Math.random() * this.refugees.size());
         }
         prevNumber = randNumb;
 
         SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
-                this.hosts.get(prevNumber).toString(), inlineProfileNavigation.getMainMarkup());
+                this.refugees.get(prevNumber).toString(), inlineProfileNavigation.getMainMarkup());
         messageSender.messageSend(newMessage);
     }
 
