@@ -10,6 +10,7 @@ package com.tehcman.entities;
  * */
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +27,7 @@ public class User {
 
     @Getter
     @Setter
+    @JsonProperty("isViewed")
     private boolean isViewed;
 
     @Setter
