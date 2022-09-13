@@ -1,4 +1,4 @@
-package com.tehcman.input_final_destination.handlers;
+package com.tehcman.input_final_destination.handlers.registration;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
@@ -6,13 +6,12 @@ import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryHost;
 import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryRefugee;
+import com.tehcman.input_final_destination.handlers.IHandler;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
-import com.tehcman.services.BuildSendMessageService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.profile_registration.AddSexKeyboard;
 import com.tehcman.services.keyboards.profile_registration.AddSkipButtonKeyboardRow;
-import com.tehcman.services.keyboards.BeforeRegistrationKeyboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

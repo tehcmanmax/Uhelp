@@ -1,39 +1,43 @@
-package com.tehcman.input_final_destination.handlers;
+package com.tehcman.input_final_destination.handlers.callbacks;
 
 //TODO: next feature implementation: USE THIS CLASS TO FETCH NEWS FROM TELEGRAM NEWS CHANNELS; USE API TO FETCH THEM
 
 
 import com.tehcman.cahce.UserCache;
+import com.tehcman.input_final_destination.handlers.IHandler;
+import com.tehcman.printers.HostProfile;
+import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 @Component
-public class CallBackProfileNavigationHandler implements IHandler<CallbackQuery> {
+public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     private final MessageSender messageSender;
     private final InlineProfileNavigation inlineProfileNavigation; //testing the inline buttons
     private int prevNumber = -1;
     private final UserCache userCache;
+    private final HostProfile hostProfile;
+    private final RefugeeProfile refugeeProfile;
 
-    public CallBackProfileNavigationHandler(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache) {
+    public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile, RefugeeProfile refugeeProfile) {
         this.messageSender = messageSender;
         this.inlineProfileNavigation = inlineProfileNavigation;
         this.userCache = userCache;
+        this.hostProfile = hostProfile;
+        this.refugeeProfile = refugeeProfile;
     }
 
     //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache
     @Override
     public void handle(CallbackQuery inlineButtonPressed) {
-
-
         if ((inlineButtonPressed.getData().equals("rand_action")) && (userCache.getAll().size() > 1)) {
+
+
+/*        if ((inlineButtonPressed.getData().equals("rand_action")) && (userCache.getAll().size() > 1)) {
             var editMessageText = EditMessageText.builder()
                     .text(randomJoke())
                     .chatId(inlineButtonPressed.getMessage().getChatId().toString())
@@ -42,11 +46,13 @@ public class CallBackProfileNavigationHandler implements IHandler<CallbackQuery>
                     .build();
 
             messageSender.editMessageSend(editMessageText);
+        }*/
         }
     }
 
     private String randomJoke() {
-        ArrayList<String> arr = new ArrayList<>(Arrays.asList(
+        return null;
+/*        ArrayList<String> arr = new ArrayList<>(Arrays.asList(
                 "- What’s the best thing about Switzerland?\n\n" +
                         " - I don’t know, but the flag is a big plus.",
                 "Hear about the new restaurant called Karma?\n" +
@@ -90,7 +96,6 @@ public class CallBackProfileNavigationHandler implements IHandler<CallbackQuery>
         }
         prevNumber = randNumb;
 
-        return arr.get(randNumb);
+        return arr.get(randNumb);*/
     }
-
 }

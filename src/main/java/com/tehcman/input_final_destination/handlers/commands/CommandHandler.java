@@ -1,8 +1,9 @@
-package com.tehcman.input_final_destination.handlers;
+package com.tehcman.input_final_destination.handlers.commands;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
+import com.tehcman.input_final_destination.handlers.IHandlerCommand;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.resources.Command;
@@ -54,8 +55,10 @@ public class CommandHandler implements IHandlerCommand<Message> {
                 Phase phase = userCache.findBy(message.getChatId()).getPhase();
                 switch (phase) {
 
-                    //after registration
                     case NONE:
+                    case REFUGEE_NAV:
+                    case HOST_NAV:
+                        //after registration
                         this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                         SendMessage msg1 = buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Returned home!", buildButtonsService.getMainMarkup());
                         messageSender.messageSend(msg1);

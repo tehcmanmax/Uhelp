@@ -3,7 +3,7 @@ package com.tehcman.processors;
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
-import com.tehcman.input_final_destination.handlers.CommandHandler;
+import com.tehcman.input_final_destination.handlers.commands.CommandHandler;
 import com.tehcman.services.keyboards.SuspendedRegistrationKeyboard;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;

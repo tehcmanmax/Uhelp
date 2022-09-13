@@ -1,4 +1,4 @@
-package com.tehcman.input_final_destination.handlers;
+package com.tehcman.input_final_destination.handlers.registration;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
