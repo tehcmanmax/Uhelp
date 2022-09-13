@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "isViewed": false,
     "tgUsername": "uheyward0",
     "name": "Urbain",
     "phase": "Up-sized",
@@ -18,6 +19,7 @@
   },
   {
     "id": 2,
+    "isViewed": false,
     "tgUsername": "cneate1",
     "name": "Crawford",
     "phase": "benchmark",
@@ -35,6 +37,7 @@
   },
   {
     "id": 3,
+    "isViewed": false,
     "tgUsername": "clescop2",
     "name": "Consalve",
     "phase": "Proactive",
@@ -52,6 +55,7 @@
   },
   {
     "id": 4,
+    "isViewed": false,
     "tgUsername": "fhissie3",
     "name": "Fitz",
     "phase": "De-engineered",
@@ -69,6 +73,7 @@
   },
   {
     "id": 5,
+    "isViewed": false,
     "tgUsername": "aconcklin4",
     "name": "Averil",
     "phase": "stable",
@@ -86,6 +91,7 @@
   },
   {
     "id": 6,
+    "isViewed": false,
     "tgUsername": "ebarnardo5",
     "name": "Essa",
     "phase": "demand-driven",
@@ -103,6 +109,7 @@
   },
   {
     "id": 7,
+    "isViewed": false,
     "tgUsername": "mskain6",
     "name": "Mahalia",
     "phase": "4th generation",
@@ -120,6 +127,7 @@
   },
   {
     "id": 8,
+    "isViewed": false,
     "tgUsername": "jfaraday7",
     "name": "Jenica",
     "phase": "dynamic",
@@ -137,6 +145,7 @@
   },
   {
     "id": 9,
+    "isViewed": false,
     "tgUsername": "abilyard8",
     "name": "Andrea",
     "phase": "Right-sized",
@@ -154,6 +163,7 @@
   },
   {
     "id": 10,
+    "isViewed": false,
     "tgUsername": "cedmons9",
     "name": "Cassius",
     "phase": "leading edge",
@@ -171,6 +181,7 @@
   },
   {
     "id": 11,
+    "isViewed": false,
     "tgUsername": "ssommerlinga",
     "name": "Stewart",
     "phase": "collaboration",
@@ -188,6 +199,7 @@
   },
   {
     "id": 12,
+    "isViewed": false,
     "tgUsername": "ocawsonb",
     "name": "Ole",
     "phase": "4th generation",
@@ -205,6 +217,7 @@
   },
   {
     "id": 13,
+    "isViewed": false,
     "tgUsername": "abennettsc",
     "name": "Adams",
     "phase": "Synergized",
@@ -222,6 +235,7 @@
   },
   {
     "id": 14,
+    "isViewed": false,
     "tgUsername": "pstittd",
     "name": "Pavel",
     "phase": "challenge",
@@ -239,6 +253,7 @@
   },
   {
     "id": 15,
+    "isViewed": false,
     "tgUsername": "comearae",
     "name": "Chloe",
     "phase": "flexibility",
@@ -256,6 +271,7 @@
   },
   {
     "id": 16,
+    "isViewed": false,
     "tgUsername": "kmenaultf",
     "name": "Katherine",
     "phase": "paradigm",
@@ -273,6 +289,7 @@
   },
   {
     "id": 17,
+    "isViewed": false,
     "tgUsername": "sszymanekg",
     "name": "Stacy",
     "phase": "even-keeled",
@@ -290,6 +307,7 @@
   },
   {
     "id": 18,
+    "isViewed": false,
     "tgUsername": "dtolworthyh",
     "name": "Desdemona",
     "phase": "superstructure",
@@ -307,6 +325,7 @@
   },
   {
     "id": 19,
+    "isViewed": false,
     "tgUsername": "wgoodburni",
     "name": "Worden",
     "phase": "mobile",
@@ -324,6 +343,7 @@
   },
   {
     "id": 20,
+    "isViewed": false,
     "tgUsername": "jduddellj",
     "name": "Jessie",
     "phase": "internet solution",
@@ -341,6 +361,7 @@
   },
   {
     "id": 21,
+    "isViewed": false,
     "tgUsername": "ahalladeyk",
     "name": "Aindrea",
     "phase": "fault-tolerant",
@@ -358,6 +379,7 @@
   },
   {
     "id": 22,
+    "isViewed": false,
     "tgUsername": "jfugel",
     "name": "Jereme",
     "phase": "pricing structure",
@@ -375,6 +397,7 @@
   },
   {
     "id": 23,
+    "isViewed": false,
     "tgUsername": "ppietersenm",
     "name": "Pippy",
     "phase": "analyzing",
@@ -392,6 +415,7 @@
   },
   {
     "id": 24,
+    "isViewed": false,
     "tgUsername": "rdranen",
     "name": "Rudolf",
     "phase": "attitude-oriented",
@@ -409,6 +433,7 @@
   },
   {
     "id": 25,
+    "isViewed": false,
     "tgUsername": "fvolageo",
     "name": "Filberto",
     "phase": "encryption",
@@ -426,6 +451,7 @@
   },
   {
     "id": 26,
+    "isViewed": false,
     "tgUsername": "sblewmenp",
     "name": "Stan",
     "phase": "Grass-roots",
@@ -443,6 +469,7 @@
   },
   {
     "id": 27,
+    "isViewed": false,
     "tgUsername": "fmalshingerq",
     "name": "Falito",
     "phase": "clear-thinking",
@@ -460,6 +487,7 @@
   },
   {
     "id": 28,
+    "isViewed": false,
     "tgUsername": "vchittleburghr",
     "name": "Vina",
     "phase": "uniform",
@@ -477,6 +505,7 @@
   },
   {
     "id": 29,
+    "isViewed": false,
     "tgUsername": "wauberys",
     "name": "Willette",
     "phase": "asynchronous",
@@ -494,6 +523,7 @@
   },
   {
     "id": 30,
+    "isViewed": false,
     "tgUsername": "lcurzeyt",
     "name": "Lewes",
     "phase": "exuding",
@@ -511,6 +541,7 @@
   },
   {
     "id": 31,
+    "isViewed": false,
     "tgUsername": "smaccardu",
     "name": "Sharona",
     "phase": "open system",
@@ -528,6 +559,7 @@
   },
   {
     "id": 32,
+    "isViewed": false,
     "tgUsername": "gisaaksohnv",
     "name": "Glynis",
     "phase": "dynamic",
@@ -545,6 +577,7 @@
   },
   {
     "id": 33,
+    "isViewed": false,
     "tgUsername": "dfoynesw",
     "name": "Drusy",
     "phase": "Face to face",
@@ -562,6 +595,7 @@
   },
   {
     "id": 34,
+    "isViewed": false,
     "tgUsername": "rivantyevx",
     "name": "Rica",
     "phase": "user-facing",
@@ -579,6 +613,7 @@
   },
   {
     "id": 35,
+    "isViewed": false,
     "tgUsername": "kpotelly",
     "name": "Karon",
     "phase": "task-force",
@@ -596,6 +631,7 @@
   },
   {
     "id": 36,
+    "isViewed": false,
     "tgUsername": "bgiannazzoz",
     "name": "Benoit",
     "phase": "secured line",
@@ -613,6 +649,7 @@
   },
   {
     "id": 37,
+    "isViewed": false,
     "tgUsername": "aclutram10",
     "name": "Ambrosio",
     "phase": "Inverse",
@@ -630,6 +667,7 @@
   },
   {
     "id": 38,
+    "isViewed": false,
     "tgUsername": "bpetrecz11",
     "name": "Bourke",
     "phase": "Re-contextualized",
@@ -647,6 +685,7 @@
   },
   {
     "id": 39,
+    "isViewed": false,
     "tgUsername": "viseton12",
     "name": "Vivyan",
     "phase": "Synchronised",
@@ -664,6 +703,7 @@
   },
   {
     "id": 40,
+    "isViewed": false,
     "tgUsername": "cbeadell13",
     "name": "Chariot",
     "phase": "algorithm",
@@ -681,6 +721,7 @@
   },
   {
     "id": 41,
+    "isViewed": false,
     "tgUsername": "klennon14",
     "name": "Karel",
     "phase": "content-based",
@@ -698,6 +739,7 @@
   },
   {
     "id": 42,
+    "isViewed": false,
     "tgUsername": "gfigg15",
     "name": "Gaylene",
     "phase": "conglomeration",
@@ -715,6 +757,7 @@
   },
   {
     "id": 43,
+    "isViewed": false,
     "tgUsername": "gmoyer16",
     "name": "Glynda",
     "phase": "task-force",
@@ -732,6 +775,7 @@
   },
   {
     "id": 44,
+    "isViewed": false,
     "tgUsername": "tborell17",
     "name": "Tiffanie",
     "phase": "Pre-emptive",
@@ -749,6 +793,7 @@
   },
   {
     "id": 45,
+    "isViewed": false,
     "tgUsername": "ggooden18",
     "name": "Gwyneth",
     "phase": "open architecture",
@@ -766,6 +811,7 @@
   },
   {
     "id": 46,
+    "isViewed": false,
     "tgUsername": "njaulmes19",
     "name": "Nels",
     "phase": "Future-proofed",
@@ -783,6 +829,7 @@
   },
   {
     "id": 47,
+    "isViewed": false,
     "tgUsername": "nbroadhead1a",
     "name": "Nicky",
     "phase": "Enhanced",
@@ -800,6 +847,7 @@
   },
   {
     "id": 48,
+    "isViewed": false,
     "tgUsername": "apopley1b",
     "name": "Alphard",
     "phase": "implementation",
@@ -817,6 +865,7 @@
   },
   {
     "id": 49,
+    "isViewed": false,
     "tgUsername": "dpailin1c",
     "name": "Deanna",
     "phase": "Multi-tiered",
@@ -834,6 +883,7 @@
   },
   {
     "id": 50,
+    "isViewed": false,
     "tgUsername": "dallman1d",
     "name": "Dallas",
     "phase": "Synchronised",

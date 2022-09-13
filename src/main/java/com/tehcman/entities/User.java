@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
-@JsonIgnoreProperties({"phase", "isViewed"})
+@JsonIgnoreProperties({"phase"})
 public class User {
     public User() {
     }
@@ -87,6 +87,7 @@ public class User {
                 "amountOfPeople=" + amountOfPeople + '\n' +
                 "date=" + date + '\n' +
                 "additional=" + additional + '\n' +
+                "isViewed=" + isViewed + '\n' +
                 '}';
     }
 }

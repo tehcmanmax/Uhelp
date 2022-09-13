@@ -21,14 +21,12 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     private int prevNumber = -1;
     private final UserCache userCache;
     private final HostProfile hostProfile;
-    private final RefugeeProfile refugeeProfile;
 
-    public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile, RefugeeProfile refugeeProfile) {
+    public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile) {
         this.messageSender = messageSender;
         this.inlineProfileNavigation = inlineProfileNavigation;
         this.userCache = userCache;
         this.hostProfile = hostProfile;
-        this.refugeeProfile = refugeeProfile;
     }
 
     //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache

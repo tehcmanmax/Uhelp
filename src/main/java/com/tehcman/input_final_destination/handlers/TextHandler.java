@@ -54,6 +54,7 @@ public class TextHandler implements IHandler<Message> {
             if (user == null) {
                 throw new NullPointerException("Complete the registration first!");
             }
+            //fixme possible breaks the code
             user.setPhase(Phase.REFUGEE_NAV);
             refugeeProfile.printUserRandomDefault(message);
 
@@ -62,6 +63,7 @@ public class TextHandler implements IHandler<Message> {
             if (user == null) {
                 throw new NullPointerException("Complete the registration first!");
             }
+            //fixme possible breaks the code
             user.setPhase(Phase.HOST_NAV);
             hostProfile.printUserRandomDefault(message);
 
