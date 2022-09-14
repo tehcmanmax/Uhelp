@@ -6,11 +6,12 @@ package com.tehcman.input_final_destination.handlers.callbacks;
 import com.tehcman.cahce.UserCache;
 import com.tehcman.input_final_destination.handlers.IHandler;
 import com.tehcman.printers.HostProfile;
-import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 
@@ -22,6 +23,7 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     private final UserCache userCache;
     private final HostProfile hostProfile;
 
+    @Autowired
     public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile) {
         this.messageSender = messageSender;
         this.inlineProfileNavigation = inlineProfileNavigation;
@@ -32,7 +34,13 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache
     @Override
     public void handle(CallbackQuery inlineButtonPressed) {
-        if ((inlineButtonPressed.getData().equals("rand_action")) && (userCache.getAll().size() > 1)) {
+        if ((inlineButtonPressed.getData().equals("rand_action")) && (hostProfile.getHosts().size() > 1)) {
+            SendMessage sendInlineMessage = SendMessage.builder()
+                    .text(randomHost())
+                    .chatId(inlineButtonPressed.getMessage().getChatId().toString())
+                    .replyMarkup(inlineProfileNavigation.getMainMarkup())
+                    .build();
+            messageSender.messageSend(sendInlineMessage);
 
 
 /*        if ((inlineButtonPressed.getData().equals("rand_action")) && (userCache.getAll().size() > 1)) {
@@ -48,8 +56,14 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
         }
     }
 
-    private String randomJoke() {
-        return null;
+    private String randomHost() {
+        int randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
+        while (randNumb == prevNumber) {
+            randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
+        }
+        prevNumber = randNumb;
+
+        return this.hostProfile.getHosts().get(randNumb).toString();
 /*        ArrayList<String> arr = new ArrayList<>(Arrays.asList(
                 "- What’s the best thing about Switzerland?\n\n" +
                         " - I don’t know, but the flag is a big plus.",

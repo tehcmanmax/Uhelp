@@ -7,6 +7,7 @@ import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.ParsingJSONtoListService;
 import com.tehcman.services.keyboards.profile_search.*;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class HostProfile implements IPrintUserProfile {
+    @Getter
     private List<User> hosts;
     private int prevNumber = -1;
     private final UserCache userCache;

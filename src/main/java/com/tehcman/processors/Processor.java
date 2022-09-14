@@ -42,7 +42,7 @@ public abstract class Processor {
 
     public void direct(Update update) {
 
-        if (commandHandler.handleCommand(update.getMessage())) {
+        if ((update.getMessage() != null) && (commandHandler.handleCommand(update.getMessage()))) {
             //handles commands!
             return;
         }
@@ -52,7 +52,7 @@ public abstract class Processor {
         }
 
         if (update.hasCallbackQuery()) {
-            if (userCache.findBy(update.getMessage().getChatId()).getStatus().equals(Status.REFUGEE)) {
+            if (userCache.findBy(update.getCallbackQuery().getFrom().getId()).getStatus().equals(Status.REFUGEE)) {
                 handleCallBackQueryHostNav(update.getCallbackQuery());
                 return;
             } else
