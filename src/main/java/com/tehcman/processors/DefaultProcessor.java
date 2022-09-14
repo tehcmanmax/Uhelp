@@ -1,6 +1,7 @@
 package com.tehcman.processors;
 
 import com.tehcman.input_final_destination.handlers.callbacks.CallBackHostProfileNavigation;
+import com.tehcman.input_final_destination.handlers.callbacks.CallBackRefugeeProfileNavigation;
 import com.tehcman.input_final_destination.handlers.registration.SaveToCacheIHandler;
 import com.tehcman.input_final_destination.handlers.TextHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,21 +12,28 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Component
 public class DefaultProcessor extends Processor{
-    private final CallBackHostProfileNavigation callBackQueryHandler;
+    private final CallBackHostProfileNavigation callBackHostProfileNavigation;
+    private final CallBackRefugeeProfileNavigation callBackRefugeeProfileNavigation;
     private final TextHandler textHandler;
     private final SaveToCacheIHandler saveToCacheHandler;
 
     @Autowired
-    public DefaultProcessor(CallBackHostProfileNavigation callBackQueryHandler, TextHandler textHandler, SaveToCacheIHandler saveToCacheHandler) {
-        this.callBackQueryHandler = callBackQueryHandler;
+    public DefaultProcessor(CallBackHostProfileNavigation callBackHostProfileNavigation, CallBackRefugeeProfileNavigation callBackRefugeeProfileNavigation, TextHandler textHandler, SaveToCacheIHandler saveToCacheHandler) {
+        this.callBackHostProfileNavigation = callBackHostProfileNavigation;
+        this.callBackRefugeeProfileNavigation = callBackRefugeeProfileNavigation;
         this.textHandler = textHandler;
         this.saveToCacheHandler = saveToCacheHandler;
     }
 
 
     @Override
-    public void handleCallBackQuery(CallbackQuery update) {
-        callBackQueryHandler.handle(update);
+    public void handleCallBackQueryHostNav(CallbackQuery update) {
+        callBackHostProfileNavigation.handle(update);
+    }
+
+    @Override
+    public void handleCallBackQueryRefNav(CallbackQuery update) {
+        callBackRefugeeProfileNavigation.handle(update);
     }
 
     @Override

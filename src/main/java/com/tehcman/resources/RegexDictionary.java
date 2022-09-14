@@ -53,7 +53,7 @@ public final class RegexDictionary {
     public final static Map<Phase, String> getRegex = new HashMap<>();
 
     static {
-        getRegex.put(NAME, "\\d{2,}");
+        getRegex.put(NAME, "\\W{2,}");
         getRegex.put(AGE, "\\d{1,2}");
         getRegex.put(AMOUNT_PEOPLE_SUB, "\\d{1,2}");
         getRegex.put(CITY, "^([a-zA-Z\\u0080-\\u024F]+(?:. |-| |'))*[a-zA-Z\\u0080-\\u024F]*$");

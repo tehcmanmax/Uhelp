@@ -56,8 +56,6 @@ public class CommandHandler implements IHandlerCommand<Message> {
                 switch (phase) {
 
                     case NONE:
-                    case REFUGEE_NAV:
-                    case HOST_NAV:
                         //after registration
                         this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                         SendMessage msg1 = buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Returned home!", buildButtonsService.getMainMarkup());

@@ -3,6 +3,7 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 import static com.tehcman.entities.Phase.*;
 
 import com.tehcman.cahce.Cache;
+import com.tehcman.entities.Phase;
 import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.entities.User;
 import com.tehcman.services.BuildButtonsService;
@@ -48,6 +49,11 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
 
 
     private SendMessage registerRestUserData(User user, Message message) {
+        if ((user.getPhase().equals(NAME)) && (message.getText().equals("Continue the registration"))) {
+            SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
+            return sendMessage;
+        }
+
         switch (user.getPhase()) {
 
             case SEX:
@@ -82,14 +88,17 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
 
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you. If you use a browser, share phone number in additional comments later in this registration form", buildButtonsService.getMainMarkup());
 
-                }
-                if (message.getText().matches(RegexDictionary.getRegex.get(NAME))) {
+                } else if (message.getText().matches(RegexDictionary.getRegex.get(NAME))) {
                     SendMessage newMessage = new SendMessage();
-                    newMessage.setText("Please, enter your name with at least 2 charac");
+                    newMessage.setText("Please, enter your name with at least 2 characters");
                     newMessage.setParseMode("HTML");
                     newMessage.setChatId(user.getId().toString());
 
                     return newMessage;
+                } else {
+                    user.setName(message.getText());
+                    user.setPhase(CONTACTS);
+                    return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Please, leave contacts, so people can reach you out and help you. If you use a browser, share phone number in additional comments later in this registration form", buildButtonsService.getMainMarkup());
                 }
 
             case CONTACTS:

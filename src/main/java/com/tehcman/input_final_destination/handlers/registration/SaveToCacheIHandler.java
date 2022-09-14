@@ -16,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+
+import java.util.ArrayList;
 
 @Component
 public class SaveToCacheIHandler implements IHandler<Message> {
@@ -42,10 +46,31 @@ public class SaveToCacheIHandler implements IHandler<Message> {
     public void handle(Message message) {
         User user = userCache.findBy(message.getChatId());
 
-        if (user == null) {
+        /*
+        if ((user == null) || (user.getStatus() == null)) {
+            if ((user != null) && (!user.getPhase().equals(Phase.STATUS))){
+                userCache.remove(user.getId());
+            }
+            */
+        if ((message.getText().equals("Continue the registration")) && (user.getPhase().equals(Phase.STATUS))) {
+            this.userCache.remove(message.getChatId());
+        }
+        if (userCache.findBy(message.getChatId()) == null) {
+            user = userCache.findBy(message.getChatId());
+        }
+        if ((user == null)) {
+
             messageSender.messageSend(initDataAndStatusHandler.createSendMessage(message));
         } else if (user.getPhase() == Phase.STATUS) {
             registerRestUserData(user, message);
+
+        } else if ((user.getPhase().equals(Phase.SEX) && (message.getText().equals("Continue the registration")))) {
+            user.setPhase(Phase.STATUS);
+            if (user.getStatus().equals(Status.HOST)) {
+                message.setText("Providing Accommodation");
+            } else message.setText("Searching Accommodation");
+            registerRestUserData(user, message);
+
             //careful with this part!
         } else {
             if (user.getStatus() == Status.REFUGEE) {
@@ -59,6 +84,16 @@ public class SaveToCacheIHandler implements IHandler<Message> {
     }
 
     private SendMessage registerRestUserData(User user, Message message) {
+/*        if (message.getText().equals("Continue the registration")&& (user.getPhase().equals(Phase.STATUS))){
+            var keyboardMarkup = new ReplyKeyboardMarkup();
+            ArrayList<KeyboardButton> keyboardRow = new ArrayList<>();
+            keyboardRow.add(new KeyboardButton("Searching Accommodation"));
+            keyboardRow.add(new KeyboardButton("Providing Accommodation"));
+
+            this.buildButtonsService = new BuildButtonsService(keyboardMarkup);
+            return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How can we help you", buildButtonsService.getMainMarkup());
+        }*/
+
         switch (user.getPhase()) {
             case STATUS:
                 if (message.getText().equals("Searching Accommodation")) {

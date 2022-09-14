@@ -1,7 +1,6 @@
 package com.tehcman.input_final_destination.handlers;
 
 import com.tehcman.cahce.UserCache;
-import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.Text1SendMessageFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageAbstractFactory;
@@ -9,7 +8,6 @@ import com.tehcman.input_final_destination.SendMessage_factories.Text2SendMessag
 import com.tehcman.printers.HostProfile;
 import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.sendmessage.MessageSender;
-import com.tehcman.services.IBuildSendMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -24,18 +22,16 @@ public class TextHandler implements IHandler<Message> {
     private final Text1SendMessageFactory text1SendMessageFactory;
     private final ISendMessageAbstractFactory create2SendMessagesFactory;
     private final UserCache userCache;
-    private final IBuildSendMessageService iBuildSendMessageService;
 
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, HostProfile hostProfile, RefugeeProfile refugeeProfile, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, IBuildSendMessageService iBuildSendMessageService) {
+    public TextHandler(@Lazy MessageSender messageSender, HostProfile hostProfile, RefugeeProfile refugeeProfile, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache) {
         this.messageSender = messageSender;
         this.hostProfile = hostProfile;
         this.refugeeProfile = refugeeProfile;
         this.text1SendMessageFactory = text1SendMessageFactory;
         this.create2SendMessagesFactory = create2SendMessagesFactory;
         this.userCache = userCache;
-        this.iBuildSendMessageService = iBuildSendMessageService;
     }
 
     @Override
@@ -55,7 +51,6 @@ public class TextHandler implements IHandler<Message> {
                 throw new NullPointerException("Complete the registration first!");
             }
             //fixme possible breaks the code
-            user.setPhase(Phase.REFUGEE_NAV);
             refugeeProfile.printUserRandomDefault(message);
 
         } else if ((message.getText().equals("Show me shelter providing people"))) {
@@ -64,7 +59,6 @@ public class TextHandler implements IHandler<Message> {
                 throw new NullPointerException("Complete the registration first!");
             }
             //fixme possible breaks the code
-            user.setPhase(Phase.HOST_NAV);
             hostProfile.printUserRandomDefault(message);
 
 /*

@@ -33,7 +33,7 @@ public class InitDataAndStatusHandler implements ISendMessageFactory {
             return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "How can we help you", buildButtonsService.getMainMarkup());
 
         } else if (userFromCache.getPhase() == Phase.NONE) {
-            return new SendMessage(message.getChatId().toString(), "Hey. You are already in the system." + " Instead of duplicating data of yourself, do something useful in your life");
+            return new SendMessage(message.getChatId().toString(), "Hey. You are already in the system.");
         } else {
             return null;
         }

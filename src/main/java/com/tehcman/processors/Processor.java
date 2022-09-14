@@ -2,6 +2,7 @@ package com.tehcman.processors;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
+import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.handlers.commands.CommandHandler;
 import com.tehcman.services.keyboards.SuspendedRegistrationKeyboard;
@@ -14,7 +15,9 @@ public abstract class Processor {
 
     abstract void handleText(Update update);
 
-    abstract void handleCallBackQuery(CallbackQuery update);
+    abstract void handleCallBackQueryHostNav(CallbackQuery update);
+
+    abstract void handleCallBackQueryRefNav(CallbackQuery update);
 
     abstract void handleSaveToCache(Message message);
 
@@ -39,18 +42,22 @@ public abstract class Processor {
 
     public void direct(Update update) {
 
-        //handles commands!
         if (commandHandler.handleCommand(update.getMessage())) {
+            //handles commands!
             return;
         }
 
-        if ((update.getMessage() != null) && (update.getMessage().getText() != null) && (update.getMessage().getText().equals("Continue the registration"))) {
+        if ((update.getMessage() != null) && (update.getMessage().getText() != null) /*&& (update.getMessage().getText().equals("Continue the registration"))*/) {
             this.suspendedRegistrationKeyboard.setSuspended(false);
         }
 
-        //active registration
         if (update.hasCallbackQuery()) {
-            handleCallBackQuery(update.getCallbackQuery());
+            if (userCache.findBy(update.getMessage().getChatId()).getStatus().equals(Status.REFUGEE)) {
+                handleCallBackQueryHostNav(update.getCallbackQuery());
+                return;
+            } else
+                handleCallBackQueryRefNav(update.getCallbackQuery());
+            return;
         } else {
             User userFromCache = userCache.findBy(update.getMessage().getChatId());
             if ((userFromCache != null) && (!userFromCache.getPhase().equals(Phase.NONE)) && (!suspendedRegistrationKeyboard.getSuspended())) {
