@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 @Repository
 public interface Cache extends JpaRepository<User, Long> {
-   void add(User user);
-   void remove(Long id);
-   User findBy(Long id);
-   List<User> getAll();
+//   void add(User user);
+//   void remove(Long id);
+//   User findBy(Long id);
+//   List<User> getAll();
 
 }

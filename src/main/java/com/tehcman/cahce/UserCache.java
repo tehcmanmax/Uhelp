@@ -37,7 +37,7 @@ public class UserCache {
 
     @GetMapping(path = {"/{id}"})
     public User findBy(@PathVariable Long id) {
-        return userRepository.findById(id).orElseThrow(RuntimeException::new);
+        return userRepository.findById(id).orElse(null);
     }
 
     @GetMapping

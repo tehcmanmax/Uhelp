@@ -3,42 +3,55 @@ package com.tehcman.entities;
 import javax.persistence.*;
 
 @Entity
+@Table
 public class User {
 
     //fill the following fields from the user's message
     @Id
+    @Column(name = "UserId")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-//    @Column(name = "User", unique = true)
-    private  Long id;
-    private  String tgUsername;
+    private Long id;
+    @Column
+    private String tgUsername;
 
-
+    @Column
     private String name;
 
+    @Column
     @Transient
     private Phase phase;
 
+    @Column
     private String phoneNumber;
+    @Column
     private String email;
+    @Column
     private String social;
 
-
+    @Column
     private String age;
 
 
     //sprint 2:
+    @Column
     @Enumerated(EnumType.STRING)
     private Status status;
+    @Column
     private Character sex;
+    @Column
     private String city;
-
+    @Column
     private String country;
+    @Column
     private Integer amountOfPeople;
+    @Column
     private String date;
+    @Column
     private String additional;
 
 
-    public User() {}
+    public User() {
+    }
 
     public User(Long id, String tgUsername, String name, Phase phase) {
         this.id = id;

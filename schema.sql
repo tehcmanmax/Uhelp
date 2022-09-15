@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS `User`;
 
 CREATE TABLE IF NOT EXISTS `User`
 (
-    `UserId`   INT          NOT NULL,
+    `UserId`   INT NOT NULL AUTO_INCREMENT,
     `tgUsername` VARCHAR(255),
     `name` VARCHAR(255),
     `phoneNumber` INT,

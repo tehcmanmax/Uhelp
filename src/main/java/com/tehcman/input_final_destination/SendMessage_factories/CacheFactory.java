@@ -1,6 +1,6 @@
 package com.tehcman.input_final_destination.SendMessage_factories;
 
-import com.tehcman.cahce.Cache;
+import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Phase;
 import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
@@ -17,14 +17,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRem
 @Component
 public class CacheFactory implements ISendMessageFactory {
     private final IBuildSendMessageService ibuildSendMessageService;
-    private final Cache userCache;
+    private final UserCache userCache;
     private BuildButtonsService buildButtonsService;
     private final BuildSendMessageService buildSendMessageService;
 
 
     private AddContactsKeyboard addContactsKeyboard;
 
-    public CacheFactory(IBuildSendMessageService ibuildSendMessageService, Cache userCache, BuildSendMessageService buildSendMessageService) {
+    public CacheFactory(IBuildSendMessageService ibuildSendMessageService, UserCache userCache, BuildSendMessageService buildSendMessageService) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
         this.buildSendMessageService = buildSendMessageService;
