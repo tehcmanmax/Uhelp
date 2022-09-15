@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 
 @Component
 public class TextHandler implements IHandler<Message> {
@@ -50,7 +51,14 @@ public class TextHandler implements IHandler<Message> {
             if (user == null) {
                 throw new NullPointerException("Complete the registration first!");
             }
-            //fixme possible breaks the code
+
+            SendMessage msg = SendMessage.builder()
+                    .chatId(String.valueOf(message.getChatId()))
+                    .replyMarkup(new ReplyKeyboardRemove(true))
+                    .text("Showing you people who seek a shelter")
+                    .build();
+            messageSender.messageSend(msg);
+
             refugeeProfile.printUserRandomDefault(message);
 
         } else if ((message.getText().equals("Show me shelter providing people"))) {
@@ -58,17 +66,15 @@ public class TextHandler implements IHandler<Message> {
             if (user == null) {
                 throw new NullPointerException("Complete the registration first!");
             }
-            //fixme possible breaks the code
+            SendMessage msg = SendMessage.builder()
+                    .chatId(String.valueOf(message.getChatId()))
+                    .replyMarkup(new ReplyKeyboardRemove(true))
+                    .text("Showing you available hosts")
+                    .build();
+            messageSender.messageSend(msg);
+
             hostProfile.printUserRandomDefault(message);
 
-/*
-            List<User> list = userCache.getAll();
-            for (User user : list) {
-                System.out.println(user.toString());
-            }
-*/
-//            SendMessage sendMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(message.getChatId()), list.toString(), new ReplyKeyboardRemove(true));
-//            messageSender.messageSend(sendMessage);
         } else {
             SendMessage newMessageToUser = text1SendMessageFactory.createSendMessage(message);
 
