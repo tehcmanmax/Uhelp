@@ -7,6 +7,7 @@ import com.tehcman.printers.HostProfile;
 import com.tehcman.printers.RefugeeProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 @Service
 public class FetchRandomUniqueUserService {
@@ -33,7 +34,8 @@ public class FetchRandomUniqueUserService {
                 }
                 if (count == size) {
                     //show message that there is no more profiles left; new inline message
-                    throw new ArrayStoreException("ran out of profiles"); //temp
+//                    throw new ArrayStoreException("ran out of profiles"); //temp
+                    return null; //if all viewed return null
                 }
             }
 
@@ -66,7 +68,8 @@ public class FetchRandomUniqueUserService {
                 }
                 if (count == size) {
                     //show message that there is no more profiles left; new inline message
-                    throw new ArrayStoreException("ran out of profiles"); //temp
+//                    throw new ArrayStoreException("ran out of profiles"); //temp
+                    return null; //if all viewed return null
                 }
             }
 
@@ -96,5 +99,31 @@ public class FetchRandomUniqueUserService {
         if (userStatus.equals(Status.HOST))
             this.hostProfile.getHosts().get(randNumb).setViewed(true);
         else this.refugeeProfile.getRefugees().get(randNumb).setViewed(true);
+    }
+
+    public boolean areAllUsersViewed(Status userStatus) {
+        return this.fetchRandomUniqueUser(userStatus) == null;
+    }
+
+    public int calculateCurrentUserArrayIndex(CallbackQuery callbackQuery, Status userStatus) {
+        if (userStatus.equals(Status.HOST)) {
+            int startNavigationIndex = 0;
+            for (User user : this.hostProfile.getHosts()) {
+                if (Long.parseLong(callbackQuery.getId()) == user.getId()) {
+                    break;
+                }
+                startNavigationIndex++;
+            }
+            return startNavigationIndex;
+        } else {
+            int startNavigationIndex = 0;
+            for (User user : this.refugeeProfile.getRefugees()) {
+                if (Long.parseLong(callbackQuery.getId()) == user.getId()) {
+                    break;
+                }
+                startNavigationIndex++;
+            }
+            return startNavigationIndex;
+        }
     }
 }
