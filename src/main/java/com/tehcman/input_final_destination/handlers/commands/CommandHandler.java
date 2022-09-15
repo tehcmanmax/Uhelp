@@ -4,6 +4,8 @@ import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.handlers.IHandlerCommand;
+import com.tehcman.printers.HostProfile;
+import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.resources.Command;
@@ -23,14 +25,18 @@ public class CommandHandler implements IHandlerCommand<Message> {
     private final MessageSender messageSender;
     private final IBuildSendMessageService buildSendMessageService;
     private final SuspendedRegistrationKeyboard suspendedRegistrationKeyboard;
+    private final HostProfile hostProfile;
+    private final RefugeeProfile refugeeProfile;
 
 
     @Autowired
-    public CommandHandler(Cache<User> userCache, MessageSender messageSender, IBuildSendMessageService buildSendMessageService, SuspendedRegistrationKeyboard suspendedRegistrationKeyboard) {
+    public CommandHandler(Cache<User> userCache, MessageSender messageSender, IBuildSendMessageService buildSendMessageService, SuspendedRegistrationKeyboard suspendedRegistrationKeyboard, HostProfile hostProfile, RefugeeProfile refugeeProfile) {
         this.userCache = userCache;
         this.messageSender = messageSender;
         this.buildSendMessageService = buildSendMessageService;
         this.suspendedRegistrationKeyboard = suspendedRegistrationKeyboard;
+        this.hostProfile = hostProfile;
+        this.refugeeProfile = refugeeProfile;
     }
 
 
@@ -46,6 +52,7 @@ public class CommandHandler implements IHandlerCommand<Message> {
                 userCache.remove(message.getChatId());
                 user.setPhase(Phase.STATUS);
             }
+            settingViewedToFalse();
             SendMessage msg = buildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Yay! You've just restarted this bot!", buildButtonsService.getMainMarkup());
             messageSender.messageSend(msg);
             return true;
@@ -78,5 +85,17 @@ public class CommandHandler implements IHandlerCommand<Message> {
 
             return true;
         } else return false;
+    }
+
+    private void settingViewedToFalse(){
+        if ((userCache.getAll().size() > 0) && (userCache.getAll() != null)) {
+            userCache.getAll().forEach(user -> user.setViewed(false));
+        }
+        if ((this.hostProfile.getHosts().size() > 0) && (this.hostProfile.getHosts() != null)){
+            this.hostProfile.getHosts().forEach(user -> user.setViewed(false));
+        }
+        if ((this.refugeeProfile.getRefugees().size() > 0) && (this.refugeeProfile.getRefugees() != null)){
+            this.refugeeProfile.getRefugees().forEach(user -> user.setViewed(false));
+        }
     }
 }

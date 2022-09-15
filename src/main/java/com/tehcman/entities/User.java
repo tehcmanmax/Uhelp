@@ -77,6 +77,7 @@ public class User {
     public String toString() {
         return "User{\n" +
                 "tgUsername=" + tgUsername + '\n' +
+                "id=" + id + '\n' +
                 "name=" + name + '\n' +
                 "phoneNumber=" + phoneNumber + '\n' +
                 "email=" + email + '\n' +

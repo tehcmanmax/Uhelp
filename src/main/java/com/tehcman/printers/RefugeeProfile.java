@@ -9,6 +9,7 @@ import com.tehcman.services.ParsingJSONtoListService;
 import com.tehcman.services.keyboards.profile_search.InlineNewProfilesNotification;
 import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -17,8 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//FIXME copy functionality from the hostprofile class
 @Component
 public class RefugeeProfile implements IPrintUserProfile {
+    @Getter
     private List<User> refugees;
     private int prevNumber = -1;
     private final UserCache userCache;
@@ -31,18 +34,18 @@ public class RefugeeProfile implements IPrintUserProfile {
     private final InlineProfileNavigation inlineProfileNavigation;
 
     public RefugeeProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
+        this.userCache = userCache;
         this.refugees = new ArrayList<>();
-//        setHostsFromCache();
+/*//        setHostsFromCache();
 
         //fetching data from json
         ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
 
         ArrayList<User> refugees = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.REFUGEE);
         this.refugees.addAll(refugees);
-        this.refugees.forEach(System.out::println);
+//        this.refugees.forEach(System.out::println);*/
+        settingDataCacheAndHosts();
 
-
-        this.userCache = userCache;
         this.messageSender = messageSender;
         this.iBuildSendMessageService = iBuildSendMessageService;
         this.inlineNewProfilesNotification = inlineNewProfilesNotification;
@@ -88,5 +91,22 @@ public class RefugeeProfile implements IPrintUserProfile {
         return userList.stream()
                 .filter(x -> x.getStatus().equals(whoToLookFor))
                 .collect(Collectors.toList());
+    }
+
+    private void settingDataCacheAndHosts() {
+        ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
+
+        ArrayList<User> refugees = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.REFUGEE);
+        this.refugees.addAll(refugees);
+
+//        hosts.forEach(System.out::println);
+        System.out.println("printing cache out");
+        refugees.forEach(this.userCache::add);
+        userCache.getAll().forEach(System.out::println);
+    }
+
+    private void setIsViewed(int positionInArray){
+        this.userCache.findBy((long) positionInArray).setViewed(true);
+        this.getRefugees().get(positionInArray).setViewed(true);
     }
 }

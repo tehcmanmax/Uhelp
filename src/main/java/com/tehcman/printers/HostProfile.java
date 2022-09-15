@@ -33,17 +33,12 @@ public class HostProfile implements IPrintUserProfile {
 
     @Autowired
     public HostProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
+        this.userCache = userCache;
         this.hosts = new ArrayList<>();
 //        setHostsFromCache();
-
         //fetching data from json
-        ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
+        settingDataCacheAndHosts();
 
-        ArrayList<User> hosts = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.HOST);
-        this.hosts.addAll(hosts);
-        hosts.forEach(System.out::println);
-
-        this.userCache = userCache;
         this.messageSender = messageSender;
         this.iBuildSendMessageService = iBuildSendMessageService;
         this.inlineNewProfilesNotification = inlineNewProfilesNotification;
@@ -86,6 +81,7 @@ public class HostProfile implements IPrintUserProfile {
             randNumb = (int) (Math.random() * this.hosts.size());
         }
         prevNumber = randNumb;
+        setIsViewed(randNumb);
 
         SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
                 this.hosts.get(prevNumber).toString(), inlineProfileNavigation.getMainMarkup());
@@ -95,5 +91,23 @@ public class HostProfile implements IPrintUserProfile {
     @Override
     public String beautify(Long id) {
         return null;
+    }
+
+    private void settingDataCacheAndHosts() {
+        ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
+
+        ArrayList<User> hosts = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.HOST);
+        this.hosts.addAll(hosts);
+
+//        hosts.forEach(System.out::println);
+        System.out.println("printing cache out");
+        hosts.forEach(this.userCache::add);
+        userCache.getAll().forEach(System.out::println);
+//
+    }
+
+    private void setIsViewed(int positionInArray){
+        this.userCache.findBy((long) positionInArray).setViewed(true);
+        this.getHosts().get(positionInArray).setViewed(true);
     }
 }
