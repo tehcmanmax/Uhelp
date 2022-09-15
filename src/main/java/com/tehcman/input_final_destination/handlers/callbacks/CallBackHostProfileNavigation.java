@@ -5,12 +5,12 @@ package com.tehcman.input_final_destination.handlers.callbacks;
 
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
-import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.handlers.IHandler;
 import com.tehcman.printers.HostProfile;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;
+import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -27,15 +27,17 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     private final HostProfile hostProfile;
     private final IBuildSendMessageService iBuildSendMessageService;
     private final FetchRandomUniqueUserService fetchRandomUniqueUserService;
+    private final InlineNoProfiles inlineNoProfiles;
 
     @Autowired
-    public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile, IBuildSendMessageService iBuildSendMessageService, FetchRandomUniqueUserService fetchRandomUniqueUserService) {
+    public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile, IBuildSendMessageService iBuildSendMessageService, FetchRandomUniqueUserService fetchRandomUniqueUserService, InlineNoProfiles inlineNoProfiles) {
         this.messageSender = messageSender;
         this.inlineProfileNavigation = inlineProfileNavigation;
         this.userCache = userCache;
         this.hostProfile = hostProfile;
         this.iBuildSendMessageService = iBuildSendMessageService;
         this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
+        this.inlineNoProfiles = inlineNoProfiles;
     }
 
     //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache
@@ -44,11 +46,11 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
         var hosts = this.hostProfile.getHosts();
 
         if ((inlineButtonPressed.getData().equals("rand_action")) && (hosts.size() > 1)) {
-            check();
+            check(inlineButtonPressed);
             EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(randomHost(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
             messageSender.editMessageSend(newMessage);
         } else if ((inlineButtonPressed.getData().equals("next_action")) && (hosts.size() > 1)) {
-            check();
+            check(inlineButtonPressed);
 
             int index = fetchRandomUniqueUserService.calculateCurrentUserArrayIndex(inlineButtonPressed, Status.HOST);
             index--;
@@ -72,14 +74,16 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
 
 
         } else if ((inlineButtonPressed.getData().equals("back_action")) && (hostProfile.getHosts().size() > 1)) {
-            check();
+            check(inlineButtonPressed);
         }
 
     }
 
-    private void check() {
+    private void check(CallbackQuery callbackQuery) {
         if (fetchRandomUniqueUserService.areAllUsersViewed(Status.HOST)) {
-            throw new ArrayStoreException("ran out the user profiles");
+            EditMessageText editMessageText = iBuildSendMessageService.createHTMLEditMessage("You've viewed all profiles. " +
+                    "Show them again or we can notify you when new profiles appear", callbackQuery, inlineNoProfiles.getMainMarkup());
+           messageSender.editMessageSend(editMessageText);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.tehcman.services.keyboards.profile_search;
 
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Service
 public class InlineNoProfiles {
+    @Getter
     private final InlineKeyboardMarkup mainMarkup;
 
     public InlineNoProfiles() {
