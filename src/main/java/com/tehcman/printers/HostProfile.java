@@ -4,6 +4,7 @@ import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.sendmessage.MessageSender;
+import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.ParsingJSONtoListService;
 import com.tehcman.services.keyboards.profile_search.*;
@@ -21,7 +22,6 @@ import java.util.stream.Collectors;
 public class HostProfile implements IPrintUserProfile {
     @Getter
     private List<User> hosts;
-    private int prevNumber = -1;
     private final UserCache userCache;
     private final MessageSender messageSender;
     private final IBuildSendMessageService iBuildSendMessageService;
@@ -30,6 +30,7 @@ public class HostProfile implements IPrintUserProfile {
     private final InlineNewProfilesNotification inlineNewProfilesNotification;
     private final InlineNoProfiles inlineNoProfiles;
     private final InlineProfileNavigation inlineProfileNavigation;
+    private  FetchRandomUniqueUserService fetchRandomUniqueUserService;
 
     @Autowired
     public HostProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
@@ -76,15 +77,8 @@ public class HostProfile implements IPrintUserProfile {
 
     @Override
     public void printUserRandomDefault(Message msg) {
-        int randNumb = (int) (Math.random() * this.hosts.size());
-        while (randNumb == prevNumber) {
-            randNumb = (int) (Math.random() * this.hosts.size());
-        }
-        prevNumber = randNumb;
-        setIsViewed(randNumb);
-
         SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
-                this.hosts.get(prevNumber).toString(), inlineProfileNavigation.getMainMarkup());
+                fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST).toString(), inlineProfileNavigation.getMainMarkup());
         messageSender.messageSend(newMessage);
     }
 
@@ -106,8 +100,13 @@ public class HostProfile implements IPrintUserProfile {
 //
     }
 
-    private void setIsViewed(int positionInArray){
+    private void setIsViewed(int positionInArray) {
         this.userCache.findBy((long) positionInArray).setViewed(true);
         this.getHosts().get(positionInArray).setViewed(true);
+    }
+
+    @Autowired
+    public void setFetchRandomUniqueUserService(FetchRandomUniqueUserService fetchRandomUniqueUserService) {
+        this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
     }
 }
