@@ -25,7 +25,6 @@ public class TextHandler implements IHandler<Message> {
     private final Text1SendMessageFactory text1SendMessageFactory;
     private final ISendMessageAbstractFactory create2SendMessagesFactory;
     private final UserCache userCache;
-
     private final FetchRandomUniqueUserService fetchRandomUniqueUserService;
 
 
