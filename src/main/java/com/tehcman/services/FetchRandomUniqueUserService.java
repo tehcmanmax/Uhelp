@@ -5,6 +5,7 @@ import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.printers.HostProfile;
 import com.tehcman.printers.RefugeeProfile;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -16,6 +17,7 @@ public class FetchRandomUniqueUserService {
     private HostProfile hostProfile;
     private RefugeeProfile refugeeProfile;
     private int prevNumber = -1;
+    @Getter
     private int randNumb;
 
     @Autowired
@@ -109,7 +111,7 @@ public class FetchRandomUniqueUserService {
     public boolean areAllUsersViewed(Status userStatus) {
         return this.fetchRandomUniqueUser(userStatus) == null;
     }
-
+/*
     public int calculateCurrentUserArrayIndex(CallbackQuery callbackQuery, Status userStatus) {
         if (userStatus.equals(Status.HOST)) {
             int startNavigationIndex = 0;
@@ -130,7 +132,7 @@ public class FetchRandomUniqueUserService {
             }
             return startNavigationIndex;
         }
-    }
+    }*/
 
     @Autowired
     public void setHostProfile(HostProfile hostProfile) {

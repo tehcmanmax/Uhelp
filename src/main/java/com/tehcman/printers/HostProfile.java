@@ -94,6 +94,16 @@ public class HostProfile implements IPrintUserProfile {
         }
     }
 
+    public void printInline(Message msg, User user) {
+        if (user != null) {
+            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
+                    user.toString(),
+                    inlineProfileNavigation.getMainMarkup());
+            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
+            messageSender.messageSend(newMessage);
+        }
+    }
+
     @Override
     public String beautify(Long id) {
         return null;

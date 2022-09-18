@@ -13,13 +13,13 @@ import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +33,9 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     private final IBuildSendMessageService iBuildSendMessageService;
     private final FetchRandomUniqueUserService fetchRandomUniqueUserService;
     private final InlineNoProfiles inlineNoProfiles;
+
+    @Setter
+    private User lastViewedHost;
 
     @Autowired
     public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile, IBuildSendMessageService iBuildSendMessageService, FetchRandomUniqueUserService fetchRandomUniqueUserService, InlineNoProfiles inlineNoProfiles) {
@@ -50,28 +53,43 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     public void handle(CallbackQuery inlineButtonPressed) {
         var hosts = this.hostProfile.getHosts();
 
-        if ((inlineButtonPressed.getData().equals("rand_action")) && (hosts.size() > 1)) {
-            check(inlineButtonPressed);
+        if ((inlineButtonPressed.getData().equals("rand_action")) && (hosts.size() > 0)) {
+            checkIfAllProfilesViewed(inlineButtonPressed);
             User user = randomHost();
             EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(user.toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
 
             fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
             messageSender.editMessageSend(newMessage);
-        } else if ((inlineButtonPressed.getData().equals("next_action")) && (hosts.size() > 1)) {
-            check(inlineButtonPressed);
+        } else if ((inlineButtonPressed.getData().equals("next_action")) && (hosts.size() > 0)) {
+            checkIfAllProfilesViewed(inlineButtonPressed);
 
-            int index = fetchRandomUniqueUserService.calculateCurrentUserArrayIndex(inlineButtonPressed, Status.HOST);
+//            int index = fetchRandomUniqueUserService.calculateCurrentUserArrayIndex(inlineButtonPressed, Status.HOST);
+
+            //fetching previous user
+            int index = -1;  /*Integer.parseInt(String.valueOf(this.lastViewedHost.getId()));*/
+
+            for (int i = 0; i < hosts.size(); i++) {
+                if (hosts.get(i).getId() == lastViewedHost.getId()) {
+                    index = i;
+                    break;
+                }
+            }
+
+/*            index++;
+            if (index >= hosts.size()){
+                index = 0;
+            }*/
             if (index > 0) {
                 int poiner = index;
                 List<User> newArray = new ArrayList<>(hosts.size());
-                for (int i = 0; i < hosts.size(); i++) {
-                    for (; index < hosts.size(); index++) {
-                        newArray.add(hosts.get(index));
-                    }
-                    for (int index2 = 0; index2 < poiner; index2++) {
-                        newArray.add(hosts.get(index2));
-                    }
+                for (; index < hosts.size(); index++) {
+                    newArray.add(hosts.get(index));
                 }
+                for (int index2 = 0; index2 < poiner; index2++) {
+                    newArray.add(hosts.get(index2));
+                }
+
+                int temp = 0;
                 hosts = newArray;
             }
             for (int i = 0; i < hosts.size(); i++) {
@@ -79,16 +97,17 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                     EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
                     hosts.get(i).setViewed(true);
                     messageSender.editMessageSend(newMessage);
+                    return;
                 }
             }
 
         } else if ((inlineButtonPressed.getData().equals("back_action")) && (hostProfile.getHosts().size() > 1)) {
-            check(inlineButtonPressed);
+            checkIfAllProfilesViewed(inlineButtonPressed);
         }
 
     }
 
-    private void check(CallbackQuery callbackQuery) {
+    private void checkIfAllProfilesViewed(CallbackQuery callbackQuery) {
         if (fetchRandomUniqueUserService.areAllUsersViewed(Status.HOST)) {
             EditMessageText editMessageText = iBuildSendMessageService.createHTMLEditMessage("You've viewed all profiles. " +
                     "Show them again or we can notify you when new profiles appear", callbackQuery, inlineNoProfiles.getMainMarkup());

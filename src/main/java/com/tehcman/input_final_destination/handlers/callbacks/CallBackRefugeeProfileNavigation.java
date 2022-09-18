@@ -48,7 +48,9 @@ public class CallBackRefugeeProfileNavigation implements IHandler<CallbackQuery>
         } else if ((inlineButtonPressed.getData().equals("next_action")) && (refugees.size() > 1)) {
             check(inlineButtonPressed);
 
-            int index = fetchRandomUniqueUserService.calculateCurrentUserArrayIndex(inlineButtonPressed, Status.REFUGEE);
+//            int index = fetchRandomUniqueUserService.calculateCurrentUserArrayIndex(inlineButtonPressed, Status.REFUGEE);
+            //fixme
+            int index = 0;
             if (index > 0) {
                 int poiner = index;
                 List<User> newArray = new ArrayList<>(refugees.size());

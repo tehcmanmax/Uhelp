@@ -6,6 +6,7 @@ import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.Text1SendMessageFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageAbstractFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.Text2SendMessageAbstractFactory;
+import com.tehcman.input_final_destination.handlers.callbacks.CallBackHostProfileNavigation;
 import com.tehcman.printers.HostProfile;
 import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.sendmessage.MessageSender;
@@ -30,9 +31,10 @@ public class TextHandler implements IHandler<Message> {
     private final FetchRandomUniqueUserService fetchRandomUniqueUserService;
     private final InlineNoProfiles inlineNoProfiles;
     private final IBuildSendMessageService iBuildSendMessageService;
+    private final CallBackHostProfileNavigation callBackHostProfileNavigation;
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, HostProfile hostProfile, RefugeeProfile refugeeProfile, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, FetchRandomUniqueUserService fetchRandomUniqueUserService, InlineNoProfiles inlineNoProfiles, IBuildSendMessageService iBuildSendMessageService) {
+    public TextHandler(@Lazy MessageSender messageSender, HostProfile hostProfile, RefugeeProfile refugeeProfile, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, FetchRandomUniqueUserService fetchRandomUniqueUserService, InlineNoProfiles inlineNoProfiles, IBuildSendMessageService iBuildSendMessageService, CallBackHostProfileNavigation callBackHostProfileNavigation) {
         this.messageSender = messageSender;
         this.hostProfile = hostProfile;
         this.refugeeProfile = refugeeProfile;
@@ -42,6 +44,7 @@ public class TextHandler implements IHandler<Message> {
         this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
         this.inlineNoProfiles = inlineNoProfiles;
         this.iBuildSendMessageService = iBuildSendMessageService;
+        this.callBackHostProfileNavigation = callBackHostProfileNavigation;
     }
 
     @Override
@@ -79,6 +82,7 @@ public class TextHandler implements IHandler<Message> {
             }
             refugeeProfile.printUserRandomDefault(message);
 
+            //todo copy changes from here to the refugee
         } else if ((message.getText().equals("Show me shelter providing people"))) {
             User user = userCache.findBy(message.getChatId());
             if (user == null) {
@@ -94,7 +98,7 @@ public class TextHandler implements IHandler<Message> {
                 messageSender.messageSend(sendMessage);
             }
 
-            if (fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST) != null) {
+            if (host1.getStatus() != null) {
                 SendMessage msg = SendMessage.builder()
                         .chatId(String.valueOf(message.getChatId()))
                         .replyMarkup(new ReplyKeyboardRemove(true))
@@ -102,7 +106,9 @@ public class TextHandler implements IHandler<Message> {
                         .build();
                 messageSender.messageSend(msg);
             }
-            hostProfile.printUserRandomDefault(message);
+            this.callBackHostProfileNavigation.setLastViewedHost(host1);
+
+            hostProfile.printInline(message, host1);
 
         } else {
             SendMessage newMessageToUser = text1SendMessageFactory.createSendMessage(message);

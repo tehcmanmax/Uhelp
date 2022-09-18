@@ -42,7 +42,7 @@ public class CommandHandler implements IHandlerCommand<Message> {
 
     @Override
     public boolean handleCommand(Message message) {
-        //TODO root place for commands; when adding more commands in the future, code here
+        //root place for commands; when adding more commands in the future, code here
         User user = userCache.findBy(message.getChatId());
 
         if (message.getText().equals(Command.START.toString())) {
