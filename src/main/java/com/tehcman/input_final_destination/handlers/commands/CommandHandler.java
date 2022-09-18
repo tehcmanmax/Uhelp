@@ -2,6 +2,7 @@ package com.tehcman.input_final_destination.handlers.commands;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.Phase;
+import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.handlers.IHandlerCommand;
 import com.tehcman.printers.HostProfile;
@@ -28,7 +29,6 @@ public class CommandHandler implements IHandlerCommand<Message> {
     private final HostProfile hostProfile;
     private final RefugeeProfile refugeeProfile;
 
-
     @Autowired
     public CommandHandler(Cache<User> userCache, MessageSender messageSender, IBuildSendMessageService buildSendMessageService, SuspendedRegistrationKeyboard suspendedRegistrationKeyboard, HostProfile hostProfile, RefugeeProfile refugeeProfile) {
         this.userCache = userCache;
@@ -49,6 +49,11 @@ public class CommandHandler implements IHandlerCommand<Message> {
             this.suspendedRegistrationKeyboard.setSuspended(false);
             this.buildButtonsService = new BuildButtonsService(new BeforeRegistrationKeyboard());
             if (user != null) {
+                if (user.getStatus() == Status.HOST) {
+                    hostProfile.getHosts().remove(user);
+                } else if (user.getStatus() == Status.REFUGEE) {
+                    refugeeProfile.getRefugees().remove(user);
+                }
                 userCache.remove(message.getChatId());
                 user.setPhase(Phase.STATUS);
             }
@@ -87,14 +92,14 @@ public class CommandHandler implements IHandlerCommand<Message> {
         } else return false;
     }
 
-    private void settingViewedToFalse(){
+    private void settingViewedToFalse() {
         if ((userCache.getAll().size() > 0) && (userCache.getAll() != null)) {
             userCache.getAll().forEach(user -> user.setViewed(false));
         }
-        if ((this.hostProfile.getHosts().size() > 0) && (this.hostProfile.getHosts() != null)){
+        if ((this.hostProfile.getHosts().size() > 0) && (this.hostProfile.getHosts() != null)) {
             this.hostProfile.getHosts().forEach(user -> user.setViewed(false));
         }
-        if ((this.refugeeProfile.getRefugees().size() > 0) && (this.refugeeProfile.getRefugees() != null)){
+        if ((this.refugeeProfile.getRefugees().size() > 0) && (this.refugeeProfile.getRefugees() != null)) {
             this.refugeeProfile.getRefugees().forEach(user -> user.setViewed(false));
         }
     }
