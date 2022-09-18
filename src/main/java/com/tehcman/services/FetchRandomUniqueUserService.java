@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class FetchRandomUniqueUserService {
     private final UserCache userCache;
-
     private HostProfile hostProfile;
     private RefugeeProfile refugeeProfile;
     private int prevNumber = -1;

@@ -139,8 +139,17 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                 }
 //                }
             }
+        } else if ((inlineButtonPressed.getData().equals("view_again_action")) && (hostProfile.getHosts().size() > 1)) {
+            hosts.forEach(host -> host.setViewed(false));
+            inlineButtonPressed.setData("rand_action");
+            handle(inlineButtonPressed);
+            return;
+        }
+        else if (inlineButtonPressed.getData().equals("notification_action")){
+
         }
     }
+
 
     private boolean checkIfAllProfilesViewed(CallbackQuery callbackQuery) {
         if (fetchRandomUniqueUserService.areAllUsersViewed(Status.HOST)) {
