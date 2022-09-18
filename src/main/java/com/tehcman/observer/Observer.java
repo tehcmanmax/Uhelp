@@ -10,17 +10,14 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-@Component
 public class Observer {
-    @Setter
     private User observer;
+    private boolean inlineNoProfiles;
     private final MessageSender sender;
     private final HostProfile hostProfile;
     private final RefugeeProfile refugeeProfile;
     private final IBuildSendMessageService buildSendMessageService;
     private final InlineNewProfilesNotification inlineNewProfilesNotification;
-    @Setter
-    private boolean inlineNoProfiles;
 
     public Observer(MessageSender sender, HostProfile hostProfile, RefugeeProfile refugeeProfile, IBuildSendMessageService buildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification) {
         this.sender = sender;
@@ -38,5 +35,13 @@ public class Observer {
                     inlineNewProfilesNotification.getMainMarkup());
             sender.messageSend(sendMes);
         }
+    }
+
+    public void setInlineNoProfiles(boolean inlineNoProfiles) {
+        this.inlineNoProfiles = inlineNoProfiles;
+    }
+
+    public void setObserver(User observer) {
+        this.observer = observer;
     }
 }

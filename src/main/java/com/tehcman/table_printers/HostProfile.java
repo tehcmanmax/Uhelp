@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Component("HostProfile")
 public class HostProfile implements IPrintUserProfile {
     @Getter
     private List<User> hosts;
