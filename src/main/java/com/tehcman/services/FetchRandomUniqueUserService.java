@@ -12,16 +12,15 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 @Service
 public class FetchRandomUniqueUserService {
     private final UserCache userCache;
-    private final HostProfile hostProfile;
-    private final RefugeeProfile refugeeProfile;
+
+    private HostProfile hostProfile;
+    private RefugeeProfile refugeeProfile;
     private int prevNumber = -1;
     private int randNumb;
 
     @Autowired
-    public FetchRandomUniqueUserService(UserCache userCache, HostProfile hostProfile, RefugeeProfile refugeeProfile) {
+    public FetchRandomUniqueUserService(UserCache userCache) {
         this.userCache = userCache;
-        this.hostProfile = hostProfile;
-        this.refugeeProfile = refugeeProfile;
     }
 
     public User fetchRandomUniqueUser(Status userType) {
@@ -125,5 +124,15 @@ public class FetchRandomUniqueUserService {
             }
             return startNavigationIndex;
         }
+    }
+
+    @Autowired
+    public void setHostProfile(HostProfile hostProfile) {
+        this.hostProfile = hostProfile;
+    }
+
+    @Autowired
+    public void setRefugeeProfile(RefugeeProfile refugeeProfile) {
+        this.refugeeProfile = refugeeProfile;
     }
 }

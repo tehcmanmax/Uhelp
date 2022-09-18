@@ -4,12 +4,14 @@ import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.sendmessage.MessageSender;
+import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.ParsingJSONtoListService;
 import com.tehcman.services.keyboards.profile_search.InlineNewProfilesNotification;
 import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -27,6 +29,7 @@ public class RefugeeProfile implements IPrintUserProfile {
     private final UserCache userCache;
     private final MessageSender messageSender;
     private final IBuildSendMessageService iBuildSendMessageService;
+    private FetchRandomUniqueUserService fetchRandomUniqueUserService;
 
     //keyboards
     private final InlineNewProfilesNotification inlineNewProfilesNotification;
@@ -60,20 +63,18 @@ public class RefugeeProfile implements IPrintUserProfile {
 
     @Override
     public void printUserRandomDefault(Message msg) {
-        int randNumb = (int) (Math.random() * this.refugees.size());
-        while (randNumb == prevNumber) {
-            randNumb = (int) (Math.random() * this.refugees.size());
-        }
-        prevNumber = randNumb;
-
         SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
-                this.refugees.get(prevNumber).toString(), inlineProfileNavigation.getMainMarkup());
+                fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE).toString(), inlineProfileNavigation.getMainMarkup());
         messageSender.messageSend(newMessage);
     }
 
     @Override
     public void setUsersFromCache() {
-
+        if ((userCache != null) && (userCache.getAll().size() > 0)) {
+            this.refugees.addAll(userCache.getAll().stream()
+                    .filter(x -> x.getStatus().equals(Status.REFUGEE))
+                    .collect(Collectors.toList()));
+        }
     }
 
     @Override
@@ -105,8 +106,13 @@ public class RefugeeProfile implements IPrintUserProfile {
         userCache.getAll().forEach(System.out::println);
     }
 
-    private void setIsViewed(int positionInArray){
+    private void setIsViewed(int positionInArray) {
         this.userCache.findBy((long) positionInArray).setViewed(true);
         this.getRefugees().get(positionInArray).setViewed(true);
+    }
+
+    @Autowired
+    public void setFetchRandomUniqueUserService(FetchRandomUniqueUserService fetchRandomUniqueUserService) {
+        this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
     }
 }
