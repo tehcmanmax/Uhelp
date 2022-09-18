@@ -30,7 +30,7 @@ public class HostProfile implements IPrintUserProfile {
     private final InlineNewProfilesNotification inlineNewProfilesNotification;
     private final InlineNoProfiles inlineNoProfiles;
     private final InlineProfileNavigation inlineProfileNavigation;
-    private  FetchRandomUniqueUserService fetchRandomUniqueUserService;
+    private FetchRandomUniqueUserService fetchRandomUniqueUserService;
 
     @Autowired
     public HostProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
@@ -48,11 +48,18 @@ public class HostProfile implements IPrintUserProfile {
     }
 
     @Override
-    public void setUsersFromCache() {
+    public void addUsersFromCache() {
         if ((userCache != null) && (userCache.getAll().size() > 0)) {
             this.hosts.addAll(userCache.getAll().stream()
                     .filter(x -> x.getStatus().equals(Status.HOST))
                     .collect(Collectors.toList()));
+        }
+    }
+
+    @Override
+    public void addSingleUserFromCache(User user) {
+        if ((userCache != null) && (userCache.getAll().size() > 0)) {
+            this.hosts.add(user);
         }
     }
 
@@ -77,9 +84,14 @@ public class HostProfile implements IPrintUserProfile {
 
     @Override
     public void printUserRandomDefault(Message msg) {
-        SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
-                fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST).toString(), inlineProfileNavigation.getMainMarkup());
-        messageSender.messageSend(newMessage);
+        User user = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST);
+        if (user != null) {
+            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
+                    user.toString(),
+                    inlineProfileNavigation.getMainMarkup());
+            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
+            messageSender.messageSend(newMessage);
+        }
     }
 
     @Override

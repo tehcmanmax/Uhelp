@@ -3,7 +3,6 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 import static com.tehcman.entities.Phase.*;
 
 import com.tehcman.cahce.Cache;
-import com.tehcman.entities.Phase;
 import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.entities.User;
 import com.tehcman.services.BuildButtonsService;
@@ -73,6 +72,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                 } else if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setSex(null);
                     user.setPhase(NAME);
+                    refugeeProfile.addSingleUserFromCache(user);
 
                     SendMessage sendMessage = ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Type your name or SKIP if you want to set your default Telegram name", buildButtonsService.getMainMarkup());
                     return sendMessage;
@@ -254,7 +254,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                 if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setAdditional(null);
                     user.setPhase(NONE);
-                    refugeeProfile.setUsersFromCache();
+                    refugeeProfile.addSingleUserFromCache(user);
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
@@ -266,7 +266,7 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                 } else {
                     user.setAdditional(message.getText());
                     user.setPhase(NONE);
-                    refugeeProfile.setUsersFromCache();
+                    refugeeProfile.addSingleUserFromCache(user);
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +

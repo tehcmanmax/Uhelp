@@ -38,25 +38,25 @@ public class FetchRandomUniqueUserService {
                 }
             }
 
-            int randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
-            while (randNumb == prevNumber) {
-                randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
+            this.randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
+            while (this.randNumb == prevNumber) {
+                this.randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
             }
-            prevNumber = randNumb;
+            prevNumber = this.randNumb;
 
             //check if unique
-            while (this.hostProfile.getHosts().get(randNumb).isViewed()) {
-                randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
-                while (randNumb == prevNumber) {
-                    randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
+            while (this.hostProfile.getHosts().get(this.randNumb).isViewed()) {
+                this.randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
+                while (this.randNumb == prevNumber) {
+                    this.randNumb = (int) (Math.random() * this.hostProfile.getHosts().size());
                 }
-                prevNumber = randNumb;
+                prevNumber = this.randNumb;
             }
 
-            setIsViewed(this.hostProfile.getHosts().get(randNumb).getId(), Status.HOST);
+//            setIsViewed(this.hostProfile.getHosts().get(this.randNumb).getId(), Status.HOST);
 
-            return this.hostProfile.getHosts().get(randNumb);
-        } else {
+            return this.hostProfile.getHosts().get(this.randNumb);
+        } else if (userType.equals(Status.REFUGEE)){
             var refugees = this.refugeeProfile.getRefugees();
 
             int size = refugees.size();
@@ -72,32 +72,38 @@ public class FetchRandomUniqueUserService {
                 }
             }
 
-            int randNumb = (int) (Math.random() * refugees.size());
-            while (randNumb == prevNumber) {
-                randNumb = (int) (Math.random() * refugees.size());
+            this.randNumb = (int) (Math.random() * refugees.size());
+            while (this.randNumb == prevNumber) {
+                this.randNumb = (int) (Math.random() * refugees.size());
             }
-            prevNumber = randNumb;
+            prevNumber = this.randNumb;
 
             //check if unique
-            while (refugees.get(randNumb).isViewed()) {
-                randNumb = (int) (Math.random() * refugees.size());
-                while (randNumb == prevNumber) {
-                    randNumb = (int) (Math.random() * refugees.size());
+            while (refugees.get(this.randNumb).isViewed()) {
+                this.randNumb = (int) (Math.random() * refugees.size());
+                while (this.randNumb == prevNumber) {
+                    this.randNumb = (int) (Math.random() * refugees.size());
                 }
-                prevNumber = randNumb;
+                prevNumber = this.randNumb;
             }
 
-            setIsViewed(refugees.get(randNumb).getId(), Status.REFUGEE);
+//            setIsViewed(refugees.get(this.randNumb).getId(), Status.REFUGEE);
 
-            return refugees.get(randNumb);
+            return refugees.get(this.randNumb);
         }
+        else return null;
     }
 
-    private void setIsViewed(Long idInCache, Status userStatus) {
-        this.userCache.findBy(idInCache).setViewed(true);
-        if (userStatus.equals(Status.HOST))
-            this.hostProfile.getHosts().get(randNumb).setViewed(true);
-        else this.refugeeProfile.getRefugees().get(randNumb).setViewed(true);
+    public void setIsViewed(Long idInCache, Status userStatus) {
+        User user = this.userCache.findBy(idInCache);
+        user.setViewed(true);
+        if (userStatus.equals(Status.HOST)) {
+            User user2 = this.hostProfile.getHosts().get(this.randNumb);
+            user2.setViewed(true);
+        } else {
+            User user3 = this.refugeeProfile.getRefugees().get(this.randNumb);
+            user3.setViewed(true);
+        }
     }
 
     public boolean areAllUsersViewed(Status userStatus) {

@@ -10,6 +10,8 @@ import com.tehcman.printers.HostProfile;
 import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.FetchRandomUniqueUserService;
+import com.tehcman.services.IBuildSendMessageService;
+import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -26,10 +28,11 @@ public class TextHandler implements IHandler<Message> {
     private final ISendMessageAbstractFactory create2SendMessagesFactory;
     private final UserCache userCache;
     private final FetchRandomUniqueUserService fetchRandomUniqueUserService;
-
+    private final InlineNoProfiles inlineNoProfiles;
+    private final IBuildSendMessageService iBuildSendMessageService;
 
     @Autowired
-    public TextHandler(@Lazy MessageSender messageSender, HostProfile hostProfile, RefugeeProfile refugeeProfile, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, FetchRandomUniqueUserService fetchRandomUniqueUserService) {
+    public TextHandler(@Lazy MessageSender messageSender, HostProfile hostProfile, RefugeeProfile refugeeProfile, Text1SendMessageFactory text1SendMessageFactory, Text2SendMessageAbstractFactory create2SendMessagesFactory, UserCache userCache, FetchRandomUniqueUserService fetchRandomUniqueUserService, InlineNoProfiles inlineNoProfiles, IBuildSendMessageService iBuildSendMessageService) {
         this.messageSender = messageSender;
         this.hostProfile = hostProfile;
         this.refugeeProfile = refugeeProfile;
@@ -37,6 +40,8 @@ public class TextHandler implements IHandler<Message> {
         this.create2SendMessagesFactory = create2SendMessagesFactory;
         this.userCache = userCache;
         this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
+        this.inlineNoProfiles = inlineNoProfiles;
+        this.iBuildSendMessageService = iBuildSendMessageService;
     }
 
     @Override
@@ -55,6 +60,14 @@ public class TextHandler implements IHandler<Message> {
             if (user == null) {
                 throw new NullPointerException("Complete the registration first!");
             }
+/*
+            User refugee1;
+            refugee1 = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE);
+            if (refugee1 == null) {
+                SendMessage sendMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(message.getChatId()), "You've viewed all profiles. " +
+                        "Show them again or we can notify you when new profiles appear", inlineNoProfiles.getMainMarkup());
+                messageSender.messageSend(sendMessage);
+            }*/
 
             if (fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE) != null) {
                 SendMessage msg = SendMessage.builder()
@@ -71,6 +84,18 @@ public class TextHandler implements IHandler<Message> {
             if (user == null) {
                 throw new NullPointerException("Complete the registration first!");
             }
+/*
+
+            User host1;
+            host1 = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE);
+
+            if (host1 == null) {
+                SendMessage sendMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(message.getChatId()), "You've viewed all profiles. " +
+                        "Show them again or we can notify you when new profiles appear", inlineNoProfiles.getMainMarkup());
+                messageSender.messageSend(sendMessage);
+            }
+*/
+
             if (fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST) != null) {
                 SendMessage msg = SendMessage.builder()
                         .chatId(String.valueOf(message.getChatId()))

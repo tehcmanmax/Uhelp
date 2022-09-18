@@ -63,17 +63,29 @@ public class RefugeeProfile implements IPrintUserProfile {
 
     @Override
     public void printUserRandomDefault(Message msg) {
-        SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
-                fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE).toString(), inlineProfileNavigation.getMainMarkup());
-        messageSender.messageSend(newMessage);
+        User user = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE);
+        if (user != null) {
+            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
+                    user.toString(),
+                    inlineProfileNavigation.getMainMarkup());
+            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.REFUGEE);
+            messageSender.messageSend(newMessage);
+        }
     }
 
     @Override
-    public void setUsersFromCache() {
+    public void addUsersFromCache() {
         if ((userCache != null) && (userCache.getAll().size() > 0)) {
             this.refugees.addAll(userCache.getAll().stream()
                     .filter(x -> x.getStatus().equals(Status.REFUGEE))
                     .collect(Collectors.toList()));
+        }
+    }
+
+    @Override
+    public void addSingleUserFromCache(User user) {
+        if ((userCache != null) && (userCache.getAll().size() > 0)) {
+            this.refugees.add(user);
         }
     }
 

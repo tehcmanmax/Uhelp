@@ -9,7 +9,8 @@ import java.util.List;
 public interface IPrintUserProfile {
     String beautify(Long id);
     void printUserRandomDefault(Message msg);
-    void setUsersFromCache();
+    void addUsersFromCache();
+    void addSingleUserFromCache(User user);
     void viewedAllUsers(Message msg);
     void notifyNewProfiles(Message msg);
 

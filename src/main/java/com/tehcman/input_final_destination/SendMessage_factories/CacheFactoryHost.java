@@ -231,7 +231,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 if (message.getText().equals("SKIP " + Emoji.BLACK_RIGHTWARDS_ARROW)) {
                     user.setAdditional(null);
                     user.setPhase(NONE);
-                    hostProfile.setUsersFromCache();
+                    hostProfile.addSingleUserFromCache(user);
 
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
@@ -244,7 +244,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
                 } else {
                     user.setAdditional(message.getText());
                     user.setPhase(NONE);
-                    hostProfile.setUsersFromCache();
+                    hostProfile.addSingleUserFromCache(user);
 
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));

@@ -52,7 +52,10 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
 
         if ((inlineButtonPressed.getData().equals("rand_action")) && (hosts.size() > 1)) {
             check(inlineButtonPressed);
-            EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(randomHost(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
+            User user = randomHost();
+            EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(user.toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
+
+            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
             messageSender.editMessageSend(newMessage);
         } else if ((inlineButtonPressed.getData().equals("next_action")) && (hosts.size() > 1)) {
             check(inlineButtonPressed);
@@ -79,27 +82,6 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                 }
             }
 
-
-            /*index--;
-
-            int i2 = 0;
-            for (int i = index; index < ((hosts.size() - 1) + (index)); i++) {
-                if (i > hosts.size()) {
-                    if (!hosts.get(i2).isViewed()) {
-
-                        EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i2).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
-                        hosts.get(i2).setViewed(true);
-                        i2++;
-                        messageSender.editMessageSend(newMessage);
-                    }
-                } else if (!hosts.get(i).isViewed()) {
-                    EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
-                    hosts.get(i).setViewed(true);
-                    messageSender.editMessageSend(newMessage);
-                }
-            }*/
-
-
         } else if ((inlineButtonPressed.getData().equals("back_action")) && (hostProfile.getHosts().size() > 1)) {
             check(inlineButtonPressed);
         }
@@ -115,8 +97,8 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     }
 
 
-    private String randomHost() {
-        return this.fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST).toString();
+    private User randomHost() {
+        return this.fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST);
     }
 
 

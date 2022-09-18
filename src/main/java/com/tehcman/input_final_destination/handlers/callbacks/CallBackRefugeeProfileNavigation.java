@@ -20,7 +20,6 @@ import java.util.List;
 
 @Component
 public class CallBackRefugeeProfileNavigation implements IHandler<CallbackQuery> {
-
     private final MessageSender messageSender;
     private final InlineProfileNavigation inlineProfileNavigation; //testing the inline buttons
     private final UserCache userCache;
