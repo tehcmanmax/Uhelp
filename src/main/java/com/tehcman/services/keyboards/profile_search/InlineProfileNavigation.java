@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRem
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,18 +21,19 @@ public class InlineProfileNavigation /*extends ReplyKeyboardRemove*/ {
                 .text("Back").callbackData("back_action").build();
 
         InlineKeyboardButton randAction = InlineKeyboardButton.builder()
-                .text("Random profile").callbackData("rand_action").build();
+                .text("Random unique profile").callbackData("rand_action").build();
 
         InlineKeyboardButton nextAction = InlineKeyboardButton.builder()
                 .text("Next").callbackData("next_action").build();
 
         List<List<InlineKeyboardButton>> listOfInlineButtons = new ArrayList<>();
         ArrayList<InlineKeyboardButton> row1 = new ArrayList<>();
+        ArrayList<InlineKeyboardButton> row2 = new ArrayList<>();
 //        row1.add(prevAction);
         row1.add(backAction);
-        row1.add(randAction);
+        row2.add(randAction);
         row1.add(nextAction);
-        listOfInlineButtons.add(row1);
+        Collections.addAll(listOfInlineButtons, row1, row2);
 
         this.mainMarkup.setKeyboard(listOfInlineButtons);
     }
