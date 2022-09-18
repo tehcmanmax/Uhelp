@@ -60,14 +60,14 @@ public class TextHandler implements IHandler<Message> {
             if (user == null) {
                 throw new NullPointerException("Complete the registration first!");
             }
-/*
+
             User refugee1;
             refugee1 = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE);
             if (refugee1 == null) {
                 SendMessage sendMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(message.getChatId()), "You've viewed all profiles. " +
                         "Show them again or we can notify you when new profiles appear", inlineNoProfiles.getMainMarkup());
                 messageSender.messageSend(sendMessage);
-            }*/
+            }
 
             if (fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE) != null) {
                 SendMessage msg = SendMessage.builder()
@@ -84,17 +84,15 @@ public class TextHandler implements IHandler<Message> {
             if (user == null) {
                 throw new NullPointerException("Complete the registration first!");
             }
-/*
 
             User host1;
-            host1 = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE);
+            host1 = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST);
 
             if (host1 == null) {
                 SendMessage sendMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(message.getChatId()), "You've viewed all profiles. " +
                         "Show them again or we can notify you when new profiles appear", inlineNoProfiles.getMainMarkup());
                 messageSender.messageSend(sendMessage);
             }
-*/
 
             if (fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST) != null) {
                 SendMessage msg = SendMessage.builder()
