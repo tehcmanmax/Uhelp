@@ -1,4 +1,4 @@
-package com.tehcman.printers;
+package com.tehcman.table_printers;
 
 import com.tehcman.entities.Status;
 import com.tehcman.entities.User;

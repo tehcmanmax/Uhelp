@@ -3,12 +3,11 @@ package com.tehcman.services;
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
-import com.tehcman.printers.HostProfile;
-import com.tehcman.printers.RefugeeProfile;
+import com.tehcman.table_printers.HostProfile;
+import com.tehcman.table_printers.RefugeeProfile;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 @Service
 public class FetchRandomUniqueUserService {

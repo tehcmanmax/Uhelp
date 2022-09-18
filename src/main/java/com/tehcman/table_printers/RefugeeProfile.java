@@ -1,4 +1,4 @@
-package com.tehcman.printers;
+package com.tehcman.table_printers;
 
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
@@ -7,7 +7,9 @@ import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.ParsingJSONtoListService;
-import com.tehcman.services.keyboards.profile_search.*;
+import com.tehcman.services.keyboards.profile_search.InlineNewProfilesNotification;
+import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
+import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,26 +20,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//FIXME copy functionality from the hostprofile class
 @Component
-public class HostProfile implements IPrintUserProfile {
+public class RefugeeProfile implements IPrintUserProfile {
     @Getter
-    private List<User> hosts;
+    private List<User> refugees;
+    private int prevNumber = -1;
     private final UserCache userCache;
     private final MessageSender messageSender;
     private final IBuildSendMessageService iBuildSendMessageService;
+    private FetchRandomUniqueUserService fetchRandomUniqueUserService;
 
     //keyboards
     private final InlineNewProfilesNotification inlineNewProfilesNotification;
     private final InlineNoProfiles inlineNoProfiles;
     private final InlineProfileNavigation inlineProfileNavigation;
-    private FetchRandomUniqueUserService fetchRandomUniqueUserService;
 
-    @Autowired
-    public HostProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
+    public RefugeeProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
         this.userCache = userCache;
-        this.hosts = new ArrayList<>();
-//        setHostsFromCache();
+        this.refugees = new ArrayList<>();
+/*//        setHostsFromCache();
+
         //fetching data from json
+        ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
+
+        ArrayList<User> refugees = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.REFUGEE);
+        this.refugees.addAll(refugees);
+//        this.refugees.forEach(System.out::println);*/
         settingDataCacheAndHosts();
 
         this.messageSender = messageSender;
@@ -48,10 +57,27 @@ public class HostProfile implements IPrintUserProfile {
     }
 
     @Override
+    public String beautify(Long id) {
+        return null;
+    }
+
+    @Override
+    public void printUserRandomDefault(Message msg) {
+        User user = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.REFUGEE);
+        if (user != null) {
+            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
+                    user.toString(),
+                    inlineProfileNavigation.getMainMarkup());
+            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.REFUGEE);
+            messageSender.messageSend(newMessage);
+        }
+    }
+
+    @Override
     public void addUsersFromCache() {
         if ((userCache != null) && (userCache.getAll().size() > 0)) {
-            this.hosts.addAll(userCache.getAll().stream()
-                    .filter(x -> x.getStatus().equals(Status.HOST))
+            this.refugees.addAll(userCache.getAll().stream()
+                    .filter(x -> x.getStatus().equals(Status.REFUGEE))
                     .collect(Collectors.toList()));
         }
     }
@@ -59,19 +85,17 @@ public class HostProfile implements IPrintUserProfile {
     @Override
     public void addSingleUserFromCache(User user) {
         if ((userCache != null) && (userCache.getAll().size() > 0)) {
-            this.hosts.add(user);
+            this.refugees.add(user);
         }
     }
 
     @Override
     public void viewedAllUsers(Message msg) {
-        //if boolean equals the size of the array, it has been viewed by a user
 
     }
 
     @Override
     public void notifyNewProfiles(Message msg) {
-        //if tracked number is less than the size of 10, notify the user
 
     }
 
@@ -82,49 +106,21 @@ public class HostProfile implements IPrintUserProfile {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public void printUserRandomDefault(Message msg) {
-        User user = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST);
-        if (user != null) {
-            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
-                    user.toString(),
-                    inlineProfileNavigation.getMainMarkup());
-            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
-            messageSender.messageSend(newMessage);
-        }
-    }
-
-    public void printInline(Message msg, User user) {
-        if (user != null) {
-            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
-                    user.toString(),
-                    inlineProfileNavigation.getMainMarkup());
-            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
-            messageSender.messageSend(newMessage);
-        }
-    }
-
-    @Override
-    public String beautify(Long id) {
-        return null;
-    }
-
     private void settingDataCacheAndHosts() {
         ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
 
-        ArrayList<User> hosts = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.HOST);
-        this.hosts.addAll(hosts);
+        ArrayList<User> refugees = (ArrayList<User>) filterUsers(parsingJSONtoListService.parse(), Status.REFUGEE);
+        this.refugees.addAll(refugees);
 
 //        hosts.forEach(System.out::println);
         System.out.println("printing cache out");
-        hosts.forEach(this.userCache::add);
+        refugees.forEach(this.userCache::add);
         userCache.getAll().forEach(System.out::println);
-//
     }
 
     private void setIsViewed(int positionInArray) {
         this.userCache.findBy((long) positionInArray).setViewed(true);
-        this.getHosts().get(positionInArray).setViewed(true);
+        this.getRefugees().get(positionInArray).setViewed(true);
     }
 
     @Autowired
