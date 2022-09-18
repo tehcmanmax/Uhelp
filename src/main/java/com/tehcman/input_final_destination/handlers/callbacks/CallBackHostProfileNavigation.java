@@ -53,98 +53,93 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     public void handle(CallbackQuery inlineButtonPressed) {
         var hosts = this.hostProfile.getHosts();
 
-        if ((inlineButtonPressed.getData().equals("rand_action")) && (hosts.size() > 0)) {
-            checkIfAllProfilesViewed(inlineButtonPressed);
-            User user = randomHost();
-            EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(user.toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
+        if (!checkIfAllProfilesViewed(inlineButtonPressed)) {
+            if ((inlineButtonPressed.getData().equals("rand_action")) && (hosts.size() > 0)) {
+                User user = randomHost();
+                EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(user.toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
 
-            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
-            messageSender.editMessageSend(newMessage);
-        } else if ((inlineButtonPressed.getData().equals("next_action")) && (hosts.size() > 0)) {
-            if (checkIfAllProfilesViewed(inlineButtonPressed)) {
-                return;
-            }
-            //fetching previous user
-            int index = -1;  /*Integer.parseInt(String.valueOf(this.lastViewedHost.getId()));*/
-
-            for (int i = 0; i < hosts.size(); i++) {
-                if (hosts.get(i).getId() == lastViewedHost.getId()) {
-                    index = i;
-                    break;
-                }
-            }
-            index++;
-            if (index > hosts.size()) {
-                index = 0;
-            }
-
-            if (index > 0) {
-                int poiner = index;
-                List<User> newArray = new ArrayList<>(hosts.size());
-                for (; index < hosts.size(); index++) {
-                    newArray.add(hosts.get(index));
-                }
-                for (int index2 = 0; index2 < poiner; index2++) {
-                    newArray.add(hosts.get(index2));
-                }
-
-                int temp = 0;
-                hosts = newArray;
-            }
-            for (int i = 0; i < hosts.size(); i++) {
-//                if (!hosts.get(i).isViewed()) {
-                EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
-                hosts.get(i).setViewed(true);
-                this.lastViewedHost = hosts.get(i);
+                fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
                 messageSender.editMessageSend(newMessage);
-                return;
-//                }
-            }
+            } else if ((inlineButtonPressed.getData().equals("next_action")) && (hosts.size() > 0)) {
+                //fetching previous user
+                int index = -1;  /*Integer.parseInt(String.valueOf(this.lastViewedHost.getId()));*/
 
-        } else if ((inlineButtonPressed.getData().equals("back_action")) && (hostProfile.getHosts().size() > 1)) {
-            if (checkIfAllProfilesViewed(inlineButtonPressed)) {
-                return;
-            }
-            int index = -1; //tracks index position within the arrayList
-
-            //finding the index
-            for (int i = 0; i < hosts.size(); i++) {
-                if (hosts.get(i).getId() == lastViewedHost.getId()) {
-                    index = i;
-                    break;
+                for (int i = 0; i < hosts.size(); i++) {
+                    if (hosts.get(i).getId() == lastViewedHost.getId()) {
+                        index = i;
+                        break;
+                    }
                 }
-            }
-            if (index > 0) {
-                int poiner = index;
                 index++;
                 if (index > hosts.size()) {
                     index = 0;
                 }
-                List<User> newArray = new ArrayList<>(hosts.size());
-                for (; index < hosts.size(); index++) {
-                    newArray.add(hosts.get(index));
-                }
-                for (int index2 = 0; index2 <= poiner; index2++) {
-                    newArray.add(hosts.get(index2));
-                }
 
-                int temp = 0;
-                hosts = newArray;
-            }
-            int i = hosts.size();
-            i--;
-            i--;
-            for (; i >= 0; i--) {
+                if (index > 0) {
+                    int poiner = index;
+                    List<User> newArray = new ArrayList<>(hosts.size());
+                    for (; index < hosts.size(); index++) {
+                        newArray.add(hosts.get(index));
+                    }
+                    for (int index2 = 0; index2 < poiner; index2++) {
+                        newArray.add(hosts.get(index2));
+                    }
+
+                    int temp = 0;
+                    hosts = newArray;
+                }
+                for (int i = 0; i < hosts.size(); i++) {
 //                if (!hosts.get(i).isViewed()) {
-                EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
-                hosts.get(i).setViewed(true);
-                this.lastViewedHost = hosts.get(i);
-                messageSender.editMessageSend(newMessage);
-                return;
-            }
+                    EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
+                    hosts.get(i).setViewed(true);
+                    this.lastViewedHost = hosts.get(i);
+                    messageSender.editMessageSend(newMessage);
+                    return;
 //                }
-        }
+                }
 
+            } else if ((inlineButtonPressed.getData().equals("back_action")) && (hostProfile.getHosts().size() > 1)) {
+                int index = -1; //tracks index position within the arrayList
+
+                //finding the index
+                for (int i = 0; i < hosts.size(); i++) {
+                    if (hosts.get(i).getId() == lastViewedHost.getId()) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index > 0) {
+                    int poiner = index;
+                    index++;
+                    if (index > hosts.size()) {
+                        index = 0;
+                    }
+                    List<User> newArray = new ArrayList<>(hosts.size());
+                    for (; index < hosts.size(); index++) {
+                        newArray.add(hosts.get(index));
+                    }
+                    for (int index2 = 0; index2 <= poiner; index2++) {
+                        newArray.add(hosts.get(index2));
+                    }
+
+                    int temp = 0;
+                    hosts = newArray;
+                }
+                int i = hosts.size();
+                i--;
+                i--;
+                for (; i >= 0; i--) {
+                    //make outputs not unique users
+//                if (!hosts.get(i).isViewed()) {
+                    EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
+                    hosts.get(i).setViewed(true);
+                    this.lastViewedHost = hosts.get(i);
+                    messageSender.editMessageSend(newMessage);
+                    return;
+                }
+//                }
+            }
+        }
     }
 
     private boolean checkIfAllProfilesViewed(CallbackQuery callbackQuery) {
