@@ -61,8 +61,9 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
             fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
             messageSender.editMessageSend(newMessage);
         } else if ((inlineButtonPressed.getData().equals("next_action")) && (hosts.size() > 0)) {
-            checkIfAllProfilesViewed(inlineButtonPressed);
-
+            if (checkIfAllProfilesViewed(inlineButtonPressed)) {
+                return;
+            }
             //fetching previous user
             int index = -1;  /*Integer.parseInt(String.valueOf(this.lastViewedHost.getId()));*/
 
@@ -72,6 +73,11 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                     break;
                 }
             }
+            index++;
+            if (index > hosts.size()) {
+                index = 0;
+            }
+
             if (index > 0) {
                 int poiner = index;
                 List<User> newArray = new ArrayList<>(hosts.size());
@@ -86,17 +92,19 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                 hosts = newArray;
             }
             for (int i = 0; i < hosts.size(); i++) {
-                if (!hosts.get(i).isViewed()) {
-                    EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
-                    hosts.get(i).setViewed(true);
-                    this.lastViewedHost = hosts.get(i);
-                    messageSender.editMessageSend(newMessage);
-                    return;
-                }
+//                if (!hosts.get(i).isViewed()) {
+                EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
+                hosts.get(i).setViewed(true);
+                this.lastViewedHost = hosts.get(i);
+                messageSender.editMessageSend(newMessage);
+                return;
+//                }
             }
 
         } else if ((inlineButtonPressed.getData().equals("back_action")) && (hostProfile.getHosts().size() > 1)) {
-            checkIfAllProfilesViewed(inlineButtonPressed);
+            if (checkIfAllProfilesViewed(inlineButtonPressed)) {
+                return;
+            }
             int index = -1; //tracks index position within the arrayList
 
             //finding the index
@@ -125,25 +133,28 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
             }
             int i = hosts.size();
             i--;
+            i--;
             for (; i >= 0; i--) {
-                if (!hosts.get(i).isViewed()) {
-                    EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
-                    hosts.get(i).setViewed(true);
-                    this.lastViewedHost = hosts.get(i);
-                    messageSender.editMessageSend(newMessage);
-                    return;
-                }
+//                if (!hosts.get(i).isViewed()) {
+                EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
+                hosts.get(i).setViewed(true);
+                this.lastViewedHost = hosts.get(i);
+                messageSender.editMessageSend(newMessage);
+                return;
             }
+//                }
         }
 
     }
 
-    private void checkIfAllProfilesViewed(CallbackQuery callbackQuery) {
+    private boolean checkIfAllProfilesViewed(CallbackQuery callbackQuery) {
         if (fetchRandomUniqueUserService.areAllUsersViewed(Status.HOST)) {
             EditMessageText editMessageText = iBuildSendMessageService.createHTMLEditMessage("You've viewed all profiles. " +
                     "Show them again or we can notify you when new profiles appear", callbackQuery, inlineNoProfiles.getMainMarkup());
             messageSender.editMessageSend(editMessageText);
+            return true;
         }
+        return false;
     }
 
 
