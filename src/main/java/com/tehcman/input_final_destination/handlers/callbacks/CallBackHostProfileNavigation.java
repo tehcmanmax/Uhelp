@@ -63,8 +63,6 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
         } else if ((inlineButtonPressed.getData().equals("next_action")) && (hosts.size() > 0)) {
             checkIfAllProfilesViewed(inlineButtonPressed);
 
-//            int index = fetchRandomUniqueUserService.calculateCurrentUserArrayIndex(inlineButtonPressed, Status.HOST);
-
             //fetching previous user
             int index = -1;  /*Integer.parseInt(String.valueOf(this.lastViewedHost.getId()));*/
 
@@ -74,11 +72,6 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                     break;
                 }
             }
-
-/*            index++;
-            if (index >= hosts.size()){
-                index = 0;
-            }*/
             if (index > 0) {
                 int poiner = index;
                 List<User> newArray = new ArrayList<>(hosts.size());
@@ -96,6 +89,7 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                 if (!hosts.get(i).isViewed()) {
                     EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
                     hosts.get(i).setViewed(true);
+                    this.lastViewedHost = hosts.get(i);
                     messageSender.editMessageSend(newMessage);
                     return;
                 }
@@ -103,6 +97,43 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
 
         } else if ((inlineButtonPressed.getData().equals("back_action")) && (hostProfile.getHosts().size() > 1)) {
             checkIfAllProfilesViewed(inlineButtonPressed);
+            int index = -1; //tracks index position within the arrayList
+
+            //finding the index
+            for (int i = 0; i < hosts.size(); i++) {
+                if (hosts.get(i).getId() == lastViewedHost.getId()) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index > 0) {
+                int poiner = index;
+                index++;
+                if (index > hosts.size()) {
+                    index = 0;
+                }
+                List<User> newArray = new ArrayList<>(hosts.size());
+                for (; index < hosts.size(); index++) {
+                    newArray.add(hosts.get(index));
+                }
+                for (int index2 = 0; index2 <= poiner; index2++) {
+                    newArray.add(hosts.get(index2));
+                }
+
+                int temp = 0;
+                hosts = newArray;
+            }
+            int i = hosts.size();
+            i--;
+            for (; i >= 0; i--) {
+                if (!hosts.get(i).isViewed()) {
+                    EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(hosts.get(i).toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
+                    hosts.get(i).setViewed(true);
+                    this.lastViewedHost = hosts.get(i);
+                    messageSender.editMessageSend(newMessage);
+                    return;
+                }
+            }
         }
 
     }
