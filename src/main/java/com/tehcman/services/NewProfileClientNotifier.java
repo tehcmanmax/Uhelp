@@ -10,6 +10,8 @@ public class NewProfileClientNotifier {
     private final InlineNewProfilesNotification inlineNewProfilesNotification;
     private final IBuildSendMessageService iBuildSendMessageService;
     private final MessageSender messageSender;
+//    private User
+
 
     public NewProfileClientNotifier(InlineNewProfilesNotification inlineNewProfilesNotification, IBuildSendMessageService iBuildSendMessageService, MessageSender messageSender) {
         this.inlineNewProfilesNotification = inlineNewProfilesNotification;
@@ -22,4 +24,6 @@ public class NewProfileClientNotifier {
                 "Do you want to see them?", this.inlineNewProfilesNotification.getMainMarkup());
         messageSender.messageSend(sendMessage);
     }
+
+//    private
 }

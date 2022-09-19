@@ -20,13 +20,11 @@ public class UserCache implements Cache<User> {
     private List<Observer> observers;*/
 
     private final Map<Long, User> cacheOfAllUsers;
-    private InlineNoProfiles inlineNoProfiles;
-    private NewProfileClientNotifier newProfileClientNotifier;
+
 
     @Autowired
-    public UserCache(InlineNoProfiles inlineNoProfiles, NewProfileClientNotifier newProfileClientNotifier) {
-        this.inlineNoProfiles = inlineNoProfiles;
-        this.newProfileClientNotifier = newProfileClientNotifier;
+    public UserCache() {
+
         this.cacheOfAllUsers = new HashMap<>();
     }
 
@@ -36,12 +34,6 @@ public class UserCache implements Cache<User> {
     public void add(User user) {
 //        this.observers.forEach(Observer::update);
         cacheOfAllUsers.putIfAbsent(user.getId(), user);
-
-        //FIXME problem with bean intilization is here
-        if (inlineNoProfiles.getClientListener().getUserThatListensId() != 0L) {
-            newProfileClientNotifier.notifyClient(inlineNoProfiles.getClientListener().getUserThatListensId());
-            inlineNoProfiles.getClientListener().setUserThatListensId(0L);
-        }
     }
 
     @Override

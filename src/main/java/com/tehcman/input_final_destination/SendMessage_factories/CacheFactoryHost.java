@@ -8,12 +8,14 @@ import com.tehcman.entities.User;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.resources.Emoji;
 import com.tehcman.services.IBuildSendMessageService;
+import com.tehcman.services.NewProfileClientNotifier;
 import com.tehcman.services.keyboards.*;
 import com.tehcman.services.keyboards.profile_registration.AddAmountOfPeopleKeyboard;
 import com.tehcman.services.keyboards.profile_registration.AddContactsKeyboard;
 import com.tehcman.services.keyboards.profile_registration.AddSkipButtonKeyboardRow;
 import com.tehcman.services.keyboards.profile_registration.AddYesNo;
 import com.tehcman.resources.RegexDictionary;
+import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -22,6 +24,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRem
 
 @Component
 public class CacheFactoryHost implements ISendMessageFactory {
+    private InlineNoProfiles inlineNoProfiles;
+    private NewProfileClientNotifier newProfileClientNotifier;
     private final IBuildSendMessageService ibuildSendMessageService;
     private final Cache<User> userCache;
     private BuildButtonsService buildButtonsService;
@@ -29,11 +33,13 @@ public class CacheFactoryHost implements ISendMessageFactory {
     private AddContactsKeyboard addContactsKeyboard;
     private final HostProfile hostProfile;
 
-    public CacheFactoryHost(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache, HostProfile hostProfile) {
+    public CacheFactoryHost(InlineNoProfiles inlineNoProfiles, NewProfileClientNotifier newProfileClientNotifier, IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache, HostProfile hostProfile) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
         this.hostProfile = hostProfile;
         addContactsKeyboard = new AddContactsKeyboard();
+        this.inlineNoProfiles = inlineNoProfiles;
+        this.newProfileClientNotifier = newProfileClientNotifier;
     }
 
     public void setAddContactsKeyboard(AddContactsKeyboard addContactsKeyboard) {
@@ -235,6 +241,11 @@ public class CacheFactoryHost implements ISendMessageFactory {
 
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
+                    //FIXME problem with bean intilization is here
+                    if (inlineNoProfiles.getClientListener().getUserThatListensId() != 0L) {
+                        newProfileClientNotifier.notifyClient(inlineNoProfiles.getClientListener().getUserThatListensId());
+                        inlineNoProfiles.getClientListener().setUserThatListensId(0L);
+                    }
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n" +
@@ -248,6 +259,11 @@ public class CacheFactoryHost implements ISendMessageFactory {
 
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
+
+                    if (inlineNoProfiles.getClientListener().getUserThatListensId() != 0L) {
+                        newProfileClientNotifier.notifyClient(inlineNoProfiles.getClientListener().getUserThatListensId());
+                        inlineNoProfiles.getClientListener().setUserThatListensId(0L);
+                    }
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n\n" +

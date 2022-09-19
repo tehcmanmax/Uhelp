@@ -8,12 +8,14 @@ import com.tehcman.entities.User;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.resources.Emoji;
 import com.tehcman.services.IBuildSendMessageService;
+import com.tehcman.services.NewProfileClientNotifier;
 import com.tehcman.services.keyboards.*;
 import com.tehcman.services.keyboards.profile_registration.AddAmountOfPeopleKeyboard;
 import com.tehcman.services.keyboards.profile_registration.AddContactsKeyboard;
 import com.tehcman.services.keyboards.profile_registration.AddSkipButtonKeyboardRow;
 import com.tehcman.services.keyboards.profile_registration.AddYesNo;
 import com.tehcman.resources.RegexDictionary;
+import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -29,10 +31,14 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
     private AddContactsKeyboard addContactsKeyboard;
     private final RefugeeProfile refugeeProfile;
 
-    public CacheFactoryRefugee(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache, RefugeeProfile refugeeProfile) {
+    private InlineNoProfiles inlineNoProfiles;
+    private NewProfileClientNotifier newProfileClientNotifier;
+    public CacheFactoryRefugee(IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache, RefugeeProfile refugeeProfile, InlineNoProfiles inlineNoProfiles, NewProfileClientNotifier newProfileClientNotifier) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
         this.refugeeProfile = refugeeProfile;
+        this.inlineNoProfiles = inlineNoProfiles;
+        this.newProfileClientNotifier = newProfileClientNotifier;
         addContactsKeyboard = new AddContactsKeyboard();
     }
 
@@ -257,6 +263,11 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                     refugeeProfile.addSingleUserFromCache(user);
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
+
+                    if (inlineNoProfiles.getClientListener().getUserThatListensId() != 0L) {
+                        newProfileClientNotifier.notifyClient(inlineNoProfiles.getClientListener().getUserThatListensId());
+                        inlineNoProfiles.getClientListener().setUserThatListensId(0L);
+                    }
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n" +
@@ -269,6 +280,11 @@ public class CacheFactoryRefugee implements ISendMessageFactory {
                     refugeeProfile.addSingleUserFromCache(user);
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
+
+                    if (inlineNoProfiles.getClientListener().getUserThatListensId() != 0L) {
+                        newProfileClientNotifier.notifyClient(inlineNoProfiles.getClientListener().getUserThatListensId());
+                        inlineNoProfiles.getClientListener().setUserThatListensId(0L);
+                    }
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n\n" +
