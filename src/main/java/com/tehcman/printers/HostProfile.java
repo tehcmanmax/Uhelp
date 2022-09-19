@@ -10,6 +10,8 @@ import com.tehcman.services.ParsingJSONtoListService;
 import com.tehcman.services.keyboards.profile_search.*;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Scope("prototype")
 public class HostProfile implements IPrintUserProfile {
     @Getter
     private List<User> hosts;
@@ -33,6 +36,7 @@ public class HostProfile implements IPrintUserProfile {
     private FetchRandomUniqueUserService fetchRandomUniqueUserService;
 
     @Autowired
+    @Lazy
     public HostProfile(UserCache userCache, MessageSender messageSender, IBuildSendMessageService iBuildSendMessageService, InlineNewProfilesNotification inlineNewProfilesNotification, InlineNoProfiles inlineNoProfiles, InlineProfileNavigation inlineProfileNavigation) {
         this.userCache = userCache;
         this.hosts = new ArrayList<>();
@@ -128,6 +132,7 @@ public class HostProfile implements IPrintUserProfile {
     }
 
     @Autowired
+    @Lazy
     public void setFetchRandomUniqueUserService(FetchRandomUniqueUserService fetchRandomUniqueUserService) {
         this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
     }

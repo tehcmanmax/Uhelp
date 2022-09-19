@@ -12,6 +12,7 @@ import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 //FIXME copy functionality from the hostprofile class
 @Component
+@Scope("prototype")
 public class RefugeeProfile implements IPrintUserProfile {
     @Getter
     private List<User> refugees;

@@ -16,6 +16,8 @@ import com.tehcman.services.keyboards.profile_registration.AddSkipButtonKeyboard
 import com.tehcman.services.keyboards.profile_registration.AddYesNo;
 import com.tehcman.resources.RegexDictionary;
 import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -31,12 +33,20 @@ public class CacheFactoryHost implements ISendMessageFactory {
     private BuildButtonsService buildButtonsService;
 
     private AddContactsKeyboard addContactsKeyboard;
-    private final HostProfile hostProfile;
 
-    public CacheFactoryHost(InlineNoProfiles inlineNoProfiles, NewProfileClientNotifier newProfileClientNotifier, IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache, HostProfile hostProfile) {
+    @Autowired
+    @Lazy
+    public void setHostProfile(HostProfile hostProfile) {
+        this.hostProfile = hostProfile;
+    }
+
+    private HostProfile hostProfile;
+
+    @Autowired
+    @Lazy
+    public CacheFactoryHost(InlineNoProfiles inlineNoProfiles, NewProfileClientNotifier newProfileClientNotifier, IBuildSendMessageService ibuildSendMessageService, Cache<User> userCache) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.userCache = userCache;
-        this.hostProfile = hostProfile;
         addContactsKeyboard = new AddContactsKeyboard();
         this.inlineNoProfiles = inlineNoProfiles;
         this.newProfileClientNotifier = newProfileClientNotifier;

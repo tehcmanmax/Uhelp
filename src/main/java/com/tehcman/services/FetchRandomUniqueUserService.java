@@ -7,11 +7,19 @@ import com.tehcman.printers.HostProfile;
 import com.tehcman.printers.RefugeeProfile;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FetchRandomUniqueUserService {
     private final UserCache userCache;
+
+    @Autowired
+    @Lazy
+    public void setHostProfile(HostProfile hostProfile) {
+        this.hostProfile = hostProfile;
+    }
+
     private HostProfile hostProfile;
     private RefugeeProfile refugeeProfile;
     private int prevNumber = -1;
@@ -133,11 +141,7 @@ public class FetchRandomUniqueUserService {
     }*/
 
     @Autowired
-    public void setHostProfile(HostProfile hostProfile) {
-        this.hostProfile = hostProfile;
-    }
-
-    @Autowired
+    @Lazy
     public void setRefugeeProfile(RefugeeProfile refugeeProfile) {
         this.refugeeProfile = refugeeProfile;
     }
