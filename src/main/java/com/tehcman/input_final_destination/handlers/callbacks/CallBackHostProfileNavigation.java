@@ -143,10 +143,9 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
             hosts.forEach(host -> host.setViewed(false));
             inlineButtonPressed.setData("rand_action");
             handle(inlineButtonPressed);
-            return;
         }
         else if (inlineButtonPressed.getData().equals("notification_action")){
-
+            inlineNoProfiles.getClientListener().setUserThatListensId(inlineButtonPressed.getFrom().getId());
         }
     }
 

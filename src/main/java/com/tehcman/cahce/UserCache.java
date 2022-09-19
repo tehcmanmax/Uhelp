@@ -2,8 +2,8 @@ package com.tehcman.cahce;
 
 import com.tehcman.entities.User;
 //import com.tehcman.observer.Observer;
-import lombok.Getter;
-import lombok.Setter;
+import com.tehcman.services.NewProfileClientNotifier;
+import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,8 +19,12 @@ public class UserCache implements Cache<User> {
     private List<Observer> observers;*/
 
     private final Map<Long, User> cacheOfAllUsers;
+/*    private final InlineNoProfiles inlineNoProfiles;
+    private final NewProfileClientNotifier newProfileClientNotifier;*/
 
-    public UserCache() {
+    public UserCache(/*InlineNoProfiles inlineNoProfiles, NewProfileClientNotifier newProfileClientNotifier*/) {
+/*        this.inlineNoProfiles = inlineNoProfiles;
+        this.newProfileClientNotifier = newProfileClientNotifier;*/
         this.cacheOfAllUsers = new HashMap<>();
     }
 
@@ -30,6 +34,10 @@ public class UserCache implements Cache<User> {
     public void add(User user) {
 //        this.observers.forEach(Observer::update);
         cacheOfAllUsers.putIfAbsent(user.getId(), user);
+/*        if(inlineNoProfiles.getClientListener().getUserThatListensId() != 0L){
+            newProfileClientNotifier.notifyClient(inlineNoProfiles.getClientListener().getUserThatListensId());
+            inlineNoProfiles.getClientListener().setUserThatListensId(0L);
+        }*/
     }
 
     @Override
