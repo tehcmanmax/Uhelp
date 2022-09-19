@@ -18,14 +18,20 @@ import java.util.List;
 
 public class AfterRegistrationKeyboard extends ReplyKeyboardMarkup {
     private final DefaultKeyboardRows keyboardRows;
-    private final Message message;
 
     private final Cache<User> userCache;
+    private final Long userId;
 
     public AfterRegistrationKeyboard(Message message, Cache<User> userCache) {
         this.keyboardRows = new DefaultKeyboardRows();
         this.userCache = userCache;
-        this.message = message;
+        this.userId = message.getChatId();
+    }
+
+    public AfterRegistrationKeyboard(Long userId, Cache<User> userCache) {
+        this.keyboardRows = new DefaultKeyboardRows();
+        this.userCache = userCache;
+        this.userId = userId;
     }
 
     public @NonNull List<KeyboardRow> getKeyboard() {
@@ -38,10 +44,10 @@ public class AfterRegistrationKeyboard extends ReplyKeyboardMarkup {
 
         var button5 = new KeyboardButton("Oops, something is wrong");
 
-        if (userCache.findBy(this.message.getChatId()).getStatus() == Status.HOST) {
+        if (userCache.findBy(this.userId).getStatus() == Status.HOST) {
             button5 = new KeyboardButton("Show me shelter seeking people");
         }
-        else if (userCache.findBy(this.message.getChatId()).getStatus() == Status.REFUGEE) {
+        else if (userCache.findBy(this.userId).getStatus() == Status.REFUGEE) {
             button5 = new KeyboardButton("Show me shelter providing people");
         }
 

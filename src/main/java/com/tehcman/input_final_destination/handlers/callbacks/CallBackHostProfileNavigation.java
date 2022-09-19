@@ -9,16 +9,20 @@ import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.handlers.IHandler;
 import com.tehcman.printers.HostProfile;
 import com.tehcman.sendmessage.MessageSender;
+import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;
+import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,8 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     private final IBuildSendMessageService iBuildSendMessageService;
     private final FetchRandomUniqueUserService fetchRandomUniqueUserService;
     private final InlineNoProfiles inlineNoProfiles;
+    private BuildButtonsService buildButtonsService;
+
 
     @Setter
     private User lastViewedHost;
@@ -46,14 +52,29 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
         this.iBuildSendMessageService = iBuildSendMessageService;
         this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
         this.inlineNoProfiles = inlineNoProfiles;
+
     }
 
     //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache
     @Override
     public void handle(CallbackQuery inlineButtonPressed) {
+
         var hosts = this.hostProfile.getHosts();
 
-        if (!checkIfAllProfilesViewed(inlineButtonPressed)) {
+        if ((inlineButtonPressed.getData().equals("view_again_action")) && (hostProfile.getHosts().size() > 1)) {
+            hosts.forEach(host -> host.setViewed(false));
+            inlineButtonPressed.setData("rand_action");
+            handle(inlineButtonPressed);
+        } else if (inlineButtonPressed.getData().equals("notification_action")) {
+            this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(inlineButtonPressed.getMessage().getChatId(), userCache));
+            inlineNoProfiles.getClientListener().setUserThatListensId(inlineButtonPressed.getFrom().getId());
+
+            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(inlineButtonPressed.getFrom().getId()),
+                    "Ok. We will notify you when new profiles show up",
+                    this.buildButtonsService.getMainMarkup());
+            messageSender.messageSend(newMessage);
+        }
+        else if (!checkIfAllProfilesViewed(inlineButtonPressed)) {
             if ((inlineButtonPressed.getData().equals("rand_action")) && (hosts.size() > 0)) {
                 User user = randomHost();
                 EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(user.toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());
@@ -139,13 +160,6 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                 }
 //                }
             }
-        } else if ((inlineButtonPressed.getData().equals("view_again_action")) && (hostProfile.getHosts().size() > 1)) {
-            hosts.forEach(host -> host.setViewed(false));
-            inlineButtonPressed.setData("rand_action");
-            handle(inlineButtonPressed);
-        }
-        else if (inlineButtonPressed.getData().equals("notification_action")){
-            inlineNoProfiles.getClientListener().setUserThatListensId(inlineButtonPressed.getFrom().getId());
         }
     }
 
