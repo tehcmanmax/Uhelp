@@ -12,6 +12,7 @@ import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 
 //FIXME copy functionality from the hostprofile class
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class RefugeeProfile implements IPrintUserProfile {
     @Getter
     private List<User> refugees;
@@ -108,6 +109,16 @@ public class RefugeeProfile implements IPrintUserProfile {
                 .collect(Collectors.toList());
     }
 
+    public void printInline(Message msg, User user) {
+        if (user != null) {
+            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
+                    user.toString(),
+                    inlineProfileNavigation.getMainMarkup());
+            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.REFUGEE);
+            messageSender.messageSend(newMessage);
+        }
+    }
+
     private void settingDataCacheAndHosts() {
         ParsingJSONtoListService parsingJSONtoListService = new ParsingJSONtoListService();
 
@@ -126,6 +137,7 @@ public class RefugeeProfile implements IPrintUserProfile {
     }
 
     @Autowired
+    @Lazy
     public void setFetchRandomUniqueUserService(FetchRandomUniqueUserService fetchRandomUniqueUserService) {
         this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
     }

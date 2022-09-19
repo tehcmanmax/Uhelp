@@ -2,11 +2,10 @@ package com.tehcman.services.keyboards.profile_search;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiValidationException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -24,10 +23,11 @@ public class InlineNewProfilesNotification {
 
         List<List<InlineKeyboardButton>> listOfInlineButtons = new ArrayList<>();
         ArrayList<InlineKeyboardButton> row1 = new ArrayList<>();
+        ArrayList<InlineKeyboardButton> row2 = new ArrayList<>();
 
         row1.add(yesAction);
-        row1.add(noAction);
-        listOfInlineButtons.add(row1);
+        row2.add(noAction);
+        Collections.addAll(listOfInlineButtons, row1, row2);
 
         this.mainMarkup.setKeyboard(listOfInlineButtons);
     }

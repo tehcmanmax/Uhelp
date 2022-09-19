@@ -57,7 +57,6 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
         this.newProfileClientNotifier = newProfileClientNotifier;
     }
 
-    //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache
     @Override
     public void handle(CallbackQuery inlineButtonPressed) {
 

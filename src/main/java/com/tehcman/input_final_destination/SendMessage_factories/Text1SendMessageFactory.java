@@ -51,7 +51,6 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     }*/
 
 
-    //FIXME DELETE THE COMMAND HANDLER
     @Override
     public SendMessage createSendMessage(Message message) {
         if (message.getText().equals("View my data")) {

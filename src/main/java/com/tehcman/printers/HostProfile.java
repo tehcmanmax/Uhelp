@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@Scope("prototype")
+//@Scope("prototype")
 public class HostProfile implements IPrintUserProfile {
     @Getter
     private List<User> hosts;
