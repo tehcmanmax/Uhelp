@@ -2,7 +2,7 @@ package com.tehcman.services.keyboards.profile_search;
 
 import com.tehcman.cahce.ClientThatListensUpdates;
 import lombok.Getter;
-import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -19,7 +19,9 @@ public class InlineNoProfiles {
     private ClientThatListensUpdates clientListener;
 
 
+    @Autowired
     public InlineNoProfiles() {
+        this.clientListener = new ClientThatListensUpdates(0L);
         this.mainMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton backAction = InlineKeyboardButton.builder()
