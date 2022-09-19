@@ -75,22 +75,48 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{\n" +
-                "tgUsername=" + tgUsername + '\n' +
-                "id=" + id + '\n' +
-                "name=" + name + '\n' +
-                "phoneNumber=" + phoneNumber + '\n' +
-                "email=" + email + '\n' +
-                "social=" + social + '\n' +
-                "age=" + age + '\n' +
-                "status=" + status + '\n' +
-                "sex=" + sex + '\n' +
-                "city=" + city + '\n' +
-                "country=" + country + '\n' +
-                "amountOfPeople=" + amountOfPeople + '\n' +
-                "date=" + date + '\n' +
-                "additional=" + additional + '\n' +
-                "isViewed=" + isViewed + '\n' +
-                '}';
+        return "Telegram username: " + tgUsername + '\n' +
+                returnIfNotNull();
+    }
+
+    private String returnIfNotNull() {
+        StringBuilder str = new StringBuilder();
+        if (name != null) {
+            str.append("Name: " + name + '\n');
+        }
+        if (phoneNumber != null) {
+            str.append("Phone number: " + phoneNumber + '\n');
+        }
+        if (email != null) {
+            str.append("Email" + email);
+        }
+        if (social != null) {
+            str.append("Social: " + social + '\n');
+        }
+        if (phoneNumber != null) {
+            str.append("Phone number: " + phoneNumber + '\n');
+        }
+        if (age != null) {
+            str.append("Age: " + age + '\n');
+        }
+        if (sex != null) {
+            str.append("Sex: " + sex + '\n');
+        }
+        if (city != null) {
+            str.append("City: " + city + '\n');
+        }
+        if (country != null) {
+            str.append("Country: " + country + '\n');
+        }
+        if (amountOfPeople != null) {
+            str.append("Amount of people: " + amountOfPeople + '\n');
+        }
+        if (date != null) {
+            str.append("Date: " + date + '\n');
+        }
+        if (additional != null) {
+            str.append("Additional information: " + additional + '\n');
+        }
+        return str.toString();
     }
 }
