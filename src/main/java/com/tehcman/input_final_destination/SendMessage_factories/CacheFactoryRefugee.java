@@ -3,7 +3,7 @@ package com.tehcman.input_final_destination.SendMessage_factories;
 import static com.tehcman.entities.Phase.*;
 
 import com.tehcman.cahce.Cache;
-import com.tehcman.table_printers.RefugeeProfile;
+import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.entities.User;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.resources.Emoji;

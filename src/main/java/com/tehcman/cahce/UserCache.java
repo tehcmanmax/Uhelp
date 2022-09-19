@@ -1,7 +1,7 @@
 package com.tehcman.cahce;
 
 import com.tehcman.entities.User;
-import com.tehcman.observer.Observer;
+//import com.tehcman.observer.Observer;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -14,9 +14,9 @@ import java.util.Map;
 @Component
 public class UserCache implements Cache<User> {
 
-    @Getter
+/*    @Getter
     @Setter
-    private List<Observer> observers;
+    private List<Observer> observers;*/
 
     private final Map<Long, User> cacheOfAllUsers;
 
@@ -28,7 +28,7 @@ public class UserCache implements Cache<User> {
     //notifies that new users are added
     @Override
     public void add(User user) {
-        this.observers.forEach(Observer::update);
+//        this.observers.forEach(Observer::update);
         cacheOfAllUsers.putIfAbsent(user.getId(), user);
     }
 

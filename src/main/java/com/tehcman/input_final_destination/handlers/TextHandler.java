@@ -7,8 +7,8 @@ import com.tehcman.input_final_destination.SendMessage_factories.Text1SendMessag
 import com.tehcman.input_final_destination.SendMessage_factories.ISendMessageAbstractFactory;
 import com.tehcman.input_final_destination.SendMessage_factories.Text2SendMessageAbstractFactory;
 import com.tehcman.input_final_destination.handlers.callbacks.CallBackHostProfileNavigation;
-import com.tehcman.table_printers.HostProfile;
-import com.tehcman.table_printers.RefugeeProfile;
+import com.tehcman.printers.HostProfile;
+import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;

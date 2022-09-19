@@ -1,13 +1,12 @@
+/*
 package com.tehcman.observer;
 
 import com.tehcman.entities.User;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.IBuildSendMessageService;
 import com.tehcman.services.keyboards.profile_search.InlineNewProfilesNotification;
-import com.tehcman.table_printers.HostProfile;
-import com.tehcman.table_printers.RefugeeProfile;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
+import com.tehcman.printers.HostProfile;
+import com.tehcman.printers.RefugeeProfile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 public class Observer {
@@ -45,3 +44,4 @@ public class Observer {
         this.observer = observer;
     }
 }
+*/

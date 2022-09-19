@@ -4,7 +4,7 @@ import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.Status;
 import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.handlers.IHandler;
-import com.tehcman.table_printers.RefugeeProfile;
+import com.tehcman.printers.RefugeeProfile;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;
