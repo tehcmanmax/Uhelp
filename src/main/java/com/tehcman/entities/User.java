@@ -82,40 +82,40 @@ public class User {
     private String returnIfNotNull() {
         StringBuilder str = new StringBuilder();
         if (name != null) {
-            str.append("Name: " + name + '\n');
+            str.append("Name: ").append(name).append('\n');
         }
         if (phoneNumber != null) {
-            str.append("Phone number: " + phoneNumber + '\n');
+            str.append("Phone number: ").append(phoneNumber).append('\n');
         }
         if (email != null) {
-            str.append("Email" + email);
+            str.append("Email").append(email);
         }
         if (social != null) {
-            str.append("Social: " + social + '\n');
+            str.append("Social: ").append(social).append('\n');
         }
         if (phoneNumber != null) {
-            str.append("Phone number: " + phoneNumber + '\n');
+            str.append("Phone number: ").append(phoneNumber).append('\n');
         }
         if (age != null) {
-            str.append("Age: " + age + '\n');
+            str.append("Age: ").append(age).append('\n');
         }
         if (sex != null) {
-            str.append("Sex: " + sex + '\n');
+            str.append("Sex: ").append(sex).append('\n');
         }
         if (city != null) {
-            str.append("City: " + city + '\n');
+            str.append("City: ").append(city).append('\n');
         }
         if (country != null) {
-            str.append("Country: " + country + '\n');
+            str.append("Country: ").append(country).append('\n');
         }
         if (amountOfPeople != null) {
-            str.append("Amount of people: " + amountOfPeople + '\n');
+            str.append("Amount of people: ").append(amountOfPeople).append('\n');
         }
         if (date != null) {
-            str.append("Date: " + date + '\n');
+            str.append("Date: ").append(date).append('\n');
         }
         if (additional != null) {
-            str.append("Additional information: " + additional + '\n');
+            str.append("Additional information: ").append(additional).append('\n');
         }
         return str.toString();
     }
