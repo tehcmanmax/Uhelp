@@ -3,7 +3,7 @@
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `User`;
 
-CREATE TABLE IF NOT EXISTS `User`
+CREATE TABLE IF NOT EXISTS `user`
 (
     `UserId`   INT NOT NULL AUTO_INCREMENT,
     `tgUsername` VARCHAR(255),
@@ -11,12 +11,12 @@ CREATE TABLE IF NOT EXISTS `User`
     `phoneNumber` INT,
     `email` VARCHAR(255),
     `social` VARCHAR(255),
-    `age` INT,
+    `age` VARCHAR(255),
     `status` VARCHAR(255),
     `sex` VARCHAR(255),
     `city` VARCHAR(255),
     `country` VARCHAR(255),
-    `amountOfPeople` INT,
+    `amountOfPeople` VARCHAR(255),
     `date` VARCHAR(255),
     `additional` VARCHAR(255),
     PRIMARY KEY (`UserId`)
