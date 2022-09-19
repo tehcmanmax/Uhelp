@@ -241,11 +241,8 @@ public class CacheFactoryHost implements ISendMessageFactory {
 
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
-                    //FIXME problem with bean intilization is here
-                    if (inlineNoProfiles.getClientListener().getUserThatListensId() != 0L) {
-                        newProfileClientNotifier.notifyClient(inlineNoProfiles.getClientListener().getUserThatListensId());
-                        inlineNoProfiles.getClientListener().setUserThatListensId(0L);
-                    }
+                    updateListeningClient(user);
+
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n" +
@@ -259,11 +256,7 @@ public class CacheFactoryHost implements ISendMessageFactory {
 
 
                     this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(message, userCache));
-
-                    if (inlineNoProfiles.getClientListener().getUserThatListensId() != 0L) {
-                        newProfileClientNotifier.notifyClient(inlineNoProfiles.getClientListener().getUserThatListensId());
-                        inlineNoProfiles.getClientListener().setUserThatListensId(0L);
-                    }
+                    updateListeningClient(user);
                     return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Thank you! \n" +
                             "\n" +
                             "Your data has been saved. It is available only to other users if this service\n\n" +
@@ -281,5 +274,14 @@ public class CacheFactoryHost implements ISendMessageFactory {
             this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
             return ibuildSendMessageService.createHTMLMessage(message.getChatId().toString(), "Data is saved! Please, type your <i>age</i> at this chat", this.buildButtonsService.getMainMarkup());
         } else return sendMessage;
+    }
+
+    private void updateListeningClient(User user) {
+        Long listenerID = inlineNoProfiles.getClientListener().getUserThatListensId();
+        if ((listenerID != 0L) && (!userCache.findBy(listenerID).getStatus().equals(userCache.findBy(user.getId()).getStatus()))) {
+            newProfileClientNotifier.notifyListeningClient(inlineNoProfiles.getClientListener().getUserThatListensId());
+            newProfileClientNotifier.setNewRegisteredUser(user);
+            inlineNoProfiles.getClientListener().setUserThatListensId(0L);
+        }
     }
 }

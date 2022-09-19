@@ -17,10 +17,10 @@ public class InlineNewProfilesNotification {
         this.mainMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton yesAction = InlineKeyboardButton.builder()
-                .text("Yes").callbackData("yes_action").build();
+                .text("Yes").callbackData("yes_show_new_profiles_action").build();
 
         InlineKeyboardButton noAction = InlineKeyboardButton.builder()
-                .text("No, open a random profile").callbackData("no_action").build();
+                .text("No, open a random profile").callbackData("view_again_action").build();
 
         List<List<InlineKeyboardButton>> listOfInlineButtons = new ArrayList<>();
         ArrayList<InlineKeyboardButton> row1 = new ArrayList<>();

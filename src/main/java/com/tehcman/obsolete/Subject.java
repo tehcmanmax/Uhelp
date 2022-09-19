@@ -1,5 +1,5 @@
 /*
-package com.tehcman.observer;
+package com.tehcman.temp.observer;
 
 import com.tehcman.cahce.UserCache;
 import com.tehcman.entities.User;

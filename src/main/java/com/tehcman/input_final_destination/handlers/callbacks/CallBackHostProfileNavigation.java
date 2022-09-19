@@ -12,6 +12,7 @@ import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.FetchRandomUniqueUserService;
 import com.tehcman.services.IBuildSendMessageService;
+import com.tehcman.services.NewProfileClientNotifier;
 import com.tehcman.services.keyboards.AfterRegistrationKeyboard;
 import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import com.tehcman.services.keyboards.profile_search.InlineProfileNavigation;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +38,14 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
     private final FetchRandomUniqueUserService fetchRandomUniqueUserService;
     private final InlineNoProfiles inlineNoProfiles;
     private BuildButtonsService buildButtonsService;
+    private final NewProfileClientNotifier newProfileClientNotifier;
 
 
     @Setter
     private User lastViewedHost;
 
     @Autowired
-    public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile, IBuildSendMessageService iBuildSendMessageService, FetchRandomUniqueUserService fetchRandomUniqueUserService, InlineNoProfiles inlineNoProfiles) {
+    public CallBackHostProfileNavigation(@Lazy MessageSender messageSender, InlineProfileNavigation inlineProfileNavigation, UserCache userCache, HostProfile hostProfile, IBuildSendMessageService iBuildSendMessageService, FetchRandomUniqueUserService fetchRandomUniqueUserService, InlineNoProfiles inlineNoProfiles, NewProfileClientNotifier newProfileClientNotifier) {
         this.messageSender = messageSender;
         this.inlineProfileNavigation = inlineProfileNavigation;
         this.userCache = userCache;
@@ -53,6 +54,7 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
         this.fetchRandomUniqueUserService = fetchRandomUniqueUserService;
         this.inlineNoProfiles = inlineNoProfiles;
 
+        this.newProfileClientNotifier = newProfileClientNotifier;
     }
 
     //TODO: implement it specifically for different user.statuses; it has to know how many refugees or hosts in the cache
@@ -65,6 +67,11 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
             hosts.forEach(host -> host.setViewed(false));
             inlineButtonPressed.setData("rand_action");
             handle(inlineButtonPressed);
+        } else if (inlineButtonPressed.getData().equals("yes_show_new_profiles_action")) {
+            SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(String.valueOf(inlineButtonPressed.getFrom().getId()),
+                    newProfileClientNotifier.getNewRegisteredUser().toString(),
+                    this.inlineProfileNavigation.getMainMarkup());
+            messageSender.messageSend(newMessage);
         } else if (inlineButtonPressed.getData().equals("notification_action")) {
             this.buildButtonsService = new BuildButtonsService(new AfterRegistrationKeyboard(inlineButtonPressed.getMessage().getChatId(), userCache));
             inlineNoProfiles.getClientListener().setUserThatListensId(inlineButtonPressed.getFrom().getId());
@@ -73,8 +80,7 @@ public class CallBackHostProfileNavigation implements IHandler<CallbackQuery> {
                     "Ok. We will notify you when new profiles show up",
                     this.buildButtonsService.getMainMarkup());
             messageSender.messageSend(newMessage);
-        }
-        else if (!checkIfAllProfilesViewed(inlineButtonPressed)) {
+        } else if (!checkIfAllProfilesViewed(inlineButtonPressed)) {
             if ((inlineButtonPressed.getData().equals("rand_action")) && (hosts.size() > 0)) {
                 User user = randomHost();
                 EditMessageText newMessage = iBuildSendMessageService.createHTMLEditMessage(user.toString(), inlineButtonPressed, inlineProfileNavigation.getMainMarkup());

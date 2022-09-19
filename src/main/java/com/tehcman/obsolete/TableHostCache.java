@@ -1,4 +1,4 @@
-package com.tehcman.temp;
+package com.tehcman.obsolete;
 
 import com.tehcman.cahce.Cache;
 import com.tehcman.entities.User;

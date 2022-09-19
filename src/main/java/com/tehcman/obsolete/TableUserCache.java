@@ -1,4 +1,4 @@
-package com.tehcman.temp;
+package com.tehcman.obsolete;
 
 import com.tehcman.entities.Phase;
 import com.tehcman.entities.User;

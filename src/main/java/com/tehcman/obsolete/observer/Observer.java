@@ -1,5 +1,5 @@
 /*
-package com.tehcman.observer;
+package com.tehcman.temp.observer;
 
 import com.tehcman.entities.User;
 import com.tehcman.sendmessage.MessageSender;

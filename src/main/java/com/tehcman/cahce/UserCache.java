@@ -1,7 +1,7 @@
 package com.tehcman.cahce;
 
 import com.tehcman.entities.User;
-//import com.tehcman.observer.Observer;
+//import com.tehcman.temp.observer.Observer;
 import com.tehcman.services.NewProfileClientNotifier;
 import com.tehcman.services.keyboards.profile_search.InlineNoProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
