@@ -3,42 +3,28 @@ package com.tehcman.controller;
 import com.tehcman.model.User;
 import com.tehcman.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Objects;
 
-@RestController
+@Controller
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
-//    @PostMapping("/add")
-//    public void add(@RequestParam String tgUserName, String name, String phoneNumber,
-//                    String email, String social, String age, String status,
-//                    String sex, String city, String country, Integer amountOfPeople,
-//                    String date, String additional) {
-//
-//        User user = new User();
-//        user.setTgUsername(tgUserName);
-//        user.setName(name);
-//        user.setPhoneNumber(phoneNumber);
-//        user.setEmail(email);
-//        user.setSocial(social);
-//        user.setAge(age);
-//        user.setStatus(status);
-//        user.setSex(sex);
-//        user.setCity(city);
-//        user.setCountry(country);
-//        user.setAmountOfPeople(amountOfPeople);
-//        user.setDate(date);
-//        user.setAdditional(additional);
-//
-//        userRepository.save(user);
-//    }
+    @GetMapping("/")
+    public String searchHost(Model model, @RequestParam(name = "city", defaultValue = "") String city) {
+        model.addAttribute("city", !city.equals(""));
+        model.addAttribute("users", userRepository.findByCityAndStatus(city, "host"));
+        return "search";
+    }
 
     @GetMapping("/register")
     public String newRegistration(ModelMap model) {
@@ -57,20 +43,5 @@ public class UserController {
         userRepository.save(user);
         //redirectAttributes.addFlashAttribute("message", "Student " + student.getFirstName()+" "+student.getLastName() + " saved");
         return "redirect:/register";//will redirect to viewemp request mapping
-    }
-
-//    @DeleteMapping(path = {"/{id}"})
-//    public void remove(@PathVariable("id") Long id) {
-//        userRepository.deleteById(id);
-//    }
-
-    @GetMapping("/{id}")
-    public User findBy(@PathVariable Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    @GetMapping("/")
-    public List<User> getAll() {
-        return userRepository.findAll();
     }
 }

@@ -57,6 +57,55 @@ public class User {
     public String getTgUsername() {
         return tgUsername;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getSocial() {
+        return social;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public Integer getAmountOfPeople() {
+        return amountOfPeople;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getAdditional() {
+        return additional;
+    }
+
     public void setTgUsername(String tgUsername) {
         this.tgUsername = tgUsername;
     }
