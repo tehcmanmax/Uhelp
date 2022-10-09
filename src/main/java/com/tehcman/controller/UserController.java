@@ -41,4 +41,25 @@ public class UserController {
         model.addAttribute("user", user);
         return "user";
     }
+
+    @GetMapping("/user/update/{id}")
+    public String updateUserInfo(@PathVariable Long id, Model model) {
+        User user = userRepository.findById(id).get();
+        model.addAttribute("user", user);
+        return "update";
+    }
+
+    @PostMapping("/user/update/{id}")
+    public String updateUser(@PathVariable Long id, @ModelAttribute("user") User user, @ModelAttribute("status") String status) {
+        user.setChatId(userRepository.findById(id).get().getChatId());
+        user.setStatus(Status.valueOf(status));
+        userRepository.save(user);
+        return "redirect:/";
+    }
+
+    @PostMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        userRepository.deleteById(id);
+        return "redirect:/";
+    }
 }
