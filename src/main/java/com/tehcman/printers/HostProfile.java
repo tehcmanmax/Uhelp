@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @Component
 //@Scope("prototype")
 public class HostProfile implements IPrintUserProfile {
-    @Getter
     private List<User> hosts;
     private final UserCache userCache;
     private final MessageSender messageSender;
@@ -84,6 +83,10 @@ public class HostProfile implements IPrintUserProfile {
         return userList.stream()
                 .filter(x -> x.getStatus().equals(whoToLookFor))
                 .collect(Collectors.toList());
+    }
+
+    public List<User> getHosts() {
+        return userCache.getAll();
     }
 
     @Override
