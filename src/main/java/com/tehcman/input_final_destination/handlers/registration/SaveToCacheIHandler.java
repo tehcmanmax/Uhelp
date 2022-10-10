@@ -7,6 +7,7 @@ import com.tehcman.entities.User;
 import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryHost;
 import com.tehcman.input_final_destination.SendMessage_factories.CacheFactoryRefugee;
 import com.tehcman.input_final_destination.handlers.IHandler;
+import com.tehcman.repository.UserRepository;
 import com.tehcman.sendmessage.MessageSender;
 import com.tehcman.services.BuildButtonsService;
 import com.tehcman.services.IBuildSendMessageService;
@@ -30,15 +31,17 @@ public class SaveToCacheIHandler implements IHandler<Message> {
     private final InitDataAndStatusHandler initDataAndStatusHandler;
     private final Cache<User> userCache;
     private BuildButtonsService buildButtonsService;
+    private UserRepository userRepository;
 
     @Autowired
-    public SaveToCacheIHandler(IBuildSendMessageService ibuildSendMessageService, MessageSender messageSender, CacheFactoryRefugee cacheFactoryRefugee, CacheFactoryHost cacheFactoryHost, InitDataAndStatusHandler initDataAndStatusHandler, Cache<User> userCache) {
+    public SaveToCacheIHandler(IBuildSendMessageService ibuildSendMessageService, MessageSender messageSender, CacheFactoryRefugee cacheFactoryRefugee, CacheFactoryHost cacheFactoryHost, InitDataAndStatusHandler initDataAndStatusHandler, Cache<User> userCache, UserRepository userRepository) {
         this.ibuildSendMessageService = ibuildSendMessageService;
         this.messageSender = messageSender;
         this.cacheFactoryRefugee = cacheFactoryRefugee;
         this.cacheFactoryHost = cacheFactoryHost;
         this.initDataAndStatusHandler = initDataAndStatusHandler;
         this.userCache = userCache;
+        this.userRepository = userRepository;
     }
 
 
@@ -66,6 +69,7 @@ public class SaveToCacheIHandler implements IHandler<Message> {
 
         } else if ((user.getPhase().equals(Phase.SEX) && (message.getText().equals("Continue the registration")))) {
             user.setPhase(Phase.STATUS);
+            userRepository.save(user);
             if (user.getStatus().equals(Status.HOST)) {
                 message.setText("Providing Accommodation");
             } else message.setText("Searching Accommodation");
@@ -99,6 +103,8 @@ public class SaveToCacheIHandler implements IHandler<Message> {
                 if (message.getText().equals("Searching Accommodation")) {
                     user.setStatus(Status.REFUGEE);
                     user.setPhase(Phase.SEX);
+                    userRepository.save(user);
+
 
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
 
@@ -112,6 +118,7 @@ public class SaveToCacheIHandler implements IHandler<Message> {
                 } else if (message.getText().equals("Providing Accommodation")) {
                     user.setStatus(Status.HOST);
                     user.setPhase(Phase.SEX);
+                    userRepository.save(user);
 
                     this.buildButtonsService = new BuildButtonsService(new AddSkipButtonKeyboardRow());
 

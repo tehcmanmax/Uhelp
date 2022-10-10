@@ -103,7 +103,7 @@ public class HostProfile implements IPrintUserProfile {
             SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
                     user.toString(),
                     inlineProfileNavigation.getMainMarkup());
-            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
+            fetchRandomUniqueUserService.setIsViewed(user.getChatId(), Status.HOST);
             messageSender.messageSend(newMessage);
         }
     }
@@ -127,8 +127,8 @@ public class HostProfile implements IPrintUserProfile {
     }
 
     private void setIsViewed(int positionInArray) {
-        this.userCache.findBy((long) positionInArray).setViewed(true);
-        this.getHosts().get(positionInArray).setViewed(true);
+//        this.userCache.findBy((long) positionInArray).setViewed(true);
+//        this.getHosts().get(positionInArray).setViewed(true);
     }
 
     @Autowired

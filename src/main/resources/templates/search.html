@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Help app" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Help App</title>
+
+    <style>
+        body {
+            background-color: #dddddd;
+        }
+
+        .small {
+            white-space: nowrap;
+            overflow: hidden;
+            color: white;
+            display: inline-block;
+            padding: 10px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .form-button {
+            margin-bottom: 50px;
+        }
+
+        .big-card {
+            -webkit-flex: 1 0 0;
+            flex: 1 0 0;
+            overflow-wrap: break-word;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 50px;
+        }
+        .default {
+            background-color: #404040;
+        }
+
+        .allowed {
+            background-color: #008000;
+        }
+
+        .not-allowed {
+            background-color: #cc0000;
+        }
+
+        .male {
+            background-color: #2a52be;
+        }
+
+        .female {
+            background-color: #ff69b4;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Find Shelter</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Search </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/register">Register </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2 mt-5 pt-3">
+            <div class="input-group mb-3 form-item">
+                <form>
+                    <input class="form-control" type="text" name="city" required placeholder="Type a city" />
+                    <input type="submit" class="form-control btn btn-success" value="Search" />
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8 offset-md-2 mt-5 pt-3">
+
+            <div th:unless="${city}" class="shadow-lg big-card jumbotron">
+                <h2 class="display-6">Welcome to the website!</h2>
+                <p>You can search hosts or register (as a refugee or host) on our website!</p>
+            </div>
+
+            <h1 th:if="${city} and ${#lists.isEmpty(users)}">No hosts found in the city</h1>
+
+            <div th:each="user: ${users}" class="shadow-lg big-card">
+                <h2 th:maxlength="39" th:text="${user.additional}" class="display-6"></h2>
+                <span th:text="${user.additional}"></span>
+                <hr/>
+                <div class="card small default">
+                    <span th:text="${user.city}"></span>
+                </div>
+                <div class="card small default">
+                    <span th:text="${user.country}"></span>
+                </div>
+                <div class="card small default">
+                    <span th:text="${user.amountOfPeople}"></span>
+                    <span th:if="${user.amountOfPeople} == 1"> Person</span>
+                    <span th:unless="${user.amountOfPeople} == 1"> People</span>
+                </div>
+                <div class="card small default">
+                    <span th:text="${user.date}"></span>
+                </div>
+                <div th:unless="${user.sex} == 'female'" class="card small male">
+                    <span th:text="${user.sex}"></span>
+                </div>
+                <div th:if="${user.sex} == 'female'" class="card small female">
+                    <span th:text="${user.sex}"></span>
+                </div>
+                <div th:unless="${#strings.isEmpty(user.tgUsername)}" class="card small default">
+                    Telegram: <span th:text="${user.tgUsername}"></span>
+                </div>
+                <div th:unless="${#strings.isEmpty(user.phoneNumber)}" class="card small default">
+                    <span th:text="${user.phoneNumber}"></span>
+                </div>
+                <div th:unless="${#strings.isEmpty(user.email)}" class="card small default">
+                    <span th:text="${user.email}"></span>
+                </div>
+                <div th:unless="${#strings.isEmpty(user.social)}" class="card small default">
+                    <span th:text="${user.social}"></span>
+                </div>
+                <form th:action="@{/user/delete/{id} (id=${user.id})}" method="post">
+                    <button type="submit" class="btn btn-danger">Delete user</button>
+                </form>
+                <a class="btn btn-info" th:href="@{/user/update/{id} (id=${user.id})}">Update user</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+</body>
+</html>
