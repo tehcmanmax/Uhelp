@@ -18,6 +18,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
@@ -86,7 +87,8 @@ public class HostProfile implements IPrintUserProfile {
     }
 
     public List<User> getHosts() {
-        return userCache.getAll();
+        Predicate<User> byStatus = user -> user.getStatus().equals(Status.HOST);
+        return userCache.getAll().stream().filter(byStatus).collect(Collectors.toList());
     }
 
     @Override
