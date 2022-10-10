@@ -20,13 +20,13 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 //FIXME copy functionality from the hostprofile class
 @Component
 //@Scope("prototype")
 public class RefugeeProfile implements IPrintUserProfile {
-    @Getter
     private List<User> refugees;
     private int prevNumber = -1;
     private final UserCache userCache;
@@ -134,6 +134,11 @@ public class RefugeeProfile implements IPrintUserProfile {
     private void setIsViewed(int positionInArray) {
         this.userCache.findBy((long) positionInArray).setViewed(true);
         this.getRefugees().get(positionInArray).setViewed(true);
+    }
+
+    public List<User> getRefugees() {
+        Predicate<User> byStatus = user -> user.getStatus().equals(Status.REFUGEE);
+        return userCache.getAll().stream().filter(byStatus).collect(Collectors.toList());
     }
 
     @Autowired

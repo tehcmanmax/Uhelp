@@ -103,15 +103,18 @@ public class FetchRandomUniqueUserService {
     }
 
     public void setIsViewed(Long idInCache, Status userStatus) {
-        User user = this.userCache.findBy(idInCache);
-        user.setViewed(true);
-        if (userStatus.equals(Status.HOST)) {
-            User user2 = this.hostProfile.getHosts().get(this.randNumb);
-            user2.setViewed(true);
-        } else {
-            User user3 = this.refugeeProfile.getRefugees().get(this.randNumb);
-            user3.setViewed(true);
-        }
+//        User user = this.userCache.findBy(idInCache);
+//        user.setViewed(true);
+//        userCache.add(user);
+//        if (userStatus.equals(Status.HOST)) {
+//            User user2 = this.hostProfile.getHosts().get(this.randNumb);
+//            user2.setViewed(true);
+//            userCache.add(user);
+//        } else {
+//            User user3 = this.refugeeProfile.getRefugees().get(this.randNumb);
+//            user3.setViewed(true);
+//            userCache.add(user);
+//        }
     }
 
     public boolean areAllUsersViewed(Status userStatus) {

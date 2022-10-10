@@ -13,7 +13,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 @JsonIgnoreProperties({"phase"})
 public class User {
     public User() {
@@ -21,8 +28,13 @@ public class User {
 
     //fill the following fields from the user's message
     @Getter
+    @Setter
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private /*final*/ Long id;
+
     @Getter
+    @Setter
     private /*final*/ String tgUsername;
 
     @Getter
@@ -30,6 +42,7 @@ public class User {
     @JsonProperty("isViewed")
     private boolean isViewed;
 
+    @Getter
     @Setter
     private String name;
     @Getter
@@ -38,13 +51,17 @@ public class User {
     private Phase phase;
 
     @Setter
+    @Getter
     private String phoneNumber;
     @Setter
+    @Getter
     private String email;
     @Setter
+    @Getter
     private String social;
 
     @Setter
+    @Getter
     private String age;
 
 
@@ -53,21 +70,32 @@ public class User {
     @Setter
     private Status status;
     @Setter
-//    @JsonIgnore
+    @Getter
     private Character sex;
     @Setter
+    @Getter
     private String city;
     @Setter
+    @Getter
     private String country;
     @Setter
+    @Getter
     private Integer amountOfPeople;
     @Setter
+    @Getter
     private String date;
     @Setter
+    @Getter
     private String additional;
 
+    @Getter
+    @Setter
+    private Long chatId;
+
+
+
     public User(Long id, String tgUsername, String name, Phase phase) {
-        this.id = id;
+        this.chatId = id;
         this.tgUsername = tgUsername;
         this.name = name;
         this.phase = phase;

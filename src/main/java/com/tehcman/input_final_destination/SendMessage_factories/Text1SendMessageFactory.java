@@ -28,7 +28,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
     private final BuildSendMessageService buildSendMessageService;
     private BuildButtonsService buildButtonsService;
     private final IListOfNewsChannels iListOfNewsChannels;
-    private final GeneralInformation generalInformation;
+    private GeneralInformation generalInformation;
     private final Cache<User> userCache;
     private final CacheFactoryRefugee cacheFactoryRefugee;
     private final CacheFactoryHost cacheFactoryHost;
@@ -80,6 +80,7 @@ public class Text1SendMessageFactory implements ISendMessageFactory {
                     .build();
             return newMsg;
         } else if (message.getText().equals("What's going on in Ukraine")) {
+            generalInformation = new GeneralInformation();
             return new SendMessage(message.getChatId().toString(), generalInformation.getGeneralInformation());
         } else {
             return new SendMessage(message.getChatId().toString(), "I did not understand you. Try to press/text something else");

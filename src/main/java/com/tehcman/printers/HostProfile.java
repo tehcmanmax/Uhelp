@@ -18,12 +18,12 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
 //@Scope("prototype")
 public class HostProfile implements IPrintUserProfile {
-    @Getter
     private List<User> hosts;
     private final UserCache userCache;
     private final MessageSender messageSender;
@@ -86,6 +86,11 @@ public class HostProfile implements IPrintUserProfile {
                 .collect(Collectors.toList());
     }
 
+    public List<User> getHosts() {
+        Predicate<User> byStatus = user -> user.getStatus().equals(Status.HOST);
+        return userCache.getAll().stream().filter(byStatus).collect(Collectors.toList());
+    }
+
     @Override
     public void printUserRandomDefault(Message msg) {
         User user = fetchRandomUniqueUserService.fetchRandomUniqueUser(Status.HOST);
@@ -103,7 +108,7 @@ public class HostProfile implements IPrintUserProfile {
             SendMessage newMessage = iBuildSendMessageService.createHTMLMessage(msg.getChatId().toString(),
                     user.toString(),
                     inlineProfileNavigation.getMainMarkup());
-            fetchRandomUniqueUserService.setIsViewed(user.getId(), Status.HOST);
+            fetchRandomUniqueUserService.setIsViewed(user.getChatId(), Status.HOST);
             messageSender.messageSend(newMessage);
         }
     }
@@ -127,8 +132,8 @@ public class HostProfile implements IPrintUserProfile {
     }
 
     private void setIsViewed(int positionInArray) {
-        this.userCache.findBy((long) positionInArray).setViewed(true);
-        this.getHosts().get(positionInArray).setViewed(true);
+//        this.userCache.findBy((long) positionInArray).setViewed(true);
+//        this.getHosts().get(positionInArray).setViewed(true);
     }
 
     @Autowired
